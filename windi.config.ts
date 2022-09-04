@@ -14,6 +14,10 @@ export default defineConfig({
 					800: '#262626',
 					900: '#191919'
 				}
+			},
+			fontFamily: {
+				primary: ['Kenyan Coffee', 'Oswald SemiBold', 'Verdana', 'sans-serif'],
+				secondary: ['Raleway', 'Roboto', 'Verdana', 'sans-serif'],
 			}
 		}
 	},
