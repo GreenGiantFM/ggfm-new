@@ -15,3 +15,19 @@
 h1, h2, h3, h4, h5, h6 {
 	@apply font-primary
 }
+
+.main-height-full {
+	min-height: calc(100vh - theme('spacing.16'));
+}
+
+.main-height {
+	min-height: calc(100vh - 280px);
+}
+
+main {
+	background: linear-gradient(to right, rgba(20, 19, 19, 0.6) 0%, rgba(252, 251, 251, 0) 20%, rgba(20, 19, 19, 0) 80%, rgba(20, 19, 19, 0.6) 100%);
+	background-color: theme('colors.primary');
+	background-blend-mode: overlay;
+	mix-blend-mode: overlay;
+	color: white;
+}
