@@ -9,18 +9,12 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<meta name="description" content={description} />
-
-				<meta property="og:url" content={canonical} />
+				<meta name="theme-color" content="#569429" />
 				<meta property="og:type" content="website" />
-				<meta property="og:title" content={process.env.NEXT_PUBLIC_SITE_TITLE} />
-				<meta property="og:description" content={description} />
 				<meta property="og:image" content={image} />
 				<meta property="fb:app_id" content="585506388489406" />
 
-				<link rel="canonical" href={canonical} />
 				<meta property="twitter:card" content="summary_large_image" />
-				<meta property="twitter:title" content={process.env.NEXT_PUBLIC_SITE_TITLE} />
-				<meta property="twitter:description" content={description} />
 				<meta property="twitter:site" content="@GreenGiantFM" />
 				<meta property="twitter:creator" content="@GreenGiantFM" />
 				<meta property="twitter:image" content={image} />
