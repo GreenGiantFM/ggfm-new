@@ -1,7 +1,7 @@
-import Head from 'next/head'
 import Header, { navItems } from '../header'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/future/image'
+import SMO from '@public/images/dlsu-smo-white.png'
 
 type LayoutProps = {
 	children: React.ReactNode
@@ -23,22 +23,22 @@ const Layout = ({ children }: LayoutProps) => {
 							</a>
 						</Link>
 						<div className="col-span-2 md:col-span-1">
-							<h6 className="underline uppercase text-2xl">Address</h6>
+							<p className="underline uppercase text-2xl font-primary">Address</p>
 							<p>Br. Bloemen Hall, De La Salle University, 2401 Taft Ave., Malate, Manila, 1004 Metro Manila</p>
 						</div>
 						<div className="col-span-2 md:col-span-1">
-							<h6 className="underline uppercase text-2xl">Explore</h6>
+							<p className="underline uppercase text-2xl font-primary">Explore</p>
 							<div className="flex flex-col">
 								{navItems.flatMap(nav => (
 									<Link key={nav.path} href={nav.path}>
-										<a className="text-primary hover:text-white transition-colors">{nav.text}</a>
+										<a className="text-white hover:text-white transition-colors hover:underline">{nav.text}</a>
 									</Link>
 								))}
 							</div>
 						</div>
 						<div className="grid justify-items-center gap-y-2 col-span-full md:col-span-1">
 							<p className="text-center">Accredited by the Student Media Office</p>
-							<Image src="/images/dlsu-smo-white.png" alt="DLSU SMO Logo" width={192} height={76.5} />
+							<Image src={SMO} alt="DLSU SMO Logo" className="h-auto w-48" priority={true} />
 						</div>
 					</div>
 				</div>
