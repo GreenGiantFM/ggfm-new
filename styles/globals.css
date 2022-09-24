@@ -1,27 +1,65 @@
 @font-face {
 	font-family: "Kenyan Coffee";
-	src: url("../public/fonts/kenyan-coffee/700.ttf") format("truetype");
+	src: url("../public/fonts/kenyan-coffee/700.woff2") format("woff2");
 	font-weight: 700;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Kenyan Coffee";
-	src: url("../public/fonts/kenyan-coffee/400.ttf") format("truetype");
+	src: url("../public/fonts/kenyan-coffee/400.woff2") format("woff2");
 	font-weight: 400;
 	font-style: normal;
+	font-display: swap;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	@apply font-primary
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300;
+  src: local(''),
+       url('../public/fonts/raleway/300.woff2') format('woff2');
+	font-display: swap;
 }
 
-.main-height-full {
-	min-height: calc(100vh - theme('spacing.16'));
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+       url('../public/fonts/raleway/400.woff2') format('woff2');
+	font-display: swap;
 }
 
-.main-height {
-	min-height: calc(100vh - 280px);
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  src: local(''),
+       url('../public/fonts/raleway/600.woff2') format('woff2');
+	font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: italic;
+  font-weight: 600;
+  src: local(''),
+       url('../public/fonts/raleway/600i.woff2') format('woff2');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "The Next Font";
+	src: url("../public/fonts/the-next-font.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+body {
+	@apply font-secondary;
 }
 
 main {
@@ -30,4 +68,24 @@ main {
 	background-blend-mode: overlay;
 	mix-blend-mode: overlay;
 	color: white;
+}
+
+progress::-webkit-progress-bar {
+	@apply bg-gray-300 rounded-full shadow-dark-400;
+}
+
+progress::-webkit-progress-value {
+	@apply bg-primary rounded-full shadow-progress;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	@apply font-primary;
+}
+
+.main-height-full {
+	min-height: calc(100vh - theme('spacing.16'));
+}
+
+.main-height {
+	min-height: calc(100vh - 280px);
 }
