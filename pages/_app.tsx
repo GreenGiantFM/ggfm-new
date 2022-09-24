@@ -6,12 +6,15 @@ import Layout from '@components/layouts/main'
 import { ToastContainer } from 'react-toastify'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { Session } from 'next-auth'
 config.autoAddCss = false
 
 function MyApp({
 	Component,
 	pageProps: { session, ...pageProps }
-}: AppProps) {
+}: AppProps<{
+	session: Session
+}>) {
 	return (
 		<SessionProvider session={session}>
 			<Layout>

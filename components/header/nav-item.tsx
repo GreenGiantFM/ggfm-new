@@ -23,7 +23,7 @@ export default function NavItem({ text, path, subItems }: NavItemProps) {
 		<Popover onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative">
 			{() => (
 				<>
-					<Link href={path}>
+					<Link href={path} passHref>
 						<Popover.Button
 							as="a"
 							className="hover:text-primary block transition-colors cursor-pointer relative h-full flex items-center"
@@ -44,7 +44,7 @@ export default function NavItem({ text, path, subItems }: NavItemProps) {
 							leaveFrom="transform scale-100 opacity-100"
 							leaveTo="transform scale-95 opacity-0"
 						>
-							<Popover.Panel className="grid absolute w-full" static>
+							<Popover.Panel className="grid absolute bg-white px-4 pb-2 rounded-b-md -left-4" static>
 								{subItems.map(item => (
 									<Link key={item.text} href={item.path}>
 										<a

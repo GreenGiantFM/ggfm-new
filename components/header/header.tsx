@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Image from 'next/image'
+import Image from 'next/future/image'
 import Link from 'next/link'
 import { Disclosure, Transition } from '@headlessui/react'
 import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline'
@@ -48,10 +48,10 @@ const Header: FC = () => {
 								</div>
 
 								<div className="flex-1 lg:flex-grow-0 flex items-center h-full justify-center lg:items-stretch lg:justify-start">
-									<Link href="/" passHref>
-										<div className="flex-shrink-0 flex items-center cursor-pointer mr-6">
+									<Link href="/">
+										<a className="flex-shrink-0 flex items-center cursor-pointer mr-6">
 											<Image className="block w-auto" src="/images/logo-black.png" alt="GGFM Logo" width={144} height={54} />
-										</div>
+										</a>
 									</Link>
 								</div>
 								<div className="hidden lg:block h-full">
