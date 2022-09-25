@@ -36,9 +36,12 @@ const Layout = ({ children }: LayoutProps) => {
 								))}
 							</div>
 						</div>
-						<div className="grid justify-items-center gap-y-2 col-span-full md:col-span-1">
-							<p className="text-center">Accredited by the Student Media Office</p>
-							<Image src={SMO} alt="DLSU SMO Logo" className="h-auto w-48" priority={true} />
+						<div className="grid justify-items-center gap-y-2 col-span-full md:col-span-1 text-center">
+							<p>Contact us at <a href="mailto:publicrelations.ggfm@gmail.com" className="underline">publicrelations.ggfm@gmail.com</a></p>
+							<div>
+								<p>Accredited by the Student Media Office</p>
+								<Image src={SMO} alt="DLSU SMO Logo" className="h-auto w-48" priority={true} />
+							</div>
 						</div>
 					</div>
 				</div>

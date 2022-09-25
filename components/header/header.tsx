@@ -25,13 +25,12 @@ export const navItems: NavItemProps[] = [
 			{ path: '/dj-hunt', text: 'DJ Hunt' },
 		]
 	},
-	{ path: '/contact-us', text: 'Contact Us' }
 ]
 
 const Header: FC = () => {
 	return (
 		<header className="h-16 relative z-50">
-			<Disclosure as="nav" className="bg-white h-full font-primary text-neutral-900 text-2xl uppercase">
+			<Disclosure as="nav" className="bg-white h-full font-primary text-neutral-900 text-3xl uppercase">
 				{({ open, close }) => (
 					<>
 						<div className="container mx-auto px-2 sm:px-6 lg:px-8 h-full">
@@ -49,7 +48,7 @@ const Header: FC = () => {
 
 								<div className="flex-1 lg:flex-grow-0 flex items-center h-full justify-center lg:items-stretch lg:justify-start">
 									<Link href="/">
-										<a className="flex-shrink-0 flex items-center cursor-pointer mr-6">
+										<a className="flex-shrink-0 flex items-center cursor-pointer">
 											<Image className="block w-auto" src="/images/logo-black.png" alt="GGFM Logo" width={144} height={54} />
 										</a>
 									</Link>
