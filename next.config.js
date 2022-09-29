@@ -8,6 +8,11 @@ const nextConfig = {
 		config.plugins.push(new WindiCSSWebpackPlugin())
 		return config
 	},
+	images: {
+		domains: [
+			'drive.google.com'
+		]
+	}
 }
 
 module.exports = nextConfig
