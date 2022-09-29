@@ -6,8 +6,6 @@ type CarouselProps = {
 	images: {
 		url: string
 		alt: string
-		width: number
-		height: number
 	}[]
 } & HTMLAttributes<HTMLDivElement>
 
@@ -15,7 +13,7 @@ const style = `w-6 aspect-square absolute rounded-full bg-white text-neutral-900
 		place-items-center top-1/2 transform -translate-y-1/2 cursor-pointer
 		z-10`
 
-export function Carousel({ images, className, ...props }: CarouselProps) {
+export function Carousel({ images, className, children, ...props }: CarouselProps) {
 	const [idx, setIdx] = useState(0)
 	const maxIdx = images.length - 1
 	const timer = useRef<NodeJS.Timeout>()
@@ -42,8 +40,8 @@ export function Carousel({ images, className, ...props }: CarouselProps) {
 			</button>
 			<div className="relative w-full h-full">
 				{images.map((img, i) => (
-					<div key={img.url} className={`absolute transition-opacity duration-500 ${i == idx ? 'opacity-100' : 'opacity-0'}`}>
-						<Image className="w-full h-full" src={img.url} width={img.width} height={img.height} alt={img.alt} />
+					<div key={img.url} className={`absolute transition-opacity duration-500 w-full h-full ${i == idx ? 'opacity-100' : 'opacity-0'}`}>
+						<Image className="object-cover" fill={true} src={img.url} alt={img.alt} />
 					</div>
 				))}
 			</div>
@@ -55,6 +53,7 @@ export function Carousel({ images, className, ...props }: CarouselProps) {
 						onClick={() => setIdx(i)} />
 				))}
 			</div>
+			{children}
 		</div>
 	)
 }

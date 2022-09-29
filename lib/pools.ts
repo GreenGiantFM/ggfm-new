@@ -1,5 +1,6 @@
 type Pool = {
 	name: string
+	director: string
 	description: string
 	image: string
 	alt: string
@@ -8,6 +9,7 @@ type Pool = {
 export const POOLS: readonly Pool[] = [
 	{
 		name: 'Audio',
+		director: 'Raymond Cousart',
 		description: 'We are the sound engineers of DLSU Radio: Green Giant FM. Our operations mainly\
 		consist of handling tracks, producing commercials, and mixing audio. As producers\
 		of DLSU Live! and DLSU Live! Sound, we bring exposure to the local music scene\
@@ -17,12 +19,14 @@ export const POOLS: readonly Pool[] = [
 	},
 	{
 		name: 'Digital Communications',
+		director: 'Matthew Llenos',
 		description: '-insert dgc description here-',
 		image: '/images/pools/dgc.png',
 		alt: 'Image of speaker phone',
 	},
 	{
 		name: 'Documentations and Logistics',
+		director: 'Camille Oliva',
 		description: 'We serve as the backbone of DLSU Radio: Green Giant FM. With the Documentations subpool,\
 		we make sure that the necessary requirements for the Station&apos;s events are processed on time.\
 		Meanwhile, the Logistics subpool acts as the office managers, ensuring the efficiency of the Station.',
@@ -31,6 +35,7 @@ export const POOLS: readonly Pool[] = [
 	},
 	{
 		name: 'Public Relations',
+		director: 'Renee Garcia',
 		description: 'The Public Relations Pool is home to the executives in charge of collaborating with clients,\
 		both inside and outside De La Salle University, in order to promote and build up with their events.\
 		From promoting various events on air to providing radio talents for different events, we ensure that our\
@@ -40,6 +45,7 @@ export const POOLS: readonly Pool[] = [
 	},
 	{
 		name: 'Publicity and Productions',
+		director: 'Allyrianne Garcia',
 		description: 'Publicity and Productions pool is responsible for the visual identity of the organization.\
 		The members produce creative outputs through graphic design, photography, and videography.\
 		They also make up the press team, who provide photo and video coverage for events inside and outside De La Salle University.',
@@ -48,6 +54,7 @@ export const POOLS: readonly Pool[] = [
 	},
 	{
 		name: 'Radio Talent',
+		director: 'Samantha Sio',
 		description: 'The Radio Talent Pool consists of the voices and faces of DLSU Radio: Green Giant FM.\
 		The DJs control the music you listen to and talk about an endlessly colorful variety of\
 		topics that you didn&apos;t think you needed to hear. But, the Radio Talent pool doesn\'t\
@@ -58,6 +65,7 @@ export const POOLS: readonly Pool[] = [
 	},
 	{
 		name: 'Web Management',
+		director: 'Jared Sy',
 		description: 'The Web Management Pool is in charge of maintaining and handling the website of DLSU Radio: Green Giant FM.\
 		We make sure that the music we play live is catered to the audience outside De La Salle University,\
 		while providing content such as articles, events, and more information regarding our radio station.',
