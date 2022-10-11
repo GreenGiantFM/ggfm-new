@@ -89,3 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-height {
 	min-height: calc(100vh - 280px);
 }
+
+.dj-hunt .swiper-slide-active {
+	@apply transform scale-120
+}

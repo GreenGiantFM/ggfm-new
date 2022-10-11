@@ -26,6 +26,9 @@ export default defineConfig({
 			}
 		}
 	},
+	plugins: [
+		require('windicss/plugin/aspect-ratio')
+	],
 	extract: {
 		include: ['**/*.{jsx,tsx,css}'],
 		exclude: ['node_modules', '.git', '.next'],
