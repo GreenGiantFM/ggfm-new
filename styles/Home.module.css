@@ -1,129 +1,50 @@
-.container {
-  padding: 0 2rem;
+.home {
+	@apply contents
 }
 
-.main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.home > section {
+	@apply px-4 sm:px-0 py-8
 }
 
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
+.home > section > div, .home progress {
+	@apply container mx-auto
 }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+.home h1 {
+	@apply text-4xl sm:text-5xl
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+.home h2 {
+	@apply text-3xl sm:text-4xl
 }
 
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+.home .subtitle {
+	@apply font-light text-sm sm:text-base
 }
 
-.title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
+.updates {
+	@apply grid md:grid-cols-3 px-4 md:px-0 container mx-auto !max-w-h-7xl md:py-6
 }
 
-.title,
-.description {
-  text-align: center;
+.updates > article {
+	@apply border-b last:border-b-0 md:border-b-0 border-whiteborder-opacity-50
+	 md:border-r md:last:border-r-0 max-w-md mx-auto
+	 py-6 md:py-0 md:px-4
 }
 
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
+.updates h2 {
+	@apply bg-neutral-900 bg-opacity-50 rounded-full italic font-semibold font-secondary
+		 text-center mb-6 py-1 px-6 w-[fit-content] md:w-auto mx-auto text-xl
 }
 
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+.updates h3 {
+	@apply uppercase font-next text-2xl text-shadow-xl md:text-center mt-2 mb-1
 }
 
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
+.updates p {
+	@apply font-light md:text-center text-sm
 }
 
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-}
-
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
-}
-
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .card,
-  .footer {
-    border-color: #222;
-  }
-  .code {
-    background: #111;
-  }
-  .logo img {
-    filter: invert(1);
-  }
+.see-more {
+	@apply w-[fit-content] md:w-auto mt-2 md:mt-4
 }

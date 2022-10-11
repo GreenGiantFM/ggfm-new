@@ -42,7 +42,7 @@ export default function AOW({ images }: AOWProps) {
 		>
 			{images.map(({ src, alt }) => (
 				<SwiperSlide key={alt} className="flex justify-center">
-					<Image src={src} alt={alt} fill />
+					<Image src={src} alt={alt} width={435} height={435} className="w-full h-full" />
 				</SwiperSlide>
 			))}
 			<LeftButton className="w-8" ref={navPrevRef} />
