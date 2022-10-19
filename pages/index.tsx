@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 			<CustomHead
 				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | Home`}
 				description="Green Giant FM homepage"
-				url={`${process.env.NEXT_PUBLIC_VERCEL_URL}/`}
+				url="/"
 			/>
 			<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
 				<h1 className="text-center fill text-stroke-primary-dark text-stroke-md font-bold !text-8xl">DJ HUNT</h1>

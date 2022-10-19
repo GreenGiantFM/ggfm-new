@@ -19,7 +19,7 @@ const Page: NextPage = () => {
 			<CustomHead
 				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | About Us`}
 				description="About Green Giant FM, DLSU's Radio Station"
-				url={`${process.env.NEXT_PUBLIC_VERCEL_URL}/about-us`}
+				url="/about-us"
 			/>
 			<section className="bg-neutral-800 md:px-0 space-y-4 w-full" style={{ maxHeight: 'calc(100vh - 4rem)' }}>
 				<Carousel className="bg-neutral-700 mx-auto min-h-xs max-h-full" style={{ aspectRatio: '3/2' }}
