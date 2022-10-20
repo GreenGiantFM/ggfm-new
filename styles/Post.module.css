@@ -1,0 +1,19 @@
+.body {
+	@apply text-base sm:text-lg break-words
+}
+
+.body h2 {
+	@apply text-2xl mb-1
+}
+
+.body h3 {
+	@apply text-xl mb-1
+}
+
+.body a {
+	@apply text-blue-600 underline
+}
+
+.body p + p {
+	@apply my-4
+}

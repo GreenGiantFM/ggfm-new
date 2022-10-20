@@ -10,8 +10,8 @@ export type EventData = {
 	title: string
 	location: string
 	start_date: string
-	end_date: string
-	time: string
+	end_date?: string
+	time?: string
 	featured_image: string
 	posting_date: string
 	tags: string[]
