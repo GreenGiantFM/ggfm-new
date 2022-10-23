@@ -11,7 +11,7 @@ type RadioTalentsProps = {
 		alt: string
 	}[],
 	className?: string
-	setIndex: (index: number) => void
+	setIndex?: (index: number) => void
 }
 
 export default function RadioTalents({ images, className, setIndex }: RadioTalentsProps) {
@@ -43,7 +43,7 @@ export default function RadioTalents({ images, className, setIndex }: RadioTalen
 				disableOnInteraction: false
 			}}
 			className={className + ' radio-talents'}
-			onSlideChange={(swiper) => setIndex(swiper.realIndex)}
+			onSlideChange={(swiper) => setIndex?.(swiper.realIndex)}
 		>
 			{images.map(({ src, alt }) => (
 				<SwiperSlide key={alt} className="flex justify-center !h-auto !w-64 transform transition-transform">

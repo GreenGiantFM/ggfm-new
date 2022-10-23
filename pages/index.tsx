@@ -1,16 +1,19 @@
 import CustomHead from '@components/head'
 import SocialMediaBanner from '@components/social-media-banner'
-import type { NextPage } from 'next'
+import type { NextPage, InferGetStaticPropsType } from 'next'
 import styles from '@styles/Home.module.css'
 import Image from 'next/future/image'
 import { BorderedButton, BorderedLink } from '@components/bordered-button/'
 import dynamic from 'next/dynamic'
+import dbConnect from '@lib/db'
+import RadioTalent from '@models/radio-talent'
 
 const Shows = dynamic(() => import('@components/swipers/shows'))
 const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
 const AOW = dynamic(() => import('@components/swipers/aow'))
+const RadioTalents = dynamic(() => import('@components/swipers/radio-talents'))
 
-const Home: NextPage = () => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents }) => {
 	return (
 		<div className={styles.home}>
 			<CustomHead
@@ -125,6 +128,10 @@ const Home: NextPage = () => {
 				<div className="text-center">
 					<h1>RADIO TALENTS</h1>
 					<p className="subtitle">THE FACES AND VOIDES OF GREEN GIANT</p>
+					<RadioTalents
+						images={talents.map(t => ({ src: t.image, alt: `Photo of DJ ${t.nickname}` }))}
+						className="container h-full !pt-8 !pb-16"
+					/>
 				</div>
 			</section>
 			<SocialMediaBanner />
@@ -133,3 +140,14 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getStaticProps = async () => {
+	await dbConnect()
+	const talents = await RadioTalent.find({}).lean()
+
+	return {
+		props: {
+			talents: talents.map(t => ({ ...t, _id: t._id.toString() }))
+		}
+	}
+}
