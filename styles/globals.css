@@ -96,9 +96,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-height {
-	min-height: calc(100vh - 280px);
+	min-height: calc(100vh - 270px);
 }
 
 .dj-hunt .swiper-slide-active {
-	@apply transform scale-120
+	@apply transform scale-120;
+}
+
+.radio-talents .swiper-slide-active {
+	@apply transform scale-110 origin-center;
+}
+
+.radio-talents .swiper-slide-active img {
+	@apply shadow-md transition-all opacity-100;
 }
