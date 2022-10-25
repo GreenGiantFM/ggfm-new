@@ -124,7 +124,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 					{ src: '/images/shows/gamehub.png', alt: "Game Hub 3" },
 				]} />
 			</section>
-			<section className="bg-secondary text-neutral-900">
+			<section className="bg-secondary text-neutral-900 !px-0">
 				<div className="text-center">
 					<h1>RADIO TALENTS</h1>
 					<p className="subtitle">THE FACES AND VOIDES OF GREEN GIANT</p>

@@ -33,9 +33,9 @@ const Header: FC = () => {
 			<Disclosure as="nav" className="bg-white h-full font-primary text-neutral-900 text-3xl uppercase">
 				{({ open, close }) => (
 					<>
-						<div className="container mx-auto px-2 sm:px-6 lg:px-8 h-full">
+						<div className="container mx-auto px-2 sm:px-6 h-full">
 							<div className="relative flex items-center justify-between h-full">
-								<div className="absolute inset-y-0 left-0 flex items-center lg:hidden">
+								<div className="absolute inset-y-0 left-0 flex items-center md:hidden">
 									<Disclosure.Button
 										className="inline-grid place-items-center cursor-pointer p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-neutral-300 bg-white"
 										aria-controls="mobile-menu"
@@ -46,14 +46,14 @@ const Header: FC = () => {
 									</Disclosure.Button>
 								</div>
 
-								<div className="flex-1 lg:flex-grow-0 flex items-center h-full justify-center lg:items-stretch lg:justify-start">
+								<div className="flex-1 md:flex-grow-0 flex items-center h-full justify-center md:items-stretch md:justify-start">
 									<Link href="/">
 										<a className="flex-shrink-0 flex items-center cursor-pointer">
 											<Image className="block w-auto" src="/images/logo-black.png" alt="GGFM Logo" width={144} height={54} />
 										</a>
 									</Link>
 								</div>
-								<div className="hidden lg:block h-full">
+								<div className="hidden md:block h-full">
 									<div className="flex space-x-10 h-full">
 										{navItems.flatMap(nav => <NavItem key={nav.path} {...nav} />)}
 									</div>
@@ -68,7 +68,7 @@ const Header: FC = () => {
 							leaveFrom="transform scale-100 opacity-100"
 							leaveTo="transform scale-95 opacity-0"
 						>
-							<Disclosure.Panel className="lg:hidden relative bg-white">
+							<Disclosure.Panel className="md:hidden relative bg-white">
 								<div className="px-2 pt-2 pb-3 space-y-1">
 									{navItems.map(nav => <MobNavItem key={nav.path} {...nav} onClick={close} />)}
 								</div>

@@ -19,14 +19,11 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			/>
 			<h1 className="text-4xl sm:text-5xl text-neutral-700 text-center">MEET THE DJ&apos;S OF GREEN GIANT FM</h1>
 			<h2 className="font-secondary text-neutral-600 text-center text-sm sm:text-base">THE FACES AND VOICES OF GREEN GIANT</h2>
-			{/* TODO: Fix this bug, horizontal scrollbar showing if set to max-w-screen*/}
-			<section className="max-w-[calc(100vw-17px)] mx-auto"> 
-				<RadioTalents
-					images={talents.map(t => ({ src: t.image, alt: `Photo of DJ ${t.nickname}` }))}
-					className="container h-full !pt-8 !pb-16"
-					setIndex={setIndex}
-				/>
-			</section>
+			<RadioTalents
+				images={talents.map(t => ({ src: t.image, alt: `Photo of DJ ${t.nickname}` }))}
+				className="container h-full !pt-8 !pb-16"
+				setIndex={setIndex}
+			/>
 			<div className="bg-neutral-900">
 				<div className="grid md:grid-cols-2 place-items-center children:w-full container mx-auto py-8 px-4 gap-8">
 					<div>
