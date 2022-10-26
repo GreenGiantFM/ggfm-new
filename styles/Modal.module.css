@@ -1,0 +1,21 @@
+.panel {
+	@apply relative inline-block align-bottom w-full bg-white rounded-lg 
+	text-left overflow-hidden shadow-xl transition-all transform-none
+	sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full
+}
+
+.title-container {
+	@apply flex justify-between items-center mb-4
+}
+
+.title-container .title {
+	@apply mb-0
+}
+
+.title {
+	@apply text-4xl font-medium text-gray-900 mb-4 text-center sm:text-left
+}
+
+.body {
+	@apply bg-white px-4 pt-5 !pb-4 sm:p-6 mt-3 sm:mt-0
+}
