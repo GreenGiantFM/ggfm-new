@@ -110,3 +110,26 @@ h1, h2, h3, h4, h5, h6 {
 .radio-talents .swiper-slide-active img {
 	@apply shadow-md transition-all opacity-100;
 }
+
+.btn {
+	@apply transition-colors w-full select-none;
+}
+
+.btn.white {
+	@apply bg-white text-gray-900 hover:(bg-gray-200)
+		focus:ring-gray-900 outline-none active:bg-gray-300;
+}
+
+.btn.green {
+	@apply bg-primary hover:bg-primary-dark text-white;
+}
+
+input[type="checkbox"].hide {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
