@@ -17,9 +17,7 @@ export default function Document() {
 				<meta property="twitter:site" content="@GreenGiantFM" />
 				<meta property="twitter:creator" content="@GreenGiantFM" />
 				<meta property="twitter:image" content={image} />
-
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+				<meta name="google-signin-client_id" content={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID} />
 			</Head>
 			<body>
 				<Main />
