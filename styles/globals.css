@@ -124,6 +124,10 @@ h1, h2, h3, h4, h5, h6 {
 	@apply bg-primary hover:bg-primary-dark text-white;
 }
 
+a.white {
+	@apply text-white hover:(text-primary underline) active:text-primary-dark transition-colors;
+}
+
 input[type="checkbox"].hide {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
