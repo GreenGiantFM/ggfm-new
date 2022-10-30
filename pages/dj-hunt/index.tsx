@@ -7,11 +7,10 @@ import dbConnect from '@lib/db'
 import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import Script from 'next/script'
-import { Countdown } from '@components/countdown'
 import Dates from '@models/dates'
-import Link from 'next/link'
+import { DJHuntHeader } from '@components/dj-hunt-header'
 
-// export const SELECTION_KEY = 'selection'
+export const SELECTION_KEY = 'selection'
 
 const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ trainees, endDate }) => {
 	const [trainee, setTrainee] = useState<IDJTrainee>()
@@ -40,18 +39,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 
 	return (
 		<>
-			<div className="bg-neutral-900 flex flex-col space-y-2 items-center py-4 h-[fit-content]">
-				<h1 className="text-8xl">DJ HUNT</h1>
-				<Countdown end={new Date(endDate ?? '')} />
-				<div className="children:px-8 font-primary text-4xl py-4">
-					<Link href="/dj-hunt">
-						<a className="white border-r-2 border-white">VOTE</a>
-					</Link>
-					<Link href="/dj-hunt/polls">
-						<a className="white">LIVE POLLS</a>
-					</Link>
-				</div>
-			</div>
+			<DJHuntHeader endDate={new Date(endDate ?? '')} />
 			<form className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 self-start container p-4 xl:px-8 2xl:px-32 mx-auto" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
 					onLoad={() => {
