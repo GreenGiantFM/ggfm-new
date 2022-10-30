@@ -6,9 +6,10 @@ import { SELECTION_KEY } from '@pages/dj-hunt'
 type DJTraineeItemProps = {
 	onMore: () => void
 	onVote: () => void
+	isVoteable: boolean
 } & Pick<IDJTrainee, 'image' | 'nickname' | 'segue' | '_id'> & HTMLAttributes<HTMLDivElement>
 
-export function DJTraineeItem({ image, nickname, segue, _id, onMore, onVote, className, ...props }: DJTraineeItemProps) {
+export function DJTraineeItem({ image, nickname, segue, _id, onMore, onVote, isVoteable, className, ...props }: DJTraineeItemProps) {
 	const [isChecked, setIsChecked] = useState(false)
 
 	function onChange() {
@@ -36,9 +37,13 @@ export function DJTraineeItem({ image, nickname, segue, _id, onMore, onVote, cla
 					<h2 className="text-2xl">DJ {nickname}</h2>
 					<p className="text-sm italic line-clamp-2 h-10">{segue}</p>
 				</div>
-				<div className="flex space-x-4 children:(border-gray-500 border rounded px-4 w-full)" >
-					<label className={"btn focus:ring-1 cursor-pointer text-center " + (isChecked ? 'green' : 'white')}>
-						<input type="checkbox" name={SELECTION_KEY} className="hide" value={_id.toString()} onChange={onChange} />
+				<div className="flex space-x-4 children:(border-gray-500 border rounded px-4 w-full)">
+					<label className={"btn focus:ring-1 cursor-pointer text-center " +
+						(isChecked ? 'green' : 'white') +
+						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
+					>
+						<input type="checkbox" name={SELECTION_KEY} className="hide" value={_id.toString()} onChange={onChange}
+							disabled={!isVoteable} aria-disabled={!isVoteable} />
 						<span>{isChecked ? 'Selected' : 'Vote'}</span>
 					</label>
 					<button className="btn white focus:ring-1" onClick={onMore}>More...</button>

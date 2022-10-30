@@ -26,3 +26,17 @@ export function getAxiosError(error: unknown) {
 
 	return 'An error has occured!'
 }
+
+/**
+ * Parses a given number of milliseconds into a duration in days, hours, minutes, and seconds
+ * @param timestamp the number of miliseconds to parse
+ * @returns an object containing the days, hours, minutes, seconds
+ */
+export function parseUnitTime(timestamp: number) {
+	return {
+		days: Math.floor(timestamp / 86400000),
+		hours: Math.floor((timestamp % 86400000) / 3600000),
+		minutes: Math.floor((timestamp % 3600000) / 60000),
+		seconds: Math.floor((timestamp % 60000) / 1000),
+	}
+}

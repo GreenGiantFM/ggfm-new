@@ -2,13 +2,14 @@ import CustomHead from '@components/head'
 import { InferGetStaticPropsType, NextPage } from 'next'
 import DJTrainee, { IDJTrainee } from '@models/dj-trainee'
 import { DJTraineeItem, DJTraineeModal } from '@components/dj-trainee'
-import { FormEventHandler, useState } from 'react'
+import { FormEventHandler, useMemo, useState } from 'react'
 import dbConnect from '@lib/db'
 import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import Script from 'next/script'
 import Dates from '@models/dates'
 import { DJHuntHeader } from '@components/dj-hunt-header'
+import { useCountdown } from '@lib/useCountdown'
 
 export const SELECTION_KEY = 'selection'
 
@@ -16,6 +17,8 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 	const [trainee, setTrainee] = useState<IDJTrainee>()
 	const [error, setError] = useState('')
 	const [email, setEmail] = useState('')
+	const countdown = useCountdown(new Date(endDate ?? ''))
+	const isOpen = useMemo(() => countdown > 0, [countdown])
 
 	const handleSubmit: FormEventHandler = async e => {
 		e.preventDefault()
@@ -66,6 +69,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 						image={t.image}
 						onMore={() => setTrainee(trainees[i])}
 						onVote={() => setError('')}
+						isVoteable={isOpen}
 					/>
 				))}
 				<DJTraineeModal
@@ -74,18 +78,20 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 					{...trainee}
 				/>
 				{
-					email ?
-						<div className="col-span-full mx-auto w-full max-w-xs text-center space-y-2">
-							<button className="btn white text-center rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2" id="vote-btn">
-								VOTE
-							</button>
-							<p className={"transition-opacity min-h-6" + (error ? '' : ' opacity-0')}>{error}</p>
-						</div>
-						:
-						<div className="col-span-full mx-auto grid place-items-center gap-y-2">
-							<div id="g-btn" />
-							<p className="text-sm italic">To vote, please log in to your Google account.</p>
-						</div>
+					isOpen && (
+						email ?
+							<div className="col-span-full mx-auto w-full max-w-xs text-center space-y-2">
+								<button className="btn white text-center rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2" id="vote-btn">
+									VOTE
+								</button>
+								<p className={"transition-opacity min-h-6" + (error ? '' : ' opacity-0')}>{error}</p>
+							</div>
+							:
+							<div className="col-span-full mx-auto grid place-items-center gap-y-2">
+								<div id="g-btn" />
+								<p className="text-sm italic">To vote, please log in to your Google account.</p>
+							</div>
+					)
 				}
 			</form>
 		</>

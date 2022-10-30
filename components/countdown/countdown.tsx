@@ -1,4 +1,5 @@
 import { useCountdown } from '@lib/useCountdown'
+import { parseUnitTime } from '@lib/utils'
 import { HTMLAttributes } from 'react'
 import { DateTimeDisplay } from './date-time-display'
 
@@ -7,12 +8,12 @@ type CountdownProps = {
 } & HTMLAttributes<HTMLDivElement>
 
 export function Countdown({ end, className, ...props }: CountdownProps) {
-	const { days, hours, minutes, seconds } = useCountdown(end)
+	const { days, hours, minutes, seconds } = parseUnitTime(useCountdown(end))
 
 	if (days + hours + minutes + seconds <= 0) {
 		return (
 			<div {...props}>
-				<p>Polls are closed.</p>
+				<p className="text-2xl py-4">Polls are closed.</p>
 			</div>
 		)
 	}
