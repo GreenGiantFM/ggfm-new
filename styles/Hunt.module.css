@@ -1,0 +1,39 @@
+.result {
+	@apply flex space-x-4 md:space-x-6;
+}
+
+.info {
+	@apply flex-1;
+}
+
+.info > p {
+	@apply font-bold text-lg;
+}
+
+.info div {
+	@apply flex space-x-4;
+}
+
+.info div p {
+	@apply text-lg font-primary;
+}
+
+.progress-container {
+	@apply flex-1 relative;
+}
+
+.info progress {
+	@apply h-7 w-full;
+}
+
+.info progress::-webkit-progress-bar {
+	@apply bg-neutral-900 rounded shadow-none w-full;
+}
+
+.info progress::-webkit-progress-value {
+	@apply bg-white rounded-l rounded-r-none shadow-none;
+}
+
+.info progress + p {
+	@apply absolute right-2 text-primary after:content-['%'];
+}

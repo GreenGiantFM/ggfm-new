@@ -42,7 +42,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 			<DJHuntHeader endDate={new Date(endDate ?? '')} />
 			<form className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 self-start container p-4 xl:px-8 2xl:px-32 mx-auto" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
-					onLoad={() => {
+					onReady={() => {
 						window.google.accounts.id.initialize({
 							client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
 							callback: handleToken
@@ -50,7 +50,8 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 						window.google.accounts.id.renderButton(document.getElementById("g-btn"), {
 							shape: 'pill',
 						})
-					}} />
+					}}
+				/>
 				<CustomHead
 					title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | DJ Hunt`}
 					description="Voting polls for voting the next Green Giant FM DJ!"

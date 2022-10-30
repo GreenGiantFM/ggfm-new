@@ -1,9 +1,14 @@
-import { Countdown } from '@components/countdown'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
 type DJHuntHeaderProps = {
 	endDate: Date
 }
+
+const Countdown = dynamic(() => import('@components/countdown').then(mod => mod.Countdown), {
+	loading: () => <div className="h-16" />,
+	ssr: false
+})
 
 export function DJHuntHeader({ endDate }: DJHuntHeaderProps) {
 	return (
