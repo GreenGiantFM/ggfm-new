@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import HuntVote from '@models/hunt-vote'
+import DJTrainee from '@models/dj-trainee'
 
 type Body = {
 	email?: string
@@ -12,6 +13,20 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 	try {
 		switch (method) {
 			case 'GET': {
+				const tally = await DJTrainee.aggregate()
+					.lookup({
+						from: 'huntvotes',
+						localField: '_id',
+						foreignField: 'candidate',
+						as: 'votes'
+					})
+					.addFields({
+						count: { $size: '$votes' }
+					})
+					.project({ count: 1, nickname: 1, image: 1 })
+					.sort({ count: -1, nickname: 1 })
+
+				res.json(tally)
 				break
 			}
 
