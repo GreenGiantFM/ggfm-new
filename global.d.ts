@@ -19,6 +19,8 @@ declare global {
 			NEXT_PUBLIC_API_BASE_URL: string
 			MONGODB_URI: string
 			NEXT_PUBLIC_GOOGLE_CLIENT_ID: string
+			SPOTIFY_ID: string
+			SPOTIFY_SECRET: string
 		}
 	}
 }
