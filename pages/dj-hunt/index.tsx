@@ -8,8 +8,8 @@ import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import Script from 'next/script'
 import Dates from '@models/dates'
-import { DJHuntHeader } from '@components/dj-hunt-header'
 import { useCountdown } from '@lib/useCountdown'
+import { PollsHeader } from '@components/polls-header'
 
 export const SELECTION_KEY = 'selection'
 
@@ -42,7 +42,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 
 	return (
 		<>
-			<DJHuntHeader endDate={new Date(endDate ?? '')} />
+			<PollsHeader name="DJ HUNT" root="/dj-hunt" endDate={new Date(endDate ?? '')} />
 			<form className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 self-start container p-4 xl:px-8 2xl:px-32 mx-auto" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
 					onReady={() => {

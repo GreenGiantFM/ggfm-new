@@ -5,7 +5,7 @@ import { InferGetStaticPropsType, NextPage } from 'next'
 import { useMemo } from 'react'
 import useSWR from 'swr'
 import Dates from '@models/dates'
-import { DJHuntHeader } from '@components/dj-hunt-header'
+import { PollsHeader } from '@components/polls-header'
 import CustomHead from '@components/head'
 import styles from '@styles/Hunt.module.css'
 import Image from 'next/future/image'
@@ -20,7 +20,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ endDat
 
 	return (
 		<>
-			<DJHuntHeader endDate={new Date(endDate ?? '')} />
+			<PollsHeader name="DJ HUNT" root="/dj-hunt" endDate={new Date(endDate ?? '')} />
 			<CustomHead
 				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | DJ Hunt Polls`}
 				description="DJ hunt vote tally"

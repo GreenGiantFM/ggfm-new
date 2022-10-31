@@ -22,7 +22,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 				url="/"
 			/>
 			<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
-				<h1 className="text-center fill text-stroke-primary-dark text-stroke-md font-bold !text-8xl">DJ HUNT</h1>
+				<h1 className="text-center text-stroke-primary-dark text-stroke-md font-bold !text-8xl">DJ HUNT</h1>
 				<progress className="w-full block rounded-full" value={0.8} />
 				<DJHunt className="my-4 !py-4 select-none" images={[
 					{ alt: 'Xavier', src: '/images/xavier.jpg' },
