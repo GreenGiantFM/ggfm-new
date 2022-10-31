@@ -29,7 +29,7 @@ export function getAxiosError(error: unknown) {
 
 /**
  * Parses a given number of milliseconds into a duration in days, hours, minutes, and seconds
- * @param timestamp the number of miliseconds to parse
+ * @param timestamp - the number of miliseconds to parse
  * @returns an object containing the days, hours, minutes, seconds
  */
 export function parseUnitTime(timestamp: number) {
@@ -39,4 +39,20 @@ export function parseUnitTime(timestamp: number) {
 		minutes: Math.floor((timestamp % 3600000) / 60000),
 		seconds: Math.floor((timestamp % 60000) / 1000),
 	}
+}
+
+/**
+ * Serializes an object, mostly used for api's that require application/x-www-form-urlencoded content type
+ * @param object - a record type object to be serialized
+ * @returns a string that represents the serialized version of the object
+ */
+export function serialize(object: Record<string, string>) {
+	const params = []
+
+	for (const p in object) {
+		if (object.hasOwnProperty(p)) {
+			params.push(`${encodeURIComponent(p)}=${encodeURIComponent(object[p])}`)
+		}
+	}
+	return params.join("&")
 }
