@@ -14,7 +14,8 @@ const nextConfig = {
 	},
 	images: {
 		domains: [
-			'drive.google.com'
+			'drive.google.com',
+			'i.scdn.co',
 		]
 	}
 }
