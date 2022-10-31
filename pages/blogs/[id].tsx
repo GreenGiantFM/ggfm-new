@@ -1,14 +1,14 @@
 import { NextPage, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { getFileData, getFileIds } from '@lib/posts'
-import { EventData } from '@pages/api/events'
 import Image from 'next/future/image'
 import CustomHead from '@components/head'
 import styles from '@styles/Post.module.css'
 import { formatDate } from '@lib/utils'
 import { GetStaticPaths } from 'next/types'
 import { useRouter } from 'next/router'
+import { BlogData } from '@pages/api/blogs'
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ event }) => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ blog }) => {
 	const { isFallback } = useRouter()
 
 	return (
@@ -18,15 +18,15 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ event 
 			{
 				isFallback ?
 					<CustomHead
-						title={`GGFM | Event`}
+						title={`GGFM | Blog`}
 						description="Loading..."
-						url="/events"
+						url="/blogs"
 					/>
 					:
 					<CustomHead
-						title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | ${event.title}`}
-						description={event.excerpt}
-						url={`/events/${event.id}`}
+						title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | ${blog.title}`}
+						description={blog.excerpt}
+						url={`/blogs/${blog.id}`}
 					/>
 			}
 			<aside className="relative">
@@ -37,7 +37,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ event 
 								<div className="w-full h-full bg-gray-300 animate-pulse" />
 							</div>
 							:
-							<Image alt={`Post of ${event.title}`} src={event.featured_image} fill className="object-contain !relative shadow-2xl block" />
+							<Image alt={`Post of ${blog.title}`} src={blog.featured_image} fill className="object-contain !relative shadow-2xl block" />
 					}
 				</div>
 			</aside>
@@ -53,16 +53,26 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ event 
 						:
 						<>
 							<div className="mb-4">
-								<h1 className="text-5xl mb-1">{event.title}</h1>
-								<div className="contents text-gray-500 italic font-light leading-5">
-									<p>{formatDate(event.start_date)} {event.end_date ? ` - ${formatDate(event.end_date!)}` : ''}</p>
-									{event.time && <p>{event.time}</p>}
+								<h1 className="text-5xl mb-1">{blog.title}</h1>
+								<div className="contents text-gray-500 leading-5">
+									<p className="font-bold">by {blog.author}</p>
+									<p className="font-light italic">{formatDate(blog.posting_date)}</p>
 								</div>
 							</div>
+							{
+								blog.youtube_link &&
+								<iframe
+									title={blog.title}
+									src={blog.youtube_link}
+									className="w-full aspect-video mb-4"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowFullScreen
+								/>
+							}
 							<div className={styles.body} dangerouslySetInnerHTML={{
-								__html: event.contentHtml
+								__html: blog.contentHtml
 							}} />
-							<p className="text-gray-500 text-right">{new Date(event.posting_date).toLocaleDateString()}</p>
+							<p className="text-gray-500 text-right">{new Date(blog.posting_date).toLocaleDateString()}</p>
 						</>
 				}
 			</article>
@@ -71,7 +81,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ event 
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const paths = await getFileIds('/posts/events')
+	const paths = await getFileIds('/posts/blogs')
 
 	return {
 		paths,
@@ -80,11 +90,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
-	const event = await getFileData<EventData>(`/posts/events/${params?.id}.md`)
+	const blog = await getFileData<BlogData>(`/posts/blogs/${params?.id}.md`)
 
 	return {
 		props: {
-			event
+			blog
 		}
 	}
 }

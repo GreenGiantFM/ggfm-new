@@ -8,7 +8,7 @@ type Query = {
 
 export type BlogData = {
 	title: string
-	autor: string
+	author: string
 	featured_image: string
 	posting_date: string
 	youtube_link?: string
