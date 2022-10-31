@@ -112,7 +112,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn {
-	@apply transition-colors w-full select-none;
+	@apply transition-colors w-full select-none cursor-pointer;
 }
 
 .btn.white {
