@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Track, { ITrack } from '@models/track'
 import axios from 'axios'
-import { getAxiosError, serialize } from '@lib/utils'
+import { serialize } from '@lib/utils'
+import TrackVote from '@models/track-vote'
 
 type Body = {
 	tracks: string
@@ -31,6 +32,11 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 					return res.status(403)
 				}
 
+				await Promise.all([
+					Track.deleteMany(),
+					TrackVote.deleteMany()
+				])
+
 				// data cleaning
 				const ids = tracks.split(/[/s,]/)
 					.reduce((list, track) => {
@@ -46,12 +52,11 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 						Authorization: 'Basic ' + Buffer.from(`${process.env.SPOTIFY_ID}:${process.env.SPOTIFY_SECRET}`).toString('base64'),
 					},
 				})
-				console.log(data.access_token)
 
 				try {
 					const trackResponse = await axios.get<SpotifyApi.MultipleTracksResponse>(`https://api.spotify.com/v1/tracks?ids=${ids}`, {
 						headers: {
-							Authorization: 'Bearer ' + 'BQD6Xwud9zDQm3Zj_Q00KnwEi1JDNwvRRrQBdstW47q15hkFy3zIk5vF8_RDlXweoIG04oXuHIxikO1P1aa8d6leGrOoKLZZfZWjeOlzel8B3CgoGOk'
+							Authorization: 'Bearer ' + data.access_token
 						}
 					})
 
@@ -66,7 +71,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 					await Track.insertMany(trackData)
 					await res.revalidate('/hitlists')
 				} catch (e) {
-					console.log(getAxiosError(e))
+					console.log(e)
 				}
 
 				break

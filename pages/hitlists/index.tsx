@@ -78,8 +78,8 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 					/>
 				))}
 				{
-					email == 'jaredblase@gmail.com' &&
-					<button type="button" onClick={() => setShowModal(true)} className="btn white rounded font-bold">ADD</button>
+					email == process.env.NEXT_PUBLIC_ADMIN_EMAIL &&
+					<button type="button" onClick={() => setShowModal(true)} className="btn white rounded font-bold">RESET</button>
 				}
 				{
 					isOpen && (
@@ -91,7 +91,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 								<p className={"transition-opacity min-h-6" + (error ? '' : ' opacity-0')}>{error}</p>
 							</div>
 							:
-							<div className="col-span-full mx-auto grid place-items-center gap-y-2">
+							<div className="col-span-full mx-auto grid place-items-center gap-y-2 mt-4">
 								<div id="g-btn" />
 								<p className="text-sm italic">To vote, please log in to your Google account.</p>
 							</div>

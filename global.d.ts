@@ -22,6 +22,7 @@ declare global {
 			SPOTIFY_ID: string
 			SPOTIFY_SECRET: string
 			HOST: string
+			NEXT_PUBLIC_ADMIN_EMAIL: string
 		}
 	}
 }

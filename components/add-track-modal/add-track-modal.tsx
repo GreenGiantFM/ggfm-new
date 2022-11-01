@@ -4,6 +4,7 @@ import { Dialog } from '@headlessui/react'
 import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import styles from '@styles/Modal.module.css'
+import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
 
 type AddTrackModalProps = Omit<IModalProps, 'close'> & {
@@ -12,6 +13,7 @@ type AddTrackModalProps = Omit<IModalProps, 'close'> & {
 
 export function AddTrackModal({ ...props }: AddTrackModalProps) {
 	const [error, setError] = useState('')
+	const { reload } = useRouter()
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault()
@@ -23,7 +25,7 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 			await app.post('/api/hitlists/tracks', {
 				tracks: tracks
 			})
-			props.close()
+			reload()
 		} catch (e) {
 			console.error(getAxiosError(e))
 		}
