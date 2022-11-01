@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getFileData, getFiles } from '@lib/posts'
 
 type Query = {
-	page: string
-	limit: string
+	page?: string
+	limit?: string
 }
 
 export type EventData = {
@@ -24,8 +24,8 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 		switch (method) {
 			case 'GET': {
 				const query = req.query as Query
-				const page = parseInt(query.page)
-				const limit = parseInt(query.limit)
+				const page = query.page ? parseInt(query.page) : 0
+				const limit = query.limit ? parseInt(query.limit) : 4
 				const start = page * limit
 
 				const files = (await getFiles('/posts/events'))

@@ -27,6 +27,10 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 			case 'POST': {
 				const { tracks } = req.body as Body
 
+				if (req.headers.host !== process.env.HOST) {
+					return res.status(403)
+				}
+
 				// data cleaning
 				const ids = tracks.split(/[/s,]/)
 					.reduce((list, track) => {

@@ -33,6 +33,10 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 			case 'POST': {
 				const { email, selection } = req.body as Body
 
+				if (req.headers.host !== process.env.HOST) {
+					return res.status(403)
+				}
+
 				if (!email) throw Error('You are not logged in!')
 				if (!selection) throw Error('No songs selected.')
 

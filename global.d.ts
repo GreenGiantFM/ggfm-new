@@ -21,6 +21,7 @@ declare global {
 			NEXT_PUBLIC_GOOGLE_CLIENT_ID: string
 			SPOTIFY_ID: string
 			SPOTIFY_SECRET: string
+			HOST: string
 		}
 	}
 }
