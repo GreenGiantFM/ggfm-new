@@ -54,7 +54,7 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 						(isChecked ? 'green' : 'white') +
 						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
 					>
-						<input type="checkbox" name='selection' className="hide" value={_id.toString()} onChange={onChange}
+						<input type="checkbox" name="selection" className="hide" value={_id.toString()} onChange={onChange}
 							disabled={!isVoteable} aria-disabled={!isVoteable} />
 						<span>{isChecked ? 'Selected' : 'Vote'}</span>
 					</label>

@@ -32,13 +32,8 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 					return res.status(403)
 				}
 
-				await Promise.all([
-					Track.deleteMany(),
-					TrackVote.deleteMany()
-				])
-
 				// data cleaning
-				const ids = tracks.split(/[/s,]/)
+				const ids = tracks.split(/[\s,]/)
 					.reduce((list, track) => {
 						const temp = track.trim()
 						if (temp) list.push(temp)
@@ -54,11 +49,15 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 				})
 
 				try {
-					const trackResponse = await axios.get<SpotifyApi.MultipleTracksResponse>(`https://api.spotify.com/v1/tracks?ids=${ids}`, {
-						headers: {
-							Authorization: 'Bearer ' + data.access_token
-						}
-					})
+					const [trackResponse] = await Promise.all([
+						axios.get<SpotifyApi.MultipleTracksResponse>(`https://api.spotify.com/v1/tracks?ids=${ids}`, {
+							headers: {
+								Authorization: 'Bearer ' + data.access_token
+							}
+						}),
+						Track.deleteMany(),
+						TrackVote.deleteMany()
+					])
 
 					const trackData = trackResponse.data.tracks.map(t => ({
 						_id: t.id,

@@ -38,12 +38,12 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 				}
 
 				if (!email) throw Error('You are not logged in!')
-				if (!selection) throw Error('No songs selected.')
+				if (!selection) throw Error('No songs were selected.')
 
 				const count = await TrackVote.countDocuments({ email })
 				if (count) throw Error('You have already voted!')
 
-				await TrackVote.insertMany(selection.map(candidate => ({ email, candidate })))
+				await TrackVote.insertMany(selection.map(track => ({ email, track })))
 				break
 			}
 
