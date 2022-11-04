@@ -10,28 +10,38 @@ import Script from 'next/script'
 import Dates from '@models/dates'
 import { useCountdown } from '@lib/useCountdown'
 import { PollsHeader } from '@components/polls-header'
-
-export const SELECTION_KEY = 'selection'
+import { LoadingButton } from '@components/loading-button'
+import { useRouter } from 'next/router'
 
 const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ trainees, endDate }) => {
 	const [trainee, setTrainee] = useState<IDJTrainee>()
-	const [error, setError] = useState('')
+	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
 	const countdown = useCountdown(new Date(endDate ?? ''))
 	const isOpen = useMemo(() => countdown > 0, [countdown])
+	const { push } = useRouter()
 
 	const handleSubmit: FormEventHandler = async e => {
 		e.preventDefault()
-		const selection = new FormData(e.target as HTMLFormElement).getAll('selection')
-
-		if (selection.length == 0) return setError('You have not selected any DJs!')
+		setIsLoading(true)
+		let timeout: NodeJS.Timeout | null = null
 
 		try {
-			if (!email) return setError('You are not logged in!')
+			const selection = new FormData(e.target as HTMLFormElement).getAll('selection')
+			if (selection.length == 0) return setMessage('You have not selected any DJs!')
+
+			if (!email) return setMessage('You are not logged in!')
 			await app.post('/api/dj-hunt/votes', { email, selection })
-			// TODO: Forward to live polls
+			
+			setMessage('Your vote has been recorded! Forwarding to polls...')
+			timeout = setTimeout(() => push('/dj-hunt/polls'), 1000)
 		} catch (e) {
-			setError(getAxiosError(e))
+			setMessage(getAxiosError(e))
+		} finally {
+			if (!timeout) {
+				setIsLoading(false)
+			}
 		}
 	}
 
@@ -68,7 +78,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 						segue={t.segue}
 						image={t.image}
 						onMore={() => setTrainee(trainees[i])}
-						onVote={() => setError('')}
+						onVote={() => setMessage('')}
 						isVoteable={isOpen}
 					/>
 				))}
@@ -80,11 +90,13 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 				{
 					isOpen && (
 						email ?
-							<div className="col-span-full mx-auto w-full max-w-xs text-center space-y-2">
-								<button className="btn white text-center rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2" id="vote-btn">
+							<div className="col-span-full text-center space-y-2">
+								<LoadingButton isLoading={isLoading}
+									className="btn white text-center rounded-full mx-auto w-full max-w-xs py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2" id="vote-btn"
+								>
 									VOTE
-								</button>
-								<p className={"transition-opacity min-h-6" + (error ? '' : ' opacity-0')}>{error}</p>
+								</LoadingButton>
+								<p className={"transition-opacity min-h-6" + (message ? '' : ' opacity-0')}>{message}</p>
 							</div>
 							:
 							<div className="col-span-full mx-auto grid place-items-center gap-y-2">

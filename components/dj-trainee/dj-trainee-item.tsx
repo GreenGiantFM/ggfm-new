@@ -1,7 +1,6 @@
 import { IDJTrainee } from '@models/dj-trainee'
 import Image from 'next/future/image'
 import { HTMLAttributes, useState } from 'react'
-import { SELECTION_KEY } from '@pages/dj-hunt'
 
 type DJTraineeItemProps = {
 	onMore: () => void
@@ -42,7 +41,7 @@ export function DJTraineeItem({ image, nickname, segue, _id, onMore, onVote, isV
 						(isChecked ? 'green' : 'white') +
 						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
 					>
-						<input type="checkbox" name={SELECTION_KEY} className="hide" value={_id.toString()} onChange={onChange}
+						<input type="checkbox" name="selection" className="hide" value={_id.toString()} onChange={onChange}
 							disabled={!isVoteable} aria-disabled={!isVoteable} />
 						<span>{isChecked ? 'Selected' : 'Vote'}</span>
 					</label>

@@ -11,28 +11,41 @@ import { PollsHeader } from '@components/polls-header'
 import dynamic from 'next/dist/shared/lib/dynamic'
 import Track from '@models/track'
 import { TrackItem } from '@components/track-item'
+import { LoadingButton } from '@components/loading-button'
+import { useRouter } from 'next/router'
 
 const AddTrackModal = dynamic(() => import('@components/add-track-modal').then(mod => mod.AddTrackModal))
 
 const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks, endDate }) => {
-	const [error, setError] = useState('')
+	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
 	const [showModal, setShowModal] = useState(false)
 	const countdown = useCountdown(new Date(endDate ?? ''))
 	const isOpen = useMemo(() => countdown > 0, [countdown])
+	const [isLoading, setIsLoading] = useState(false)
+	const { push } = useRouter()
 
 	const handleSubmit: FormEventHandler = async e => {
 		e.preventDefault()
-		const selection = new FormData(e.target as HTMLFormElement).getAll('selection')
-
-		if (selection.length == 0) return setError('You have not selected any songs!')
+		setIsLoading(true)
+		let timeout: NodeJS.Timeout | null = null
 
 		try {
-			if (!email) return setError('You are not logged in!')
+			const selection = new FormData(e.target as HTMLFormElement).getAll('selection')
+
+			if (selection.length == 0) return setMessage('You have not selected any songs!')
+
+			if (!email) return setMessage('You are not logged in!')
 			await app.post('/api/hitlists/votes', { email, selection })
-			// TODO: Forward to live polls
+
+			setMessage('Your vote has been recorded! Forwarding to polls...')
+			timeout = setTimeout(() => push('/hitlists/polls'), 1000)
 		} catch (e) {
-			setError(getAxiosError(e))
+			setMessage(getAxiosError(e))
+		} finally {
+			if (!timeout) {
+				setIsLoading(false)
+			}
 		}
 	}
 
@@ -74,7 +87,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 						image={t.image}
 						preview_url={t.preview_url}
 						isVoteable={isOpen}
-						onVote={() => setError('')}
+						onVote={() => setMessage('')}
 					/>
 				))}
 				{
@@ -84,11 +97,13 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 				{
 					isOpen && (
 						email ?
-							<div className="col-span-full mx-auto w-full max-w-xs text-center space-y-2">
-								<button className="btn white text-center rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2" id="vote-btn">
+							<div className="col-span-full text-center space-y-2">
+								<LoadingButton id="vote-btn" isLoading={isLoading}
+									className="btn white text-center mx-auto w-full max-w-xs rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2"
+								>
 									VOTE
-								</button>
-								<p className={"transition-opacity min-h-6" + (error ? '' : ' opacity-0')}>{error}</p>
+								</LoadingButton>
+								<p className={"transition-opacity min-h-6" + (message ? '' : ' opacity-0')}>{message}</p>
 							</div>
 							:
 							<div className="col-span-full mx-auto grid place-items-center gap-y-2 mt-4">
