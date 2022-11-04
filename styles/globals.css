@@ -115,9 +115,27 @@ h1, h2, h3, h4, h5, h6 {
 	@apply transition-colors w-full select-none cursor-pointer;
 }
 
+.btn:disabled {
+	@apply opacity-80 cursor-not-allowed;
+}
+
+.btn .loading {
+	@apply absolute transform h-full w-full left-1/2 top-1/2 grid 
+		place-items-center -translate-x-1/2 -translate-y-1/2;
+}
+
+.btn .loading::after {
+	@apply content-['_'] h-3/5 aspect-square absolute
+		rounded-[50%] border-[3px] animate-spin duration-[2s];
+}
+
 .btn.white {
-	@apply bg-white text-gray-900 hover:(bg-gray-200)
+	@apply bg-white text-gray-900 hover:(bg-gray-200 disabled:bg-white)
 		focus:ring-gray-900 outline-none active:bg-gray-300;
+}
+
+.btn.white .loading::after {
+	border-color: #000 #000 transparent;
 }
 
 .btn.green {

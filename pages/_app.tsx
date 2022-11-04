@@ -9,6 +9,7 @@ function MyApp({
 }: AppProps) {
 	return (
 		<Layout>
+			{/* KEEP THIS HERE! This makes sure that windi loads the animate-spin keyframes for some reason. <div className="hidden animate-spin"></div> */}
 			<Component {...pageProps} />
 		</Layout>
 	)
