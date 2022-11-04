@@ -57,21 +57,23 @@ const Page: NextPage = () => {
 					<article>
 						<h2 className="text-5xl text-center mb-4">Mission</h2>
 						<p className="max-w-prose mx-auto">
-							Green Giant FM functions as a platform for students to broadcast their ideas, a vehicle
-							for student leaders to promote awareness of university functions, a partner for student
-							organizations and external clients to publicize events, and as a channel for the DLSU administration
-							to announce important updates to students. Green Giant FM provides services in events hosting,
-							media coverage, voice overs, and on-air/online promotions.
+							DLSU Radio: Green Giant FM functions as a platform for students to broadcast their ideas on a
+							variety of topics through several outlets and programs, a vehicle for student leaders to promote
+							awareness of university functions, a partner for student organizations and external clients to
+							publicize events, services, and products that students can rely on, a news outlet for students
+							that is reliable, up to date, and reports on all types of news from entertainment to politics,
+							and as a channel for the DLSU administration to announce significant updates to students.
 						</p>
 					</article>
 					<article>
 						<h2 className="text-5xl text-center mb-4">Vision</h2>
 						<p className="max-w-prose mx-auto">
-							DLSU Radio: Green Giant FM is an educational non-profit, student-run organization that aims
-							to serve the Lasallian community and listeners worldwide by providing entertaining, original content,
-							and broadcasting accurate and reliable news. The organization is inspired by the Lasallian values of
-							Faith, Zeal for Service, and Communion as it strives for excellence in all endeavors in the field of
-							Radio Communication and Entertainment.
+							DLSU Radio: Green Giant FM is an educational, non-profit, student-run organization that aims
+							to be a premier college radio station by serving the Lasallian community and their listeners worldwide.
+							Green Giant FM aims to provide entertaining and original content and broadcast accurate and
+							reliable news. The organization is inspired by the Lasallian values of Faith, Zeal for Service,
+							and Communion. It strives for consistent excellence in all endeavours in the field of Radio
+							Communication and Entertainment as it evolves in a progressive world.
 						</p>
 					</article>
 				</div>
