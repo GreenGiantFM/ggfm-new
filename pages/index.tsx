@@ -3,17 +3,21 @@ import SocialMediaBanner from '@components/social-media-banner'
 import type { NextPage, InferGetStaticPropsType } from 'next'
 import styles from '@styles/Home.module.css'
 import Image from 'next/future/image'
-import { BorderedButton, BorderedLink } from '@components/bordered-button/'
+import { BorderedLink } from '@components/bordered-button/'
 import dynamic from 'next/dynamic'
 import dbConnect from '@lib/db'
 import RadioTalent from '@models/radio-talent'
+import { getFirstFileData } from '@lib/posts'
+import { EventData } from './api/events'
+import { BlogData } from './api/blogs'
+import { FeaturedArticle } from '@components/featured-article'
 
 const Shows = dynamic(() => import('@components/swipers/shows'))
 const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
 const AOW = dynamic(() => import('@components/swipers/aow'))
 const RadioTalents = dynamic(() => import('@components/swipers/radio-talents'))
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents }) => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog }) => {
 	return (
 		<div className={styles.home}>
 			<CustomHead
@@ -22,7 +26,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 				url="/"
 			/>
 			<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
-				<h1 className="text-center text-stroke-primary-dark text-stroke-md font-bold !text-8xl">DJ HUNT</h1>
+				<h1 className="text-center text-stroke-primary-dark text-stroke-md font-bold !text-9xl">DJ HUNT</h1>
 				<progress className="w-full block rounded-full" value={0.8} />
 				<DJHunt className="my-4 !py-4 select-none" images={[
 					{ alt: 'Xavier', src: '/images/xavier.jpg' },
@@ -32,7 +36,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 					{ alt: 'Xavier 4', src: '/images/xavier.jpg' },
 					{ alt: 'Xavier 5', src: '/images/xavier.jpg' },
 				]} />
-				<BorderedButton>Vote Now</BorderedButton>
+				<BorderedLink href="/dj-hunt" className="max-w-64 hover:(bg-white text-gray-900 font-bold)">Vote Now</BorderedLink>
 			</section>
 			<section className="bg-neutral-900 text-center !py-4">
 				<h1>LATEST NEW & UPDATES</h1>
@@ -40,39 +44,20 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			</section>
 			<section>
 				<div className={styles.updates}>
-					<article>
-						<h2>PODCAST & BLOGS</h2>
-						<Image src="/images/sample.png" alt="What's up bro" className="w-full h-auto" width={383} height={311} priority={true} />
-						<h3>What&apos;s Up, Bro?</h3>
-						<p>
-							Been hooked on tiktok? Or want a blast from the past.
-							Well, tune in with DJ Julie, Ella, and Jamie as they talk about Been hooked on tiktok?
-							Or want a blast from the past. Well, tune in with DJ Julie, Ella, and Jamie as they talk about
-						</p>
-						<BorderedLink href="/blogs" className={styles['see-more']}>Blogs</BorderedLink>
-					</article>
-					<article>
-						<h2>EVENTS</h2>
-						<Image src="/images/sample.png" alt="What's up bro" className="w-full h-auto" width={383} height={311} priority={true} />
-						<h3>What&apos;s Up, Bro?</h3>
-						<p>
-							Been hooked on tiktok? Or want a blast from the past.
-							Well, tune in with DJ Julie, Ella, and Jamie as they talk about Been hooked on tiktok?
-							Or want a blast from the past. Well, tune in with DJ Julie, Ella, and Jamie as they talk about
-						</p>
-						<BorderedLink href="/events" className={styles['see-more']}>Events</BorderedLink>
-					</article>
-					<article>
-						<h2>LIFESTYLE</h2>
-						<Image src="/images/sample.png" alt="What's ups bro" className="w-full h-auto" width={383} height={311} priority={true} />
-						<h3>What&apos;s Up, Bro?</h3>
-						<p className="subtitle">
-							Been hooked on tiktok? Or want a blast from the past.
-							Well, tune in with DJ Julie, Ella, and Jamie as they talk about Been hooked on tiktok?
-							Or want a blast from the past. Well, tune in with DJ Julie, Ella, and Jamie as they talk about
-						</p>
-						<BorderedLink href="/lifestyle" className={styles['see-more']}>Lifestyle</BorderedLink>
-					</article>
+					<FeaturedArticle
+						category="BLOGS & PODCASTS"
+						title={blog.title}
+						image={blog.featured_image}
+						excerpt={blog.excerpt}
+						url="/blogs"
+					/>
+					<FeaturedArticle
+						category="EVENTS"
+						title={event.title}
+						image={event.featured_image}
+						excerpt={event.excerpt}
+						url="/events"
+					/>
 				</div>
 			</section>
 			<section className="bg-neutral-900">
@@ -143,11 +128,18 @@ export default Home
 
 export const getStaticProps = async () => {
 	await dbConnect()
-	const talents = await RadioTalent.find({}).lean()
+
+	const [talents, event, blog] = await Promise.all([
+		RadioTalent.find({}).lean(),
+		getFirstFileData<EventData>('/posts/events'),
+		getFirstFileData<BlogData>('/posts/blogs'),
+	])
 
 	return {
 		props: {
-			talents: talents.map(t => ({ ...t, _id: t._id.toString() }))
+			talents: talents.map(t => ({ ...t, _id: t._id.toString() })),
+			event,
+			blog,
 		}
 	}
 }

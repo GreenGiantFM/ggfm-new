@@ -30,9 +30,14 @@ export async function getFileData<T>(filePath: string) {
 	return {
 		id: filePath.split('/').pop()?.replace(/.md$/, '') as string,
 		contentHtml: (await processor.process(matterResult.content)).toString(),
-		excerpt: (await excerptProcessor.process(matterResult.content)).toString().slice(0, 200),
+		excerpt: (await excerptProcessor.process(matterResult.content)).toString().slice(0, 280),
 		...matterResult.data as T
 	}
+}
+
+export async function getFirstFileData<T>(dirPath: string) {
+	const name = (await getFiles(dirPath)).sort((a, b) => b.localeCompare(a))[0]
+	return await getFileData<T>(`${dirPath}/${name}`)
 }
 
 export type PostData = Awaited<ReturnType<typeof getFileData>>

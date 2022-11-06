@@ -1,50 +1,46 @@
 .home {
-	@apply contents
+	@apply contents;
 }
 
 .home > section {
-	@apply px-4 sm:px-0 py-8
+	@apply px-4 sm:px-0 py-8;
 }
 
 .home > section > div, .home progress {
-	@apply container mx-auto
+	@apply container mx-auto;
 }
 
 .home h1 {
-	@apply text-4xl sm:text-5xl
+	@apply text-4xl sm:text-5xl;
 }
 
 .home h2 {
-	@apply text-3xl sm:text-4xl
+	@apply text-3xl sm:text-4xl;
 }
 
 .home .subtitle {
-	@apply font-light text-sm sm:text-base
+	@apply font-light text-sm sm:text-base;
 }
 
 .updates {
-	@apply grid md:grid-cols-3 px-4 md:px-0 container mx-auto !max-w-h-7xl md:py-6
+	@apply container grid md:(grid-cols-2 divide-x px-0 divide-y-0 py-6) px-4 mx-auto
+		divide-y children:(border-white border-opacity-50);
 }
 
 .updates > article {
-	@apply border-b last:border-b-0 md:border-b-0 border-whiteborder-opacity-50
-	 md:border-r md:last:border-r-0 max-w-md mx-auto
-	 py-6 md:py-0 md:px-4
+	@apply mx-auto py-6 md:(py-0 px-8) lg:px-16;
 }
 
 .updates h2 {
 	@apply bg-neutral-900 bg-opacity-50 rounded-full italic font-semibold font-secondary
-		 text-center mb-6 py-1 px-6 w-[fit-content] md:w-auto mx-auto text-xl
+		 text-center mb-6 py-1 px-6 w-[fit-content] md:w-auto mx-auto text-xl;
 }
 
 .updates h3 {
-	@apply uppercase font-next text-2xl text-shadow-xl md:text-center mt-2 mb-1
+	@apply uppercase font-next text-3xl text-shadow-xl md:text-center mt-4 mb-2;
 }
 
 .updates p {
-	@apply font-light md:text-center text-sm
+	@apply font-light md:text-center text line-clamp-3;
 }
 
-.see-more {
-	@apply w-[fit-content] md:w-auto mt-2 md:mt-4
-}
