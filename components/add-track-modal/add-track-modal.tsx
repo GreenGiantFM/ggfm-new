@@ -7,7 +7,7 @@ import styles from '@styles/Modal.module.css'
 import { useRouter } from 'next/router'
 import { FormEventHandler, useState } from 'react'
 
-type AddTrackModalProps = Omit<IModalProps, 'close'> & {
+export type AddTrackModalProps = Omit<IModalProps, 'close'> & {
 	close: () => void
 }
 

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { CountdownProps } from '@components/countdown/countdown'
 
 type PollsHeaderProps = {
 	name: string
@@ -7,7 +8,7 @@ type PollsHeaderProps = {
 	root: string
 }
 
-const Countdown = dynamic(() => import('@components/countdown').then(mod => mod.Countdown), {
+const Countdown = dynamic<CountdownProps>(() => import('@components/countdown').then(mod => mod.Countdown), {
 	loading: () => <div className="h-16" />,
 	ssr: false
 })

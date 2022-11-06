@@ -13,8 +13,9 @@ import Track from '@models/track'
 import { TrackItem } from '@components/track-item'
 import { LoadingButton } from '@components/loading-button'
 import { useRouter } from 'next/router'
+import { AddTrackModalProps } from '@components/add-track-modal/add-track-modal'
 
-const AddTrackModal = dynamic(() => import('@components/add-track-modal').then(mod => mod.AddTrackModal))
+const AddTrackModal = dynamic<AddTrackModalProps>(() => import('@components/add-track-modal').then(mod => mod.AddTrackModal))
 
 const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks, endDate }) => {
 	const [message, setMessage] = useState('')

@@ -3,7 +3,7 @@ import { parseUnitTime } from '@lib/utils'
 import { HTMLAttributes } from 'react'
 import { DateTimeDisplay } from './date-time-display'
 
-type CountdownProps = {
+export type CountdownProps = {
 	end: Date
 } & HTMLAttributes<HTMLDivElement>
 
