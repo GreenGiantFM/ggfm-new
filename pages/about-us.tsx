@@ -2,7 +2,7 @@ import CustomHead from '@components/head'
 import { NextPage } from 'next'
 import Image from 'next/future/image'
 import { POOLS } from '@lib/pools'
-import { Carousel } from '@components/carousel'
+import AboutSwiper from '@components/swipers/about-swiper'
 
 const OFFICERS = [
 	{ name: 'President', director: 'Krizzia Garcia' },
@@ -21,36 +21,27 @@ const Page: NextPage = () => {
 				description="About Green Giant FM, DLSU's Radio Station"
 				url="/about-us"
 			/>
-			<section className="bg-neutral-800 md:px-0 space-y-4 w-full" style={{ maxHeight: 'calc(100vh - 4rem)' }}>
-				<Carousel className="bg-neutral-700 mx-auto min-h-xs max-h-full" style={{ aspectRatio: '3/2' }}
+			<section className="bg-neutral-800 md:px-0 space-y-4" style={{ maxHeight: 'calc(100vh - 4rem)' }}>
+				<AboutSwiper
 					images={[
 						{
-							url: 'https://lh3.googleusercontent.com/d/1GgH04MtunOICbvM0T-jdGywSdal3EwDN',
-							alt: "Picture of Purples N' Oranges",
+							src: 'https://lh3.googleusercontent.com/d/1GgH04MtunOICbvM0T-jdGywSdal3EwDN',
+							alt: 'Two people in the booth, one holding a microphone',
 						},
 						{
-							url: 'https://lh3.googleusercontent.com/d/130SB43ZpK3QaGTjwVO6fEAALc1rbupgB',
-							alt: "Picture of Purples N' Oranges",
+							src: 'https://lh3.googleusercontent.com/d/130SB43ZpK3QaGTjwVO6fEAALc1rbupgB',
+							alt: 'Green Giant FM members wearing green and posing for a picture',
 						},
 						{
-							url: 'https://lh3.googleusercontent.com/d/1NjZaW3CvRqRhiH6r-OlGVoD9VZnLLfci',
-							alt: "Picture of Purples N' Oranges",
+							src: 'https://lh3.googleusercontent.com/d/1NjZaW3CvRqRhiH6r-OlGVoD9VZnLLfci',
+							alt: 'Performer playing a guitar inside the GGFM Booth',
 						},
 						{
-							url: 'https://lh3.googleusercontent.com/d/1p-i0x1gO-H1_V71OL-dETZq6I_j56al3',
-							alt: "Picture of Purples N' Oranges",
+							src: 'https://lh3.googleusercontent.com/d/1p-i0x1gO-H1_V71OL-dETZq6I_j56al3',
+							alt: 'Green Giant fm members posing for a picture',
 						},
 					]}
-				>
-					<div className="absolute bottom-0 pt-6 pb-10 w-full px-4"
-						style={{ background: 'linear-gradient(rgba(25,25,25,0.0),rgba(25,25,25,0.8) 20%,rgba(25,25,25,0.8))' }}>
-						<p className="mx-auto max-w-prose text-xs sm:text-sm md:text-base">
-							Green Giant FM (GGFM) is De La Salle University-Manila&apos;s Official Radio Station,
-							located at Br. Bloemen Hall. Green Giant FM broadcasts live on Tuesdays and Thursdays from 7:30 AM to 9:15 PM,
-							and on Wednesdays and Fridays from 7:30 AM to 4:00 PM.
-						</p>
-					</div>
-				</Carousel>
+				/>
 			</section>
 			<section className="bg-neutral-900 px-4 py-12">
 				<div className="grid md:grid-cols-2 max-w-6xl mx-auto gap-y-8 gap-x-16">
