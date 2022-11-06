@@ -23,7 +23,7 @@ export function DJTraineeItem({ image, nickname, segue, _id, onMore, onVote, isV
 		>
 			<div className="w-24 aspect-square">
 				<Image
-					src={`https://drive.google.com/uc?export=view&id=${image}`}
+					src={`https://lh3.googleusercontent.com/d/${image}`}
 					alt={`Image of DJ ${nickname}`}
 					width={200}
 					height={200}

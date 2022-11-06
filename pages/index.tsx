@@ -62,35 +62,35 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			</section>
 			<section className="bg-neutral-900">
 				<div className="grid md:grid-cols-2 py-8 gap-y-8 px-4 sm:px-0 container mx-auto">
-					<article className="grid gap-y-4 place-items-center md:border-r border-neutral-700 px-0 md:px-6 xl:px-0">
+					<article className="flex flex-col items-center space-y-4 md:border-r border-neutral-700 px-0 md:px-6 xl:px-0">
 						<h2>THE HITLIST</h2>
-						<iframe
-							title="GGFM's spotify playlist"
-							className="rounded-lg max-w-lg !aspect-square"
-							width="100%"
-							height="435"
-							src="https://open.spotify.com/embed/playlist/4faFfX3ONpaFhDb5Kxb95V?utm_source=generator&theme=1"
-							allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
-						/>
+						<div className="w-full h-96 md:h-full relative">
+							<iframe
+								title="GGFM's spotify playlist"
+								className="rounded-lg max-w-lg !aspect-square w-full h-full absolute transform left-1/2 -translate-x-1/2"
+								src="https://open.spotify.com/embed/playlist/4faFfX3ONpaFhDb5Kxb95V?utm_source=generator&theme=1"
+								allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
+							/>
+						</div>
 					</article>
 					<article className="text-center space-y-4 h-[fit-content] sm:h-auto px-0 md:px-6 xl:px-0">
 						<h2>ARTIST OF THE WEEK</h2>
 						<div className="grid place-items-center">
 							<AOW images={[
 								{
-									src: 'https://drive.google.com/uc?export=view&id=1v_Qqz19l6W4rgkcKkK27TZ9oRSroYCdR',
+									src: 'https://lh3.googleusercontent.com/d/1v_Qqz19l6W4rgkcKkK27TZ9oRSroYCdR',
 									alt: "Picture of Purples N' Oranges",
 								},
 								{
-									src: 'https://drive.google.com/uc?export=view&id=1_a3MIe_j1NK75SW6iFcMZRXzKCie93oo',
+									src: 'https://lh3.googleusercontent.com/d/1_a3MIe_j1NK75SW6iFcMZRXzKCie93oo',
 									alt: "Description of Purples N' Oranges",
 								},
 								{
-									src: 'https://drive.google.com/uc?export=view&id=1zzkgC6F0yS8_taNxduWaggSK_Dib2k0z',
+									src: 'https://lh3.googleusercontent.com/d/1zzkgC6F0yS8_taNxduWaggSK_Dib2k0z',
 									alt: "Spotify barcode of Purples N' Oranges",
 								},
 								{
-									src: 'https://drive.google.com/uc?export=view&id=13WDYH-3bsTSgzGyF9g6kzZlL2Gmi2tWd',
+									src: 'https://lh3.googleusercontent.com/d/13WDYH-3bsTSgzGyF9g6kzZlL2Gmi2tWd',
 									alt: "Pizza Grigliata Sponsor",
 								}
 							]} />

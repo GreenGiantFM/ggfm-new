@@ -50,11 +50,11 @@ export default function RadioTalents({ images, className, setIndex }: RadioTalen
 				{images.map(({ src, alt }) => (
 					<SwiperSlide key={alt} className="flex justify-center !h-auto !w-64 transform transition-transform">
 						<div className="h-98 w-auto">
-							<Image src={`https://drive.google.com/uc?export=view&id=${src}`}
-								className="w-full h-full object-contain opacity-70"
+							<Image src={`https://lh3.googleusercontent.com/d/${src}`}
+								className="object-contain opacity-70"
 								alt={alt}
-								width={270}
-								height={480}
+								width={220}
+								height={392}
 							/>
 						</div>
 					</SwiperSlide>

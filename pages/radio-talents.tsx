@@ -17,8 +17,8 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 				description="The faces and voices of Green Giant FM"
 				url="/radio-talents"
 			/>
-			<h1 className="text-4xl sm:text-5xl text-neutral-700 text-center">MEET THE DJ&apos;S OF GREEN GIANT FM</h1>
-			<h2 className="font-secondary text-neutral-600 text-center text-sm sm:text-base">THE FACES AND VOICES OF GREEN GIANT</h2>
+			<h1 className="text-4xl sm:text-5xl text-neutral-800 text-center">MEET THE DJ&apos;S OF GREEN GIANT FM</h1>
+			<h2 className="font-secondary text-neutral-700 text-center text-sm sm:text-base">THE FACES AND VOICES OF GREEN GIANT</h2>
 			<RadioTalents
 				images={talents.map(t => ({ src: t.image, alt: `Photo of DJ ${t.nickname}` }))}
 				className="container h-full !pt-8 !pb-16"

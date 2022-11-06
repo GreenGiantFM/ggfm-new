@@ -38,7 +38,7 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 	return (
 		<div className={`bg-white text-gray-900 flex rounded` + (className ? ` ${className}` : '')} {...props}>
 			<div className="relative w-24 aspect-square">
-				<Image alt="" src={image} fill className="h-full w-full object-contain block rounded-l" />
+				<Image alt={`Album cover of ${name}`} src={image} width={96} height={96} className="h-full w-full object-contain block rounded-l" />
 			</div>
 			<div className="px-4 py-2 flex-1">
 				<div>

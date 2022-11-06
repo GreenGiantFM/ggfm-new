@@ -35,7 +35,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ endDat
 								<div className="w-16 aspect-square">
 									<Image
 										alt={`DJ ${d.nickname}`}
-										src={`https://drive.google.com/uc?export=view&id=${d.image}`}
+										src={`https://lh3.googleusercontent.com/d/${d.image}`}
 										className="object-cover w-full h-full block rounded-full"
 										width={100} height={100}
 									/>

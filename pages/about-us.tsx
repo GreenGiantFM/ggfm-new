@@ -25,19 +25,19 @@ const Page: NextPage = () => {
 				<Carousel className="bg-neutral-700 mx-auto min-h-xs max-h-full" style={{ aspectRatio: '3/2' }}
 					images={[
 						{
-							url: 'https://drive.google.com/uc?export=view&id=1GgH04MtunOICbvM0T-jdGywSdal3EwDN',
+							url: 'https://lh3.googleusercontent.com/d/1GgH04MtunOICbvM0T-jdGywSdal3EwDN',
 							alt: "Picture of Purples N' Oranges",
 						},
 						{
-							url: 'https://drive.google.com/uc?export=view&id=130SB43ZpK3QaGTjwVO6fEAALc1rbupgB',
+							url: 'https://lh3.googleusercontent.com/d/130SB43ZpK3QaGTjwVO6fEAALc1rbupgB',
 							alt: "Picture of Purples N' Oranges",
 						},
 						{
-							url: 'https://drive.google.com/uc?export=view&id=1NjZaW3CvRqRhiH6r-OlGVoD9VZnLLfci',
+							url: 'https://lh3.googleusercontent.com/d/1NjZaW3CvRqRhiH6r-OlGVoD9VZnLLfci',
 							alt: "Picture of Purples N' Oranges",
 						},
 						{
-							url: 'https://drive.google.com/uc?export=view&id=1p-i0x1gO-H1_V71OL-dETZq6I_j56al3',
+							url: 'https://lh3.googleusercontent.com/d/1p-i0x1gO-H1_V71OL-dETZq6I_j56al3',
 							alt: "Picture of Purples N' Oranges",
 						},
 					]}

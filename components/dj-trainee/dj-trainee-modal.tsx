@@ -15,7 +15,7 @@ export function DJTraineeModal({ isOpen, close, nickname, image, segue, challeng
 					<div className="flex space-x-4">
 						<figure className="h-48 aspect-square">
 							<Image
-								src={`https://drive.google.com/uc?export=view&id=${image}`}
+								src={`https://lh3.googleusercontent.com/d/${image}`}
 								alt={`Image of DJ ${nickname}`}
 								className="w-full h-full object-cover"
 								width={200}

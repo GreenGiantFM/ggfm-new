@@ -21,7 +21,7 @@ export function Post({ link, title, excerpt, image, metadata }: PostProps) {
 					{metadata}
 				</div>
 				<div className="relative w-[100px] h-[100px] sm:w-[150px] md:(w-[200px] h-[134px])">
-					<Image src={image} alt={`Image of ${title}`} fill className="object-cover object-top" />
+					<Image src={image} alt={`Image of ${title}`} width={200} height={134} className="object-cover object-top" />
 				</div>
 			</a>
 		</Link>
