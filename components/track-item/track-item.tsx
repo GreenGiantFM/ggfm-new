@@ -46,9 +46,16 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 					<p className="text-sm italic line-clamp-1 h-7">{artists.join(', ')}</p>
 				</div>
 				<div className="flex space-x-4 children:(border-gray-500 border rounded px-4 w-full)">
-					<button type="button" className={`btn white` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick}>
-						<span>{isPlaying ? 'Pause' : 'Play'}</span>
-						<audio src={preview_url} ref={player} />
+					<button type="button" className={`btn white` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
+						{
+							preview_url ?
+								<>
+									<span>{isPlaying ? 'Pause' : 'Play'}</span>
+									<audio src={preview_url} ref={player} />
+								</>
+								:
+								<span>Unavailable</span>
+						}
 					</button>
 					<label className={"btn focus:ring-1 cursor-pointer text-center " +
 						(isChecked ? 'green' : 'white') +
@@ -60,6 +67,6 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 					</label>
 				</div>
 			</div>
-		</div>
+		</div >
 	)
 }
