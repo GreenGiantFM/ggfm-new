@@ -13,7 +13,7 @@
 }
 
 .title {
-	@apply text-4xl font-medium text-gray-900 mb-4 text-center sm:text-left
+	@apply text-4xl font-medium text-gray-900 mb-4 sm:text-left
 }
 
 .body {

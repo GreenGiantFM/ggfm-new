@@ -75,7 +75,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 						key={t._id}
 						_id={t._id}
 						nickname={t.nickname}
-						segue={t.segue}
+						caption={t.caption}
 						image={t.image}
 						onMore={() => setTrainee(trainees[i])}
 						onVote={() => setMessage('')}
