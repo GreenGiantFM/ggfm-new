@@ -18,6 +18,7 @@ export type NavItemProps = {
 export default function NavItem({ text, path, subItems }: NavItemProps) {
 	const { pathname } = useRouter()
 	const [show, setShow] = useState(false)
+	const hasSubitems = subItems && subItems.length != 0
 
 	return (
 		<Popover onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative">
@@ -26,15 +27,15 @@ export default function NavItem({ text, path, subItems }: NavItemProps) {
 					<Link href={path} passHref>
 						<Popover.Button
 							as="a"
-							className="hover:text-primary block transition-colors cursor-pointer relative h-full flex items-center"
+							className={'hover:text-primary block transition-colors cursor-pointer relative h-full flex items-center' + (hasSubitems ? ' mr-4' : '')}
 							aria-current={path == pathname ? 'page' : undefined}
 						>
 							<span>{text}</span>
-							{subItems?.length && <ChevronDownIcon className="aspect-square w-4 absolute -right-5 top-6" />}
+							{hasSubitems && <ChevronDownIcon className="aspect-square w-4 absolute -right-5 top-6" />}
 						</Popover.Button>
 					</Link>
 
-					{subItems?.length &&
+					{hasSubitems &&
 						<Transition
 							show={show}
 							enter="transition duration-100 ease-out"
@@ -45,7 +46,7 @@ export default function NavItem({ text, path, subItems }: NavItemProps) {
 							leaveTo="transform scale-95 opacity-0"
 						>
 							<Popover.Panel className="grid absolute bg-white px-4 pb-2 rounded-b-md -left-4" static>
-								{subItems.map(item => (
+								{subItems!.map(item => (
 									<Link key={item.text} href={item.path}>
 										<a
 											className="hover:text-primary transition-colors h-full"
