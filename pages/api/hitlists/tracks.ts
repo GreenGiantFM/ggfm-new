@@ -28,9 +28,10 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 			case 'POST': {
 				const { tracks } = req.body as Body
 
-				if (req.headers.host !== process.env.NEXT_PUBLIC_VERCEL_URL) {
-					console.error(req.headers.host)
-					console.error(process.env.NEXT_PUBLIC_SITE_URL)
+				if (req.headers.host !== process.env.NEXT_PUBLIC_VERCEL_URL &&
+					req.headers.host !== 'ggfm-new-git-dev-greengiantfm.vercel.app' &&
+					req.headers.host !== 'ggfm-new.vercel.app'
+				) {
 					return res.status(403)
 				}
 

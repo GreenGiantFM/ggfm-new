@@ -81,7 +81,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ blog }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const paths = await getFileIds('/posts/blogs')
+	const paths = await getFileIds(['posts', 'blogs'])
 
 	return {
 		paths,
@@ -90,7 +90,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
-	const blog = await getFileData<BlogData>(`/posts/blogs/${params?.id}.md`)
+	const blog = await getFileData<BlogData>(['posts', 'blogs', params?.id + '.md'])
 
 	return {
 		props: {

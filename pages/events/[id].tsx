@@ -71,7 +71,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ event 
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const paths = await getFileIds('/posts/events')
+	const paths = await getFileIds(['posts', 'events'])
 
 	return {
 		paths,
@@ -80,7 +80,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
-	const event = await getFileData<EventData>(`/posts/events/${params?.id}.md`)
+	const event = await getFileData<EventData>(['posts', 'events', params?.id + '.md'])
 
 	return {
 		props: {

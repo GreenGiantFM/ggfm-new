@@ -131,8 +131,8 @@ export const getStaticProps = async () => {
 
 	const [talents, event, blog] = await Promise.all([
 		RadioTalent.find({}).lean(),
-		getFirstFileData<EventData>('/posts/events'),
-		getFirstFileData<BlogData>('/posts/blogs'),
+		getFirstFileData<EventData>(['posts', 'events']),
+		getFirstFileData<BlogData>(['posts', 'blogs']),
 	])
 
 	return {
