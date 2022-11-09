@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getFileData, getFiles } from '@lib/posts'
+import path from 'path'
+import { readFileSync } from 'fs'
 
 type Query = {
 	page?: string
@@ -27,6 +29,9 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 				const page = query.page ? parseInt(query.page) : 0
 				const limit = query.limit ? parseInt(query.limit) : 4
 				const start = page * limit
+
+				const file = path.join(process.cwd(), 'posts', 'blogs', '2021-06-05-the-game-hub-down-bad.md')
+				console.log(readFileSync(file, 'utf-8'))
 
 				const files = (await getFiles('/posts/events'))
 					.sort((a, b) => b.localeCompare(a))

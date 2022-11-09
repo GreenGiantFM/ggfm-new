@@ -29,6 +29,8 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 				const { tracks } = req.body as Body
 
 				if (req.headers.host !== process.env.NEXT_PUBLIC_VERCEL_URL) {
+					console.error(req.headers.host)
+					console.error(process.env.NEXT_PUBLIC_SITE_URL)
 					return res.status(403)
 				}
 
