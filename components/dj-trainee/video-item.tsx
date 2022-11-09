@@ -14,7 +14,7 @@ export function VideoItem({ title, src }: VideoItemProps) {
 						src.includes('facebook') ?
 							`https://www.facebook.com/plugins/video.php?&href=${src}&show_text=false&t=0`
 							:
-							`https://www.youtube.com/embed/${src}?origin=${process.env.NEXT_PUBLIC_VERCEL_URL}`
+							`https://www.youtube.com/embed/${src}`
 					}
 					allowFullScreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
 					className="aspect-video w-full"

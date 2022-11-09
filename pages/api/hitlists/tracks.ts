@@ -28,7 +28,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 			case 'POST': {
 				const { tracks } = req.body as Body
 
-				if (req.headers.host !== process.env.HOST) {
+				if (req.headers.host !== process.env.NEXT_PUBLIC_VERCEL_URL) {
 					return res.status(403)
 				}
 

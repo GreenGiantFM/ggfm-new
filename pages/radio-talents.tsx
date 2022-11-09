@@ -33,7 +33,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 					</div>
 					<iframe
 						className="w-full max-w-lg aspect-video"
-						src={`https://www.youtube.com/embed/W41ZXc3jWBg?origin=${process.env.NEXT_PUBLIC_VERCEL_URL}`}
+						src={`https://www.youtube.com/embed/W41ZXc3jWBg`}
 						title="YouTube video player"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowFullScreen
