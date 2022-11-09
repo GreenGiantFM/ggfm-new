@@ -4,7 +4,6 @@ export interface IDJTrainee {
 	_id: ObjectId | string
 	name: string
 	nickname: string
-	video: string
 	image: string
 	caption: string
 	stinger: string
@@ -16,7 +15,6 @@ export interface IDJTrainee {
 const schema = new Schema<IDJTrainee>({
 	name: { type: String, required: true, trim: true },
 	nickname: { type: String, required: true, trim: true },
-	video: { type: String, required: true, trim: true },
 	image: { type: String, required: true, trim: true },
 	caption: { type: String, required: true, trim: true },
 	stinger: { type: String, required: true, trim: true },
