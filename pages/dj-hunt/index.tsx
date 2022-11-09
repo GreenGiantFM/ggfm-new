@@ -1,5 +1,5 @@
 import CustomHead from '@components/head'
-import { InferGetStaticPropsType, NextPage } from 'next'
+import { InferGetServerSidePropsType, NextPage } from 'next'
 import DJTrainee, { IDJTrainee } from '@models/dj-trainee'
 import { DJTraineeItem, DJTraineeModal } from '@components/dj-trainee'
 import { FormEventHandler, useMemo, useState } from 'react'
@@ -13,7 +13,8 @@ import { PollsHeader } from '@components/polls-header'
 import { LoadingButton } from '@components/loading-button'
 import { useRouter } from 'next/router'
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ trainees, endDate }) => {
+// TODO: Convert back to static props after testing
+const Page: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ trainees, endDate }) => {
 	const [trainee, setTrainee] = useState<IDJTrainee>()
 	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
@@ -110,7 +111,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 	)
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
 	await dbConnect()
 	const trainees = await DJTrainee.find().lean()
 	const date = await Dates.findOne({ name: 'DJ Hunt' }, '-_id end').lean()
