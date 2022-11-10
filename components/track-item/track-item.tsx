@@ -1,29 +1,40 @@
 import { ITrack } from '@models/track'
 import { HTMLAttributes, useEffect, useRef, useState } from 'react'
 import Image from 'next/future/image'
+import { usePlayerStore } from '@stores/player-store'
 
 type TrackItemProps = {
 	onVote: () => void
 	isVoteable: boolean
+	index: number
 } & ITrack & HTMLAttributes<HTMLDivElement>
 
-export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, onVote, className, ...props }: TrackItemProps) {
+export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, onVote, className, index, ...props }: TrackItemProps) {
 	const [isChecked, setIsChecked] = useState(false)
 	const [isPlaying, setIsPlaying] = useState(false)
 	const player = useRef<HTMLMediaElement>(null)
+	const playerNumber = usePlayerStore(state => state.playerNumber)
+	const setPlayerNumber = usePlayerStore(state => state.setPlayerNumber)
 
 	function onChange() {
 		setIsChecked(!isChecked)
 		onVote()
 	}
 
+	useEffect(() => {
+		if (playerNumber != index) player.current?.pause()
+	}, [playerNumber, player, index])
+
 	// player setup
 	useEffect(() => {
 		if (!player.current) return
 		player.current.volume = 0.05
 		player.current.onpause = () => setIsPlaying(false)
-		player.current.onplay = () => setIsPlaying(true)
-	}, [player])
+		player.current.onplay = () => {
+			setPlayerNumber(index)
+			setIsPlaying(true)
+		}
+	}, [player, setPlayerNumber, index])
 
 	function handlePlayerClick() {
 		if (!player.current) return

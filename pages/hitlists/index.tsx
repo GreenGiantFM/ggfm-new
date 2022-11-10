@@ -79,7 +79,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 						})
 					}}
 				/>
-				{tracks.map(t => (
+				{tracks.map((t, i) => (
 					<TrackItem
 						key={t._id}
 						_id={t._id}
@@ -88,6 +88,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 						image={t.image}
 						preview_url={t.preview_url}
 						isVoteable={isOpen}
+						index={i}
 						onVote={() => setMessage('')}
 					/>
 				))}
