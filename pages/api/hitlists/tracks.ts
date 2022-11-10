@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Track, { ITrack } from '@models/track'
 import axios from 'axios'
-import { serialize } from '@lib/utils'
+import { isValidHost, serialize } from '@lib/utils'
 import TrackVote from '@models/track-vote'
+import dbConnect from '@lib/db'
 
 type Body = {
 	tracks: string
@@ -28,10 +29,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 			case 'POST': {
 				const { tracks } = req.body as Body
 
-				if (req.headers.host !== process.env.NEXT_PUBLIC_VERCEL_URL &&
-					req.headers.host !== 'ggfm-new-git-dev-greengiantfm.vercel.app' &&
-					req.headers.host !== 'ggfm-new.vercel.app'
-				) {
+				if (!isValidHost(req.headers.host)) {
 					return res.status(403)
 				}
 
@@ -45,11 +43,14 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 					.join(',')
 
 				// get authorized session token
-				const { data } = await axios.post<SpotifyToken>(`https://accounts.spotify.com/api/token`, serialize({ grant_type: 'client_credentials' }), {
-					headers: {
-						Authorization: 'Basic ' + Buffer.from(`${process.env.SPOTIFY_ID}:${process.env.SPOTIFY_SECRET}`).toString('base64'),
-					},
-				})
+				const [{ data }] = await Promise.all([
+					axios.post<SpotifyToken>(`https://accounts.spotify.com/api/token`, serialize({ grant_type: 'client_credentials' }), {
+						headers: {
+							Authorization: 'Basic ' + Buffer.from(`${process.env.SPOTIFY_ID}:${process.env.SPOTIFY_SECRET}`).toString('base64'),
+						},
+					}),
+					dbConnect()
+				])
 
 				try {
 					const [trackResponse] = await Promise.all([

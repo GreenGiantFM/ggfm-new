@@ -1,0 +1,10 @@
+{
+	"functions": {
+		"pages/api/events.ts": {
+			"includeFiles": "posts/events/*"
+		},
+		"pages/api/blogs.ts": {
+			"includeFiles": "posts/blogs/*"
+		}
+	}
+}

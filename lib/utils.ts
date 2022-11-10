@@ -56,3 +56,14 @@ export function serialize(object: Record<string, string>) {
 	}
 	return params.join("&")
 }
+
+/**
+ * Checks if the a host is within the list of permitted origins
+ * @param host - request host
+ * @returns if host is a valid origin
+ */
+export function isValidHost(host: string | undefined) {
+	return host == process.env.NEXT_PUBLIC_VERCEL_URL ||
+		host == 'ggfm-new-git-dev-greengiantfm.vercel.app' ||
+		host == 'ggfm-new.vercel.app'
+}

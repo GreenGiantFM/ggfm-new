@@ -30,8 +30,6 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 				const limit = query.limit ? parseInt(query.limit) : 4
 				const start = page * limit
 
-				console.log(path.join(process.cwd(), 'posts', 'events', '2021-06-05-the-game-hub-down-bad.md'))
-
 				const files = (await getFiles(dirPath))
 					.sort((a, b) => b.localeCompare(a))
 					.slice(start, start + limit)

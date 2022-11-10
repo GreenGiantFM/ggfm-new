@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import TrackVote from '@models/track-vote'
 import Track from '@models/track'
+import dbConnect from '@lib/db'
+import { isValidHost } from '@lib/utils'
 
 type Body = {
 	email?: string
@@ -13,6 +15,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 	try {
 		switch (method) {
 			case 'GET': {
+				await dbConnect()
 				const tally = await Track.aggregate()
 					.lookup({
 						from: 'trackvotes',
@@ -33,13 +36,14 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 			case 'POST': {
 				const { email, selection } = req.body as Body
 
-				if (req.headers.host !== process.env.HOST) {
+				if (!isValidHost(req.headers.host)) {
 					return res.status(403)
 				}
 
 				if (!email) throw Error('You are not logged in!')
 				if (!selection) throw Error('No songs were selected.')
-
+				
+				await dbConnect()
 				const count = await TrackVote.countDocuments({ email })
 				if (count) throw Error('You have already voted!')
 
