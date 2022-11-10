@@ -1,5 +1,9 @@
 .result {
-	@apply flex space-x-4 md:space-x-6;
+	@apply flex space-x-4 md:space-x-6 items-center;
+}
+
+.result img {
+	@apply relative top-2
 }
 
 .info {

@@ -38,15 +38,15 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 	return (
 		<div className={`bg-white text-gray-900 flex rounded` + (className ? ` ${className}` : '')} {...props}>
 			<div className="relative w-24 aspect-square">
-				<Image alt={`Album cover of ${name}`} src={image} width={96} height={96} className="h-full w-full object-contain block rounded-l" />
+				<Image alt={`Album cover of ${name}`} src={image} width={96} height={96} className="h-full w-full object-cover block rounded-l" />
 			</div>
-			<div className="px-4 py-2 flex-1">
+			<div className="px-4 py-2 flex-1 flex flex-col justify-between">
 				<div>
 					<p className="font-semibold">{name}</p>
 					<p className="text-sm italic line-clamp-1 h-7">{artists.join(', ')}</p>
 				</div>
-				<div className="flex space-x-4 children:(border-gray-500 border rounded px-4 w-full)">
-					<button type="button" className={`btn white` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
+				<div className="flex space-x-1 children:(border-gray-500 border rounded px-4 w-full)">
+					<button type="button" className={`btn white !p-0` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
 						{
 							preview_url ?
 								<>
@@ -57,7 +57,7 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 								<span>Unavailable</span>
 						}
 					</button>
-					<label className={"btn focus:ring-1 cursor-pointer text-center " +
+					<label className={"btn focus:ring-1 cursor-pointer text-center !p-0" +
 						(isChecked ? 'green' : 'white') +
 						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
 					>
