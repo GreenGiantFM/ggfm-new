@@ -139,7 +139,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn.green {
-	@apply bg-primary hover:bg-primary-dark text-white;
+	@apply bg-primary hover:(bg-primary-dark disabled:bg-primary) text-white;
+}
+
+.btn.green .loading::after {
+	border-color: #FFF #FFF transparent;
 }
 
 a.white {

@@ -17,7 +17,8 @@ const nextConfig = {
 			'lh3.googleusercontent.com',
 			'i.scdn.co',
 		]
-	}
+	},
+	outputFileTracing: true,
 }
 
 module.exports = withBundleAnalyzer(nextConfig)

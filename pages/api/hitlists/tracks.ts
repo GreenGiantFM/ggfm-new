@@ -74,7 +74,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 					await Track.insertMany(trackData)
 					await res.revalidate('/hitlists')
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 
 				break

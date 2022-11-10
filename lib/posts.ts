@@ -20,7 +20,6 @@ export async function getFileIds(dirPath: string[]) {
 }
 
 export async function getFiles(dirPath: string[]) {
-	console.log(path.join(process.cwd(), ...dirPath))
 	return await fs.readdir(path.join(process.cwd(), ...dirPath))
 }
 
