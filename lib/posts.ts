@@ -41,3 +41,4 @@ export async function getFirstFileData<T>(dirPath: string[]) {
 }
 
 export type PostData = Awaited<ReturnType<typeof getFileData>>
+

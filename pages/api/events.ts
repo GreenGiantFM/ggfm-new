@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getFileData, getFiles } from '@lib/posts'
-import path from 'path'
+import '@lib/events'
 
 type Query = {
 	page?: string
@@ -51,4 +51,8 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 	} finally {
 		res.end()
 	}
+}
+
+export const config = {
+	unstable_includeFiles: ['posts/events'],
 }

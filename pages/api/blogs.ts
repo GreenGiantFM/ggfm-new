@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getFileData, getFiles } from '@lib/posts'
+import '@lib/blogs'
 
 type Query = {
 	page?: string
