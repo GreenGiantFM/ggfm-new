@@ -1,18 +1,20 @@
-import { NextPage } from 'next'
+import { NextPage, InferGetStaticPropsType } from 'next'
 import { fetcher } from '@lib/axios-config'
 import useSWRInfinite from 'swr/infinite'
-import { PostData } from '@lib/posts'
+import { getFilesAndData, PostData } from '@lib/posts'
 import { EventData } from '@pages/api/events'
 import { useEffect, useState } from 'react'
 import { Post, SkeletonPost } from '@components/post'
 import CustomHead from '@components/head'
 
+const LIMIT = 20
+
 function getKey(pageIndex: number, previousPageData: any[]) {
 	if (previousPageData && !previousPageData.length) return null
-	return `/api/events?page=${pageIndex}&limit=8`
+	return `/api/events?page=${pageIndex + 1}&limit=${LIMIT}`
 }
 
-const Page: NextPage = () => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ events }) => {
 	const { data, setSize, isValidating } = useSWRInfinite<(PostData & EventData)[]>(getKey, fetcher)
 	const [isSkeletonVisible, setIsSkeletonVisible] = useState(false)
 
@@ -44,6 +46,24 @@ const Page: NextPage = () => {
 			<div className="grid grid-cols-[repeat(8,1fr)_repeat(4,minmax(48px,1fr))] md:gap-8 lg:gap-0 w-full">
 				<section className="col-start-1 col-span-full lg:col-span-8 xl:col-span-7 row-start-1 space-y-8">
 					{
+						events.map(event => (
+							<Post
+								key={event.id}
+								link={`/events/${event.id}`}
+								title={event.title}
+								excerpt={event.excerpt}
+								image={event.featured_image}
+								metadata={
+									<div className="flex text-xs font-sans text-gray-600 space-x-4">
+										<p>{(new Date(event.posting_date)).toLocaleDateString()}</p>
+										<p>{event.location}</p>
+									</div>
+								}
+							/>
+						))
+					}
+
+					{
 						data?.map(d => d.map(event => (
 							<Post
 								key={event.id}
@@ -73,3 +93,16 @@ const Page: NextPage = () => {
 }
 
 export default Page
+
+export const getStaticProps = async () => {
+	const events = await getFilesAndData<EventData>(['posts', 'events'], {
+		page: '0',
+		limit: LIMIT.toString(),
+	})
+
+	return {
+		props: {
+			events
+		}
+	}
+}

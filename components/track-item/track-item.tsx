@@ -68,7 +68,7 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 								<span>Unavailable</span>
 						}
 					</button>
-					<label className={"btn focus:ring-1 cursor-pointer text-center !p-0" +
+					<label className={"btn focus:ring-1 cursor-pointer text-center !p-0 " +
 						(isChecked ? 'green' : 'white') +
 						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
 					>

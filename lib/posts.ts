@@ -5,6 +5,11 @@ import { remark } from 'remark'
 import html from 'remark-html'
 import plainText from 'remark-plain-text'
 
+type PostQuery = {
+	page?: string
+	limit?: string
+}
+
 const processor = remark().use(html)
 const excerptProcessor = remark().use(plainText)
 
@@ -38,6 +43,20 @@ export async function getFileData<T>(filePath: string[]) {
 export async function getFirstFileData<T>(dirPath: string[]) {
 	const name = (await getFiles(dirPath)).sort((a, b) => b.localeCompare(a))[0]
 	return await getFileData<T>([...dirPath, name])
+}
+
+export async function getFilesAndData<T>(dirPath: string[], query: PostQuery) {
+	const page = query.page ? parseInt(query.page) : 0
+	const limit = query.limit ? parseInt(query.limit) : 4
+	const start = page * limit
+
+	const files = (await getFiles(dirPath))
+		.sort((a, b) => b.localeCompare(a))
+		.slice(start, start + limit)
+
+	return await Promise.all(
+		files.map(fileName => getFileData<T>(dirPath.concat(fileName)))
+	)
 }
 
 export type PostData = Awaited<ReturnType<typeof getFileData>>

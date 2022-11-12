@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getFileData, getFiles } from '@lib/posts'
+import { getFilesAndData } from '@lib/posts'
 import '@lib/events'
-
-type Query = {
-	page?: string
-	limit?: string
-}
 
 export type EventData = {
 	title: string
@@ -24,21 +19,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 	try {
 		switch (method) {
 			case 'GET': {
-				const dirPath = ['posts', 'events']
-				const query = req.query as Query
-				const page = query.page ? parseInt(query.page) : 0
-				const limit = query.limit ? parseInt(query.limit) : 4
-				const start = page * limit
-
-				const files = (await getFiles(dirPath))
-					.sort((a, b) => b.localeCompare(a))
-					.slice(start, start + limit)
-
-				const data = await Promise.all(
-					files.map(fileName => getFileData<EventData>(dirPath.concat(fileName)))
-				)
-
-				return res.json(data)
+				return res.json(await getFilesAndData(['posts', 'events'], req.query))
 			}
 
 			default:
@@ -51,8 +32,4 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 	} finally {
 		res.end()
 	}
-}
-
-export const config = {
-	unstable_includeFiles: ['posts/events'],
 }
