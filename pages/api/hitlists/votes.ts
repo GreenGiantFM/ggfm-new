@@ -42,7 +42,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 
 				if (!email) throw Error('You are not logged in!')
 				if (!selection) throw Error('No songs were selected.')
-				
+
 				await dbConnect()
 				const count = await TrackVote.countDocuments({ email })
 				if (count) throw Error('You have already voted!')

@@ -9,13 +9,14 @@ import CustomHead from '@components/head'
 import styles from '@styles/Hunt.module.css'
 import Image from 'next/future/image'
 import { ITrack } from '@models/track'
+import { LoadingSpinner } from '@components/loading-spinner'
 
 type PollResult = ITrack & {
 	count: number
 }
 
 const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ endDate }) => {
-	const { data } = useSWR<PollResult[]>('/api/hitlists/votes', fetcher)
+	const { data, error } = useSWR<PollResult[]>('/api/hitlists/votes', fetcher)
 	const total = useMemo(() => data?.reduce((sum, a) => sum + a.count, 0), [data])
 
 	return (
@@ -26,34 +27,38 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ endDat
 				description="Hitlist poll tally"
 				url="/hitlists/polls"
 			/>
-			<div className="max-w-xl mx-auto w-full py-8 px-4">
-				<h1 className="text-3xl text-right mb-6">Total Votes: {total}</h1>
-				<div className="space-y-6">
-					{
-						data?.map(t => (
-							<div key={t._id.toString()} className={styles.result}>
-								<div className="w-16 aspect-square">
-									<Image
-										alt={t.name}
-										src={t.image}
-										className="object-cover w-full h-full block rounded-full"
-										width={100} height={100}
-									/>
-								</div>
-								<div className={styles.info}>
-									<p>{t.name}</p>
-									<div>
-										<div className={styles['progress-container']}>
-											<progress max={total} value={t.count} />
-											<p>{Math.round(t.count / (total ? total : 1) * 100)}</p>
+			<div className="max-w-xl mx-auto w-full pb-16 pt-12 px-4 space-y-4">
+				<h1 className="text-3xl text-right">Total Votes: {total ?? 0}</h1>
+				{error ? <p>An error has occured!</p> :
+					data ? <div className="space-y-6">
+						{
+							data?.map(t => (
+								<div key={t._id.toString()} className={styles.result}>
+									<div className="w-16 aspect-square">
+										<Image
+											alt={t.name}
+											src={t.image}
+											className="object-cover w-full h-full block rounded-full"
+											width={100} height={100}
+										/>
+									</div>
+									<div className={styles.info}>
+										<p>{t.name}</p>
+										<div>
+											<div className={styles['progress-container']}>
+												<progress max={total} value={t.count} />
+												<p>{Math.round(t.count / (total ? total : 1) * 100)}</p>
+											</div>
+											<p>{t.count}</p>
 										</div>
-										<p>{t.count}</p>
 									</div>
 								</div>
-							</div>
-						))
-					}
-				</div>
+							))
+						}
+					</div>
+						:
+						<LoadingSpinner />
+				}
 			</div>
 		</>
 	)
