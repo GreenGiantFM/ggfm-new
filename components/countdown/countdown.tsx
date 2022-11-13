@@ -4,13 +4,14 @@ import { HTMLAttributes } from 'react'
 import { DateTimeDisplay } from './date-time-display'
 
 export type CountdownProps = {
+	start: Date
 	end: Date
 } & HTMLAttributes<HTMLDivElement>
 
-export function Countdown({ end, className, ...props }: CountdownProps) {
+export function Countdown({ start, end, className, ...props }: CountdownProps) {
 	const { days, hours, minutes, seconds } = parseUnitTime(useCountdown(end))
 
-	if (days + hours + minutes + seconds <= 0) {
+	if (days + hours + minutes + seconds <= 0 || new Date().getTime() < start.getTime()) {
 		return (
 			<div {...props}>
 				<p className="text-2xl py-4">Polls are closed.</p>

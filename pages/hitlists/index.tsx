@@ -1,6 +1,6 @@
 import CustomHead from '@components/head'
 import { InferGetStaticPropsType, NextPage } from 'next'
-import { FormEventHandler, useMemo, useState } from 'react'
+import { FormEventHandler, useEffect, useMemo, useState } from 'react'
 import dbConnect from '@lib/db'
 import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
@@ -17,14 +17,37 @@ import { AddTrackModalProps } from '@components/add-track-modal/add-track-modal'
 
 const AddTrackModal = dynamic<AddTrackModalProps>(() => import('@components/add-track-modal').then(mod => mod.AddTrackModal))
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks, endDate }) => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks, endDate, startDate }) => {
+	const start = useMemo(() => new Date(startDate ?? ''), [startDate])
+	const end = useMemo(() => new Date(endDate ?? ''), [endDate])
+
 	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
 	const [showModal, setShowModal] = useState(false)
-	const countdown = useCountdown(new Date(endDate ?? ''))
-	const isOpen = useMemo(() => countdown > 0, [countdown])
-	const [isLoading, setIsLoading] = useState(false)
+	const startCountdown = useCountdown(start)
+	const endCountdown = useCountdown(end)
+	const isOpen = useMemo(() => endCountdown > 0 && startCountdown <= 0, [endCountdown, startCountdown])
+	const [isReady, setIsReady] = useState(false) // google button is loaded
+	const [isLoading, setIsLoading] = useState(false) // loading button indicator
 	const { push } = useRouter()
+
+	function handleToken({ credential }: { credential: string }) {
+		const data = JSON.parse(window.atob(credential.split('.')[1].replace('-', '+').replace('_', '/')))
+		setEmail(data.email)
+	}
+
+	// render google button when polls are open and script is loaded
+	useEffect(() => {
+		if (isOpen && isReady) {
+			window.google.accounts.id.initialize({
+				client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+				callback: handleToken
+			})
+			window.google.accounts.id.renderButton(document.getElementById("g-btn"), {
+				shape: 'pill',
+			})
+		}
+	}, [isOpen, isReady])
 
 	const handleSubmit: FormEventHandler = async e => {
 		e.preventDefault()
@@ -50,11 +73,6 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 		}
 	}
 
-	function handleToken({ credential }: { credential: string }) {
-		const data = JSON.parse(window.atob(credential.split('.')[1].replace('-', '+').replace('_', '/')))
-		setEmail(data.email)
-	}
-
 	return (
 		<>
 			<CustomHead
@@ -66,18 +84,10 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 				isOpen={showModal}
 				close={() => setShowModal(false)}
 			/>
-			<PollsHeader name="HITLIST" endDate={new Date(endDate ?? '')} root="/hitlists" />
+			<PollsHeader name="HITLIST" root="/hitlists" start={start} end={end} />
 			<form className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 self-start container p-4 xl:px-8 2xl:px-32 mx-auto" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
-					onReady={() => {
-						window.google.accounts.id.initialize({
-							client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-							callback: handleToken
-						})
-						window.google.accounts.id.renderButton(document.getElementById("g-btn"), {
-							shape: 'pill',
-						})
-					}}
+					onReady={() => setIsReady(true)}
 				/>
 				{tracks.map((t, i) => (
 					<TrackItem
@@ -122,11 +132,12 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 export const getStaticProps = async () => {
 	await dbConnect()
 	const tracks = await Track.find({}).lean()
-	const date = await Dates.findOne({ name: 'Hitlist' }, '-_id end').lean()
+	const date = await Dates.findOne({ name: 'Hitlist' }, '-_id end start').lean()
 
 	return {
 		props: {
 			tracks,
+			startDate: date?.start.toString(),
 			endDate: date?.end.toString()
 		}
 	}

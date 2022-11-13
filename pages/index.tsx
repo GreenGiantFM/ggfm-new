@@ -11,13 +11,22 @@ import { getFirstFileData } from '@lib/posts'
 import { EventData } from './api/events'
 import { BlogData } from './api/blogs'
 import { FeaturedArticle } from '@components/featured-article'
+import Dates from '@models/dates'
+import { useMemo } from 'react'
+import { useCountdown } from '@lib/useCountdown'
 
 const Shows = dynamic(() => import('@components/swipers/shows'))
 const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
 const AOW = dynamic(() => import('@components/swipers/aow'))
 const RadioTalents = dynamic(() => import('@components/swipers/radio-talents'))
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog }) => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog, startDate, endDate }) => {
+	const start = useMemo(() => new Date(startDate), [startDate])
+	const end = useMemo(() => new Date(endDate), [endDate])
+
+	const startCountdown = useCountdown(start)
+	const endCountdown = useCountdown(end)
+
 	return (
 		<div className={styles.home}>
 			<CustomHead
@@ -25,19 +34,22 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 				description="Green Giant FM homepage"
 				url="/"
 			/>
-			<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
-				<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT 2022</h1>
-				<progress className="w-full block rounded-full" value={0.8} />
-				<DJHunt className="my-4 !py-4 select-none" images={[
-					{ alt: 'Xavier', src: '/images/xavier.jpg' },
-					{ alt: 'Xavier 1', src: '/images/xavier.jpg' },
-					{ alt: 'Xavier 2', src: '/images/xavier.jpg' },
-					{ alt: 'Xavier 3', src: '/images/xavier.jpg' },
-					{ alt: 'Xavier 4', src: '/images/xavier.jpg' },
-					{ alt: 'Xavier 5', src: '/images/xavier.jpg' },
-				]} />
-				<BorderedLink href="/dj-hunt" className="max-w-64 hover:(bg-white text-gray-900 font-bold)">Vote Now</BorderedLink>
-			</section>
+			{
+				startCountdown <= 0 && endCountdown > 0 &&
+				<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
+					<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT 2022</h1>
+					<progress className="w-full block rounded-full" value={0.8} />
+					<DJHunt className="my-4 !py-4 select-none" images={[
+						{ alt: 'Xavier', src: '/images/xavier.jpg' },
+						{ alt: 'Xavier 1', src: '/images/xavier.jpg' },
+						{ alt: 'Xavier 2', src: '/images/xavier.jpg' },
+						{ alt: 'Xavier 3', src: '/images/xavier.jpg' },
+						{ alt: 'Xavier 4', src: '/images/xavier.jpg' },
+						{ alt: 'Xavier 5', src: '/images/xavier.jpg' },
+					]} />
+					<BorderedLink href="/dj-hunt" className="max-w-64 hover:(bg-white text-gray-900 font-bold)">Vote Now</BorderedLink>
+				</section>
+			}
 			<section className="bg-neutral-900 text-center !py-4">
 				<h1>LATEST NEW & UPDATES</h1>
 				<p className={styles.subtitle}>PODCASTS, BLOGS, EVENTS AND MORE</p>
@@ -129,10 +141,11 @@ export default Home
 export const getStaticProps = async () => {
 	await dbConnect()
 
-	const [talents, event, blog] = await Promise.all([
+	const [talents, event, blog, dates] = await Promise.all([
 		RadioTalent.find({}).lean(),
 		getFirstFileData<EventData>(['posts', 'events']),
 		getFirstFileData<BlogData>(['posts', 'blogs']),
+		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean()
 	])
 
 	return {
@@ -140,6 +153,8 @@ export const getStaticProps = async () => {
 			talents: talents.map(t => ({ ...t, _id: t._id.toString() })),
 			event,
 			blog,
+			startDate: dates?.start.toString() ?? '',
+			endDate: dates?.end.toString() ?? '',
 		}
 	}
 }
