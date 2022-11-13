@@ -15,13 +15,13 @@ type PollResult = ITrack & {
 	count: number
 }
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ endDate }) => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ start, end }) => {
 	const { data, error } = useSWR<PollResult[]>('/api/hitlists/votes', fetcher)
 	const total = useMemo(() => data?.reduce((sum, a) => sum + a.count, 0), [data])
 
 	return (
 		<>
-			<PollsHeader name="HITLIST" root="/hitlists" endDate={new Date(endDate ?? '')} />
+			<PollsHeader name="HITLIST" root="/hitlists" start={new Date(start)} end={new Date(end)} />
 			<CustomHead
 				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | Hitlist Polls`}
 				description="Hitlist poll tally"
@@ -68,10 +68,11 @@ export default Page
 
 export const getStaticProps = async () => {
 	await dbConnect()
-	const date = await Dates.findOne({ name: 'Hitlist' }, '-_id end').lean()
+	const date = await Dates.findOne({ name: 'Hitlist' }, '-_id start end').lean()
 	return {
 		props: {
-			endDate: date?.end.toString()
+			start: date?.start.toString() ?? '',
+			end: date?.end.toString() ?? '',
 		}
 	}
 }

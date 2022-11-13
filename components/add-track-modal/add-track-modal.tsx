@@ -6,32 +6,50 @@ import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import styles from '@styles/Modal.module.css'
 import { useRouter } from 'next/router'
-import { FormEventHandler, useState } from 'react'
+import { ChangeEventHandler, FormEventHandler, useState } from 'react'
 
 export type AddTrackModalProps = Omit<IModalProps, 'close'> & {
 	close: () => void
 }
 
+type Data = {
+	start?: string
+	end?: string
+	tracks?: string
+}
+
 export function AddTrackModal({ ...props }: AddTrackModalProps) {
 	const [isLoading, setIsLoading] = useState(false)
-	const [error, setError] = useState('')
+	let [errors, setErrors] = useState<Partial<Data>>({})
 	const { reload } = useRouter()
+
+	const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
+		setErrors(Object.assign(errors, { [e.target.name]: undefined }))
+	}
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault()
 		setIsLoading(true)
-		const { tracks } = Object.fromEntries(new FormData(e.target as HTMLFormElement)) as { tracks: string }
+		const { tracks, start, end } = Object.fromEntries(new FormData(e.target as HTMLFormElement)) as Data
 
 		try {
-			if (!tracks) return setError('Cannot be empty!')
+			errors = {}
+			if (!tracks) errors.tracks = 'Cannot be empty'
+			if (!start) errors.start = 'Cannot be empty'
+			if (!end) errors.end = 'Cannot be empty'
+
+			if (Object.keys(errors).length) return
 
 			await app.post('/api/hitlists/tracks', {
-				tracks: tracks
+				tracks,
+				start,
+				end
 			})
 			reload()
 		} catch (e) {
 			console.error(getAxiosError(e))
 		} finally {
+			setErrors(errors)
 			setIsLoading(false)
 		}
 	}
@@ -45,10 +63,22 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 							Add tracks
 						</Dialog.Title>
 					</div>
-					<form onSubmit={handleSubmit}>
-						<label htmlFor="track-input" className="select-none">Tracks (ID&apos;s only and comma-separated)</label>
-						<textarea name="tracks" id="track-input" className="w-full p-1 border-2 rounded font-sans" rows={10} onChange={() => setError('')}></textarea>
-						<p className="min-h-5 mb-4 text-sm text-red-600">{error}</p>
+					<form onSubmit={handleSubmit} className="grid children:children:block space-y-2">
+						<div>
+							<label htmlFor="start">Start Date</label>
+							<input type="date" name="start" id="start" onChange={onChange} />
+							<p className={styles.error}>{errors.start}</p>
+						</div>
+						<div>
+							<label htmlFor="start">End Date</label>
+							<input type="date" name="end" id="end" onChange={onChange} />
+							<p className={styles.error}>{errors.end}</p>
+						</div>
+						<div>
+							<label htmlFor="track-input" className="select-none">Tracks (ID&apos;s only and comma-separated)</label>
+							<textarea name="tracks" id="track-input" rows={10} onChange={onChange}></textarea>
+							<p className={styles.error}>{errors.tracks}</p>
+						</div>
 						<LoadingButton type="submit" className="btn green py-2 rounded" isLoading={isLoading}>
 							Update
 						</LoadingButton>

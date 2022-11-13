@@ -4,8 +4,11 @@ import axios from 'axios'
 import { isValidHost, serialize } from '@lib/utils'
 import TrackVote from '@models/track-vote'
 import dbConnect from '@lib/db'
+import Dates from '@models/dates'
 
 type Body = {
+	start: string
+	end: string
 	tracks: string
 }
 
@@ -26,8 +29,14 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 				break
 			}
 
+
 			case 'POST': {
-				const { tracks } = req.body as Body
+				const { tracks, start, end } = req.body as Body
+				const time = 'T00:00:00'
+
+				if (tracks.length == 0) throw Error('Empty tracklist')
+				if (!start) throw Error('No start date')
+				if (!end) throw Error('No end date')
 
 				if (!isValidHost(req.headers.host)) {
 					return res.status(403)
@@ -71,7 +80,10 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 						image: t.album.images[1].url
 					} as ITrack))
 
-					await Track.insertMany(trackData)
+					await Promise.all([
+						Track.insertMany(trackData),
+						Dates.updateOne({ name: 'Hitlist' }, { start: start + time, end: end + time }, { upsert: true })
+					])
 					await res.revalidate('/hitlists')
 				} catch (e) {
 					console.error(e)

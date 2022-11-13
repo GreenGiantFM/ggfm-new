@@ -27,7 +27,6 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 	const startCountdown = useCountdown(start)
 	const endCountdown = useCountdown(end)
 	const isOpen = useMemo(() => endCountdown > 0 && startCountdown <= 0, [endCountdown, startCountdown])
-	const [isReady, setIsReady] = useState(false) // google button is loaded
 	const [isLoading, setIsLoading] = useState(false) // loading button indicator
 	const { push } = useRouter()
 
@@ -35,19 +34,6 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 		const data = JSON.parse(window.atob(credential.split('.')[1].replace('-', '+').replace('_', '/')))
 		setEmail(data.email)
 	}
-
-	// render google button when polls are open and script is loaded
-	useEffect(() => {
-		if (isOpen && isReady) {
-			window.google.accounts.id.initialize({
-				client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-				callback: handleToken
-			})
-			window.google.accounts.id.renderButton(document.getElementById("g-btn"), {
-				shape: 'pill',
-			})
-		}
-	}, [isOpen, isReady])
 
 	const handleSubmit: FormEventHandler = async e => {
 		e.preventDefault()
@@ -87,7 +73,15 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 			<PollsHeader name="HITLIST" root="/hitlists" start={start} end={end} />
 			<form className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 self-start container p-4 xl:px-8 2xl:px-32 mx-auto" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
-					onReady={() => setIsReady(true)}
+					onReady={() => {
+						window.google.accounts.id.initialize({
+							client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+							callback: handleToken
+						})
+						window.google.accounts.id.renderButton(document.getElementById("g-btn"), {
+							shape: 'pill',
+						})
+					}}
 				/>
 				{tracks.map((t, i) => (
 					<TrackItem
@@ -107,8 +101,8 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 					<button type="button" onClick={() => setShowModal(true)} className="btn white rounded font-bold">RESET</button>
 				}
 				{
-					isOpen && (
-						email ?
+					!email && (
+						isOpen ?
 							<div className="col-span-full text-center space-y-2">
 								<LoadingButton id="vote-btn" isLoading={isLoading}
 									className="btn white text-center mx-auto w-full max-w-xs rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2"

@@ -15,13 +15,13 @@ type PollResult = Pick<IDJTrainee, '_id' | 'nickname' | 'image'> & {
 	count: number
 }
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ endDate }) => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ start, end }) => {
 	const { data, error } = useSWR<PollResult[]>('/api/dj-hunt/votes', fetcher)
 	const total = useMemo(() => data?.reduce((sum, a) => sum + a.count, 0), [data])
 
 	return (
 		<>
-			<PollsHeader name="DJ HUNT" root="/dj-hunt" endDate={new Date(endDate ?? '')} />
+			<PollsHeader name="DJ HUNT" root="/dj-hunt" start={new Date(start)} end={new Date(end)} />
 			<CustomHead
 				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | DJ Hunt Polls`}
 				description="DJ hunt vote tally"
@@ -72,10 +72,11 @@ export default Page
 
 export const getStaticProps = async () => {
 	await dbConnect()
-	const date = await Dates.findOne({ name: 'DJ Hunt' }, '-_id end').lean()
+	const date = await Dates.findOne({ name: 'DJ Hunt' }, '-_id end start').lean()
 	return {
 		props: {
-			endDate: date?.end.toString()
+			start: date?.start.toString() ?? '',
+			end: date?.end.toString() ?? ''
 		}
 	}
 }
