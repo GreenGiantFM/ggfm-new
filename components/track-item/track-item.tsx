@@ -53,8 +53,8 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 			</div>
 			<div className="px-4 py-2 flex-1 flex flex-col justify-between">
 				<div>
-					<p className="font-semibold">{name}</p>
-					<p className="text-sm italic line-clamp-1 h-7">{artists.join(', ')}</p>
+					<a href={`https://open.spotify.com/track/${_id}`} target="_blank" rel="noreferrer" className="font-semibold line-clamp-1 hover:underline">{name}</a>
+					<p className="text-sm italic line-clamp-1">{artists.join(', ')}</p>
 				</div>
 				<div className="flex space-x-1 children:(border-gray-500 border rounded px-4 w-full)">
 					<button type="button" className={`btn white !p-0` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
