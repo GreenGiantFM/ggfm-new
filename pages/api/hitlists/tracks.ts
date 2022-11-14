@@ -32,7 +32,7 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 
 			case 'POST': {
 				const { tracks, start, end } = req.body as Body
-				const time = 'T00:00:00'
+				const time = 'T00:00:00.000+08:00'
 
 				if (tracks.length == 0) throw Error('Empty tracklist')
 				if (!start) throw Error('No start date')
