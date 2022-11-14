@@ -65,5 +65,5 @@ export function serialize(object: Record<string, string>) {
 export function isValidHost(host: string | undefined) {
 	return host == process.env.NEXT_PUBLIC_VERCEL_URL ||
 		host == 'test.greengiantfm.com' ||
-		host == 'greengiantfm.com'
+		host == 'www.greengiantfm.com'
 }
