@@ -72,6 +72,14 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 						TrackVote.deleteMany()
 					])
 
+					// check if there are any null data
+					for (let i = 0; i < trackResponse.data.tracks.length; i++) {
+						if (trackResponse.data.tracks[i] == null) {
+							res.status(400)
+							return res.send(`ID #${i + 1} is invalid.`)
+						}
+					}
+
 					const trackData = trackResponse.data.tracks.map(t => ({
 						_id: t.id,
 						name: t.name,

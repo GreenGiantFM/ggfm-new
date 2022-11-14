@@ -101,8 +101,8 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 					<button type="button" onClick={() => setShowModal(true)} className="btn white rounded font-bold">RESET</button>
 				}
 				{
-					!email && (
-						isOpen ?
+					email ?
+						(isOpen &&
 							<div className="col-span-full text-center space-y-2">
 								<LoadingButton id="vote-btn" isLoading={isLoading}
 									className="btn white text-center mx-auto w-full max-w-xs rounded-full py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2"
@@ -111,12 +111,12 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 								</LoadingButton>
 								<p className={"transition-opacity min-h-6" + (message ? '' : ' opacity-0')}>{message}</p>
 							</div>
-							:
-							<div className="col-span-full mx-auto grid place-items-center gap-y-2 mt-4">
-								<div id="g-btn" />
-								<p className="text-sm italic">To vote, please log in to your Google account.</p>
-							</div>
-					)
+						)
+						:
+						<div className="col-span-full mx-auto grid place-items-center gap-y-2 mt-4">
+							<div id="g-btn" />
+							<p className="text-sm italic">To vote, please log in to your Google account.</p>
+						</div>
 				}
 			</form>
 		</>

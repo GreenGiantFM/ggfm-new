@@ -21,6 +21,7 @@ type Data = {
 export function AddTrackModal({ ...props }: AddTrackModalProps) {
 	const [isLoading, setIsLoading] = useState(false)
 	let [errors, setErrors] = useState<Partial<Data>>({})
+	const [message, setMessage] = useState('')
 	const { reload } = useRouter()
 
 	const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
@@ -30,6 +31,7 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault()
 		setIsLoading(true)
+		setMessage('')
 		const { tracks, start, end } = Object.fromEntries(new FormData(e.target as HTMLFormElement)) as Data
 
 		try {
@@ -47,7 +49,7 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 			})
 			reload()
 		} catch (e) {
-			console.error(getAxiosError(e))
+			setMessage(getAxiosError(e))
 		} finally {
 			setErrors(errors)
 			setIsLoading(false)
@@ -79,9 +81,12 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 							<textarea name="tracks" id="track-input" rows={10} onChange={onChange}></textarea>
 							<p className={styles.error}>{errors.tracks}</p>
 						</div>
-						<LoadingButton type="submit" className="btn green py-2 rounded" isLoading={isLoading}>
-							Update
-						</LoadingButton>
+						<div>
+							<LoadingButton type="submit" className="btn green py-2 rounded" isLoading={isLoading}>
+								Update
+							</LoadingButton>
+							<p className={styles.error}>{message}</p>
+						</div>
 					</form>
 				</div>
 			</div>
