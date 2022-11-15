@@ -72,7 +72,7 @@ const Page: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 	return (
 		<>
 			<PollsHeader name="DJ HUNT" root="/dj-hunt" start={new Date(startDate ?? '')} end={new Date(endDate ?? '')} />
-			<form className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 self-start container p-4 xl:px-8 2xl:px-32 mx-auto" onSubmit={handleSubmit}>
+			<form className="grid md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-4 md:gap-y-8 self-start max-w-6xl px-4 py-12 xl:px-8 2xl:px-32 mx-auto w-full" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
 					onReady={() => setIsReady(true)}
 				/>
