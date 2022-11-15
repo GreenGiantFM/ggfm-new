@@ -92,7 +92,11 @@ export default async function API(req: NextApiRequest, res: NextApiResponse) {
 						Track.insertMany(trackData),
 						Dates.updateOne({ name: 'Hitlist' }, { start: start + time, end: end + time }, { upsert: true })
 					])
-					await res.revalidate('/hitlists')
+
+					await Promise.all([
+						res.revalidate('/hitlists'),
+						res.revalidate('/hitlists/polls')
+					])
 				} catch (e) {
 					console.error(e)
 				}

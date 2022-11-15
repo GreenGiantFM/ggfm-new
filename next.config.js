@@ -19,6 +19,15 @@ const nextConfig = {
 		]
 	},
 	outputFileTracing: true,
+	async redirects() {
+		return [
+			{
+				source: '/hitlist',
+				destination: '/hitlists',
+				permanent: true,
+			}
+		]
+	}
 }
 
 module.exports = withBundleAnalyzer(nextConfig)
