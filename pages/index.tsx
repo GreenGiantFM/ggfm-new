@@ -2,7 +2,6 @@ import CustomHead from '@components/head'
 import SocialMediaBanner from '@components/social-media-banner'
 import type { NextPage, InferGetStaticPropsType } from 'next'
 import styles from '@styles/Home.module.css'
-import Image from 'next/future/image'
 import { BorderedLink } from '@components/bordered-button/'
 import dynamic from 'next/dynamic'
 import dbConnect from '@lib/db'
@@ -14,6 +13,7 @@ import { FeaturedArticle } from '@components/featured-article'
 import Dates from '@models/dates'
 import { useMemo } from 'react'
 import { useCountdown } from '@lib/useCountdown'
+import Link from 'next/link'
 
 const Shows = dynamic(() => import('@components/swipers/shows'))
 const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
@@ -123,8 +123,12 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			</section>
 			<section className="bg-secondary text-neutral-900 !px-0">
 				<div className="text-center">
-					<h1>RADIO TALENTS</h1>
-					<p className="subtitle">THE FACES AND VOIDES OF GREEN GIANT</p>
+					<Link href="/radio-talents">
+						<a className="hover:underline underline-2">
+							<h1>RADIO TALENTS</h1>
+						</a>
+					</Link>
+					<p className="subtitle">THE FACES AND VOICES OF GREEN GIANT</p>
 					<RadioTalents
 						images={talents.map(t => ({ src: t.image, alt: `Photo of DJ ${t.nickname}` }))}
 						className="container h-full !pt-8 !pb-16"
