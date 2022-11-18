@@ -11,7 +11,7 @@ end_date: 2022-11-19 00:00:00 +0800
 time: 8:00AM - 5:00PM
 featured_image: "/images/posts/its50.jpg"
 
----s
+---
 
 The Information Technology Services Office (ITS) has crossed another milestone as it commemorates its 50th anniversary this 2022 with culminating activities on November 18, 2022. 
 
