@@ -10,7 +10,7 @@ export function VideoItem({ title, src, ...props }: VideoItemProps) {
 	return (
 		<div {...props}>
 			<h2 className="text-4xl text-center text-white mb-2">{title}</h2>
-			{src &&
+			{src ?
 				<iframe
 					src={
 						src.includes('facebook') ?
@@ -22,6 +22,8 @@ export function VideoItem({ title, src, ...props }: VideoItemProps) {
 					className="w-full"
 					style={{ aspectRatio: src.includes('facebook') ? '9/16' : '16/9' }}
 				/>
+				:
+				<div className="bg-transparent w-full" style={{ aspectRatio: !title.includes('Solo') ? '9/16' : '16/9' }} />
 			}
 
 		</div>

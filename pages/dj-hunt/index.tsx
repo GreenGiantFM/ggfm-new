@@ -72,15 +72,15 @@ const Page: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 	return (
 		<>
 			<PollsHeader name="DJ HUNT" root="/dj-hunt" start={new Date(startDate ?? '')} end={new Date(endDate ?? '')} />
-			<form className="grid md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-4 md:gap-y-8 self-start max-w-6xl px-2 py-12 xl:px-8 2xl:px-32 mx-auto w-full" onSubmit={handleSubmit}>
-				<Script src="https://accounts.google.com/gsi/client" async defer
-					onReady={() => setIsReady(true)}
-				/>
-				<CustomHead
-					title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | DJ Hunt`}
-					description="Voting polls for voting the next Green Giant FM DJ!"
-					url="/dj-hunt"
-				/>
+			<Script src="https://accounts.google.com/gsi/client" async defer
+				onReady={() => setIsReady(true)}
+			/>
+			<CustomHead
+				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | DJ Hunt`}
+				description="Voting polls for voting the next Green Giant FM DJ!"
+				url="/dj-hunt"
+			/>
+			<form className="grid md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-4 md:gap-y-8 self-start max-w-6xl px-2 py-4 lg:py-12 xl:px-8 2xl:px-32 mx-auto w-full" onSubmit={handleSubmit}>
 				{trainees.map((t, i) => (
 					<DJTraineeItem
 						key={t._id}

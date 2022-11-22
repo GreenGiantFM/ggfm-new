@@ -29,7 +29,9 @@ export function DJTraineeModal({ isOpen, close, nickname, image, segue, caption,
 								DJ {nickname}
 							</Dialog.Title>
 							<p>{caption}</p>
-							<audio className="w-full mt-4" src={`https://docs.google.com/uc?export=download&id=${stinger}`} controls />
+							{stinger &&
+								<audio className="w-full mt-4" src={`https://docs.google.com/uc?export=download&id=${stinger}`} controls />
+							}
 						</div>
 					</div>
 					<div className="space-y-4 -mx-6 -mb-4 px-4 pb-4 pt-6 bg-[#3f3f3f] text-white grid sm:grid-cols-2 gap-x-4">
