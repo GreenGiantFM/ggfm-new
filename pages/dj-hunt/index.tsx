@@ -1,5 +1,5 @@
 import CustomHead from '@components/head'
-import { InferGetServerSidePropsType, NextPage } from 'next'
+import { InferGetStaticPropsType, NextPage } from 'next'
 import DJTrainee, { IDJTrainee } from '@models/dj-trainee'
 import { DJTraineeItem, DJTraineeModal } from '@components/dj-trainee'
 import { FormEventHandler, useEffect, useMemo, useState } from 'react'
@@ -14,7 +14,7 @@ import { LoadingButton } from '@components/loading-button'
 import { useRouter } from 'next/router'
 
 // TODO: Convert back to static props after testing
-const Page: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ trainees, endDate, startDate }) => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticPropsType>> = ({ trainees, endDate, startDate }) => {
 	const start = useMemo(() => new Date(startDate ?? ''), [startDate])
 	const end = useMemo(() => new Date(endDate ?? ''), [endDate])
 
@@ -121,7 +121,7 @@ const Page: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 	)
 }
 
-export const getServerSideProps = async () => {
+export const getStaticPropsType = async () => {
 	await dbConnect()
 	const trainees = await DJTrainee.find().lean()
 	const date = await Dates.findOne({ name: 'DJ Hunt' }, '-_id end start').lean()
