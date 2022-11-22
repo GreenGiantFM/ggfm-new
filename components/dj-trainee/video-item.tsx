@@ -1,13 +1,15 @@
+import { HTMLAttributes } from 'react'
+
 type VideoItemProps = {
 	title: string
 	src?: string
-}
+} & HTMLAttributes<HTMLDivElement>
 
-export function VideoItem({ title, src }: VideoItemProps) {
+export function VideoItem({ title, src, ...props }: VideoItemProps) {
 
 	return (
-		<div>
-			<h2 className="text-4xl text-white mb-2">{title}</h2>
+		<div {...props}>
+			<h2 className="text-4xl text-center text-white mb-2">{title}</h2>
 			{src &&
 				<iframe
 					src={
@@ -17,7 +19,8 @@ export function VideoItem({ title, src }: VideoItemProps) {
 							`https://www.youtube.com/embed/${src}`
 					}
 					allowFullScreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-					className="aspect-video w-full"
+					className="w-full"
+					style={{ aspectRatio: src.includes('facebook') ? '9/16' : '16/9' }}
 				/>
 			}
 
