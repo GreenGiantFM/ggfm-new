@@ -14,7 +14,7 @@ import { LoadingButton } from '@components/loading-button'
 import { useRouter } from 'next/router'
 
 // TODO: Convert back to static props after testing
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticPropsType>> = ({ trainees, endDate, startDate }) => {
+const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ trainees, endDate, startDate }) => {
 	const start = useMemo(() => new Date(startDate ?? ''), [startDate])
 	const end = useMemo(() => new Date(endDate ?? ''), [endDate])
 
@@ -121,10 +121,12 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticPropsType>> = ({ tr
 	)
 }
 
-export const getStaticPropsType = async () => {
+export const getStaticProps = async () => {
 	await dbConnect()
-	const trainees = await DJTrainee.find().lean()
-	const date = await Dates.findOne({ name: 'DJ Hunt' }, '-_id end start').lean()
+	const [trainees, date] = await Promise.all([
+		DJTrainee.find().lean(),
+		Dates.findOne({ name: 'DJ Hunt' }, '-_id end start').lean()
+	])
 
 	return {
 		props: {
