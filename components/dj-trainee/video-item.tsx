@@ -3,9 +3,10 @@ import { HTMLAttributes } from 'react'
 type VideoItemProps = {
 	title: string
 	src?: string
+	aspectRatio?: string
 } & HTMLAttributes<HTMLDivElement>
 
-export function VideoItem({ title, src, ...props }: VideoItemProps) {
+export function VideoItem({ title, src, aspectRatio, ...props }: VideoItemProps) {
 
 	return (
 		<div {...props}>
@@ -20,12 +21,11 @@ export function VideoItem({ title, src, ...props }: VideoItemProps) {
 					}
 					allowFullScreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
 					className="w-full"
-					style={{ aspectRatio: src.includes('facebook') ? '9/16' : '16/9' }}
+					style={{ aspectRatio: aspectRatio ?? '16/9' }}
 				/>
 				:
-				<div className="bg-transparent w-full" style={{ aspectRatio: !title.includes('Solo') ? '9/16' : '16/9' }} />
+				<div className="bg-transparent w-full" style={{ aspectRatio: aspectRatio ?? '16/9' }} />
 			}
-
 		</div>
 	)
 }

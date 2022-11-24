@@ -15,14 +15,16 @@ export function DJTraineeModal({ isOpen, close, nickname, image, segue, caption,
 				<div className={styles.body}>
 					<div className="grid sm:grid-cols-[12rem_1fr] gap-4 pb-6">
 						<figure className="h-48 aspect-square relative">
-							<Image
-								src={`https://lh3.googleusercontent.com/d/${image}`}
-								alt={`Image of DJ ${nickname}`}
-								className="w-full h-full object-cover"
-								fill
-								sizes="(max-width 768px) 100px, 200px"
-								style={{ objectPosition: '0 -40px' }}
-							/>
+							{image &&
+								<Image
+									src={`https://lh3.googleusercontent.com/d/${image}`}
+									alt={`Image of DJ ${nickname}`}
+									className="w-full h-full object-cover"
+									fill
+									sizes="(max-width 768px) 100px, 200px"
+									style={{ objectPosition: '0 -40px' }}
+								/>
+							}
 						</figure>
 						<div>
 							<Dialog.Title as="h1" className={styles.title}>
@@ -35,9 +37,9 @@ export function DJTraineeModal({ isOpen, close, nickname, image, segue, caption,
 						</div>
 					</div>
 					<div className="space-y-4 -mx-6 -mb-4 px-4 pb-4 pt-6 bg-[#3f3f3f] text-white grid sm:grid-cols-2 gap-x-4">
-						<VideoItem title="Solo Videoshoot" src={soloVideoShoot} className="sm:col-span-2" />
-						<VideoItem title="Segue" src={segue} />
-						<VideoItem title="Voiceover Challenge" src={voiceover} />
+						<VideoItem title="Solo Videoshoot" src={soloVideoShoot} className="sm:col-span-2" aspectRatio="4/3" />
+						<VideoItem title="Segue" src={segue} aspectRatio="9/16" />
+						<VideoItem title="Voiceover Challenge" src={voiceover} aspectRatio="9/16" />
 					</div>
 				</div>
 			</div>
