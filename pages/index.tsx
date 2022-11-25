@@ -14,13 +14,14 @@ import Dates from '@models/dates'
 import { useMemo } from 'react'
 import { useCountdown } from '@lib/useCountdown'
 import Link from 'next/link'
+import Misc from '@models/misc'
 
 const Shows = dynamic(() => import('@components/swipers/shows'))
 const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
 const AOW = dynamic(() => import('@components/swipers/aow'))
 const RadioTalents = dynamic(() => import('@components/swipers/radio-talents'))
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog, startDate, endDate }) => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog, startDate, endDate, playlist }) => {
 	const start = useMemo(() => new Date(startDate), [startDate])
 	const end = useMemo(() => new Date(endDate), [endDate])
 
@@ -80,7 +81,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 							<iframe
 								title="GGFM's spotify playlist"
 								className="rounded-lg max-w-lg !aspect-square w-full h-full absolute transform left-1/2 -translate-x-1/2"
-								src="https://open.spotify.com/embed/playlist/4faFfX3ONpaFhDb5Kxb95V?utm_source=generator&theme=1"
+								src={`${playlist}?utm_source=generator&theme=1`}
 								allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
 							/>
 						</div>
@@ -145,11 +146,12 @@ export default Home
 export const getStaticProps = async () => {
 	await dbConnect()
 
-	const [talents, event, blog, dates] = await Promise.all([
+	const [talents, event, blog, dates, playlist] = await Promise.all([
 		RadioTalent.find({}).lean(),
 		getFirstFileData<EventData>(['posts', 'events']),
 		getFirstFileData<BlogData>(['posts', 'blogs']),
-		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean()
+		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean(),
+		Misc.findOne({ name: 'playlist' }, '-_id data').lean(),
 	])
 
 	return {
@@ -159,6 +161,7 @@ export const getStaticProps = async () => {
 			blog,
 			startDate: dates?.start.toString() ?? '',
 			endDate: dates?.end.toString() ?? '',
+			playlist: playlist?.data ?? '',
 		}
 	}
 }
