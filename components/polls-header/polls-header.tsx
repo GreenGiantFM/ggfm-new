@@ -31,13 +31,16 @@ export function PollsHeader({ name, start, end, root }: PollsHeaderProps) {
 				</>
 			}
 
-			<div className="children:px-8 font-primary text-4xl py-4">
+			<div className="children:px-8 font-primary text-4xl py-4 divide-x-2">
 				<Link href={root}>
-					<a className="white border-r-2 border-white">VOTE</a>
+					<a>VOTE</a>
 				</Link>
-				<Link href={root + '/polls'}>
-					<a className="white">LIVE POLLS</a>
-				</Link>
+				{
+					root !== '/dj-hunt' &&
+					<Link href={root + '/polls'}>
+						<a>LIVE POLLS</a>
+					</Link>
+				}
 			</div>
 		</div>
 	)

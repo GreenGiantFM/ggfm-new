@@ -25,6 +25,11 @@ const nextConfig = {
 				source: '/hitlist',
 				destination: '/hitlists',
 				permanent: true,
+			},
+			{
+				source: '/dj-hunt/polls',
+				destination: '/dj-hunt',
+				permanent: false,
 			}
 		]
 	}
