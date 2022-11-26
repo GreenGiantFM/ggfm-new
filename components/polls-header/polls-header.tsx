@@ -18,7 +18,18 @@ export function PollsHeader({ name, start, end, root }: PollsHeaderProps) {
 	return (
 		<div className="bg-neutral-900 flex flex-col space-y-2 items-center py-4 h-[fit-content]">
 			<h1 className="text-8xl">{name}</h1>
-			<Countdown start={start} end={end} />
+			{new Date().getTime() < start.getTime() ?
+				<>
+					<p>Polls are opening in...</p>
+					<Countdown target={start} />
+				</>
+				:
+				<>
+					<p>Polls are closing in...</p>
+					<Countdown target={end} />
+				</>
+			}
+
 			<div className="children:px-8 font-primary text-4xl py-4">
 				<Link href={root}>
 					<a className="white border-r-2 border-white">VOTE</a>
