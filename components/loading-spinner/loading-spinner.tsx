@@ -5,7 +5,7 @@ export function LoadingSpinner({ className, ...props }: HTMLAttributes<HTMLDivEl
 
 	return (
 		<div className={cn}>
-			<div className="animate-spin inline-block w-20 h-20 border-8 rounded-full"
+			<div className="animate-spin inline-block w-20 h-20 border-8 rounded-full spin"
 				{...props}
 				role="status"
 				style={{

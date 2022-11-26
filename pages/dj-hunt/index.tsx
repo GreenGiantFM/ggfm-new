@@ -11,7 +11,6 @@ import Dates from '@models/dates'
 import { useCountdown } from '@lib/useCountdown'
 import { PollsHeader } from '@components/polls-header'
 import { LoadingButton } from '@components/loading-button'
-import { useRouter } from 'next/router'
 
 // TODO: Convert back to static props after testing
 const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ trainees, endDate, startDate }) => {
@@ -26,7 +25,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 	const endCountdown = useCountdown(end)
 	const isOpen = useMemo(() => endCountdown > 0 && startCountdown <= 0, [endCountdown, startCountdown])
 	const [isReady, setIsReady] = useState(false)
-	const { push } = useRouter()
+	const [isDisabled, setIsDisabled] = useState(false)
 
 	function handleToken({ credential }: { credential: string }) {
 		const data = JSON.parse(window.atob(credential.split('.')[1].replace('-', '+').replace('_', '/')))
@@ -58,8 +57,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 			if (!email) return setMessage('You are not logged in!')
 			await app.post('/api/dj-hunt/votes', { email, selection })
 
-			setMessage('Your vote has been recorded! Forwarding to polls...')
-			timeout = setTimeout(() => push('/dj-hunt/polls'), 1000)
+			setMessage('Thank you. Your vote has been recorded!')
 		} catch (e) {
 			setMessage(getAxiosError(e))
 		} finally {
@@ -104,6 +102,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ traine
 							<div className="col-span-full text-center space-y-2">
 								<LoadingButton isLoading={isLoading}
 									className="btn white text-center rounded-full mx-auto w-full max-w-xs py-2 text-xl tracking-wider font-bold mt-4 focus:ring-2" id="vote-btn"
+									disabled={isDisabled}
 								>
 									VOTE
 								</LoadingButton>

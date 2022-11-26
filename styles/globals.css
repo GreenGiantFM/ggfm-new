@@ -163,3 +163,7 @@ input[type="checkbox"].hide {
   white-space: nowrap;
   width: 1px;
 }
+
+.spin {
+	@apply animate-spin;
+}

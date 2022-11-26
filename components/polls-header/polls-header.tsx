@@ -17,7 +17,7 @@ const Countdown = dynamic<CountdownProps>(() => import('@components/countdown').
 export function PollsHeader({ name, start, end, root }: PollsHeaderProps) {
 	const curr = new Date().getTime()
 	return (
-		<div className="bg-neutral-900 flex flex-col space-y-2 items-center py-4 h-[fit-content]">
+		<div className="bg-neutral-900 flex flex-col space-y-2 items-center py-6 h-[fit-content]">
 			<h1 className="text-8xl">{name}</h1>
 			{curr < start.getTime() ?
 				<>
@@ -31,17 +31,18 @@ export function PollsHeader({ name, start, end, root }: PollsHeaderProps) {
 				</>
 			}
 
-			<div className="children:px-8 font-primary text-4xl py-4 divide-x-2">
-				<Link href={root}>
-					<a>VOTE</a>
-				</Link>
-				{
-					root !== '/dj-hunt' &&
+			{
+				root !== '/dj-hunt' &&
+				<div className="children:px-8 font-primary text-4xl py-4 divide-x-2">
+					<Link href={root}>
+						<a>VOTE</a>
+					</Link>
+
 					<Link href={root + '/polls'}>
 						<a>LIVE POLLS</a>
 					</Link>
-				}
-			</div>
+				</div>
+			}
 		</div>
 	)
 }
