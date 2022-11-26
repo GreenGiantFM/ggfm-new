@@ -84,7 +84,7 @@ progress::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-	@apply bg-primary rounded-full shadow-progress;
+	@apply bg-primary rounded-full shadow-progress transition-all;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -100,7 +100,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dj-hunt .swiper-slide-active {
-	@apply transform scale-120;
+	@apply transform transition-all scale-125;
+}
+
+.dj-hunt .swiper-slide-active img {
+	@apply shadow-lg shadow-neutral-600;
 }
 
 .radio-talents .swiper-slide-active {
