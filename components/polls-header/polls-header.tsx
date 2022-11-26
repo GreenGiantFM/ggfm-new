@@ -15,17 +15,18 @@ const Countdown = dynamic<CountdownProps>(() => import('@components/countdown').
 })
 
 export function PollsHeader({ name, start, end, root }: PollsHeaderProps) {
+	const curr = new Date().getTime()
 	return (
 		<div className="bg-neutral-900 flex flex-col space-y-2 items-center py-4 h-[fit-content]">
 			<h1 className="text-8xl">{name}</h1>
-			{new Date().getTime() < start.getTime() ?
+			{curr < start.getTime() ?
 				<>
 					<p>Polls are opening in...</p>
 					<Countdown target={start} />
 				</>
 				:
 				<>
-					<p>Polls are closing in...</p>
+					{curr < end.getTime() && <p>Polls are closing in...</p>}
 					<Countdown target={end} />
 				</>
 			}
