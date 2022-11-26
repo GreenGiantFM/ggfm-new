@@ -15,18 +15,21 @@ import { useMemo } from 'react'
 import { useCountdown } from '@lib/useCountdown'
 import Link from 'next/link'
 import Misc from '@models/misc'
+import DJTrainee from '@models/dj-trainee'
 
 const Shows = dynamic(() => import('@components/swipers/shows'))
 const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
 const AOW = dynamic(() => import('@components/swipers/aow'))
 const RadioTalents = dynamic(() => import('@components/swipers/radio-talents'))
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog, startDate, endDate, playlist }) => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog, startDate, endDate, playlist, trainees }) => {
 	const start = useMemo(() => new Date(startDate), [startDate])
 	const end = useMemo(() => new Date(endDate), [endDate])
 
 	const startCountdown = useCountdown(start)
 	const endCountdown = useCountdown(end)
+
+	const diff = useMemo(() => endCountdown - startCountdown, [startCountdown, endCountdown])
 
 	return (
 		<div className={styles.home}>
@@ -39,15 +42,11 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 				startCountdown <= 0 && endCountdown > 0 &&
 				<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
 					<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT 2022</h1>
-					<progress className="w-full block rounded-full" value={0.8} />
-					<DJHunt className="my-4 !py-4 select-none" images={[
-						{ alt: 'Xavier', src: '/images/xavier.jpg' },
-						{ alt: 'Xavier 1', src: '/images/xavier.jpg' },
-						{ alt: 'Xavier 2', src: '/images/xavier.jpg' },
-						{ alt: 'Xavier 3', src: '/images/xavier.jpg' },
-						{ alt: 'Xavier 4', src: '/images/xavier.jpg' },
-						{ alt: 'Xavier 5', src: '/images/xavier.jpg' },
-					]} />
+					<progress className="w-full block rounded-full" value={1 - (endCountdown / diff)} />
+					<DJHunt className="my-6 !py-4 select-none" images={trainees.map(t => ({
+						src: `https://lh3.googleusercontent.com/d/${t.image}`,
+						alt: t.nickname,
+					}))} />
 					<BorderedLink href="/dj-hunt" className="max-w-64 hover:(bg-white text-gray-900 font-bold)">Vote Now</BorderedLink>
 				</section>
 			}
@@ -146,12 +145,13 @@ export default Home
 export const getStaticProps = async () => {
 	await dbConnect()
 
-	const [talents, event, blog, dates, playlist] = await Promise.all([
+	const [talents, event, blog, dates, playlist, trainees] = await Promise.all([
 		RadioTalent.find({}).lean(),
 		getFirstFileData<EventData>(['posts', 'events']),
 		getFirstFileData<BlogData>(['posts', 'blogs']),
 		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean(),
 		Misc.findOne({ name: 'playlist' }, '-_id data').lean(),
+		DJTrainee.find({}, '-_id').lean()
 	])
 
 	return {
@@ -162,6 +162,7 @@ export const getStaticProps = async () => {
 			startDate: dates?.start.toString() ?? '',
 			endDate: dates?.end.toString() ?? '',
 			playlist: playlist?.data ?? '',
+			trainees,
 		}
 	}
 }
