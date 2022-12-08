@@ -20,7 +20,10 @@ export const POOLS: readonly Pool[] = [
 	{
 		name: 'Digital Communications',
 		director: 'Matthew Llenos',
-		description: '-insert dgc description here-',
+		description: 'The Digital Communications Pool is responsible for generating\
+		creative content that is aimed to increase GGFM’s social media engagement.\
+		We ensure that the organization is able to connect with its target audience\
+		across all social media platforms.',
 		image: '/images/pools/dgc.png',
 		alt: 'Image of speaker phone',
 	},
