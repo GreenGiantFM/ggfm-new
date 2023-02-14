@@ -57,6 +57,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			<section>
 				<div className={styles.updates}>
 					<FeaturedArticle
+						id={blog.id}
 						category="BLOGS & PODCASTS"
 						title={blog.title}
 						image={blog.featured_image}
@@ -64,6 +65,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 						url="/blogs"
 					/>
 					<FeaturedArticle
+						id={event.id}
 						category="EVENTS"
 						title={event.title}
 						image={event.featured_image}
