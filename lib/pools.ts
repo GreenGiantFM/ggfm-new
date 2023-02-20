@@ -21,7 +21,7 @@ export const POOLS: readonly Pool[] = [
 		name: 'Digital Communications',
 		director: 'Matthew Llenos',
 		description: 'The Digital Communications Pool is responsible for generating\
-		creative content that is aimed to increase GGFM’s social media engagement.\
+		creative content that is aimed to increase GGFM\'s social media engagement.\
 		We ensure that the organization is able to connect with its target audience\
 		across all social media platforms.',
 		image: '/images/pools/dgc.png',
@@ -31,7 +31,7 @@ export const POOLS: readonly Pool[] = [
 		name: 'Documentations and Logistics',
 		director: 'Camille Oliva',
 		description: 'We serve as the backbone of DLSU Radio: Green Giant FM. With the Documentations subpool,\
-		we make sure that the necessary requirements for the Station&apos;s events are processed on time.\
+		we make sure that the necessary requirements for the Station\'s events are processed on time.\
 		Meanwhile, the Logistics subpool acts as the office managers, ensuring the efficiency of the Station.',
 		image: '/images/pools/d-and-l.png',
 		alt: 'Image of pen and paper',
@@ -60,7 +60,7 @@ export const POOLS: readonly Pool[] = [
 		director: 'Samantha Sio',
 		description: 'The Radio Talent Pool consists of the voices and faces of DLSU Radio: Green Giant FM.\
 		The DJs control the music you listen to and talk about an endlessly colorful variety of\
-		topics that you didn&apos;t think you needed to hear. But, the Radio Talent pool doesn\'t\
+		topics that you didn\'t think you needed to hear. But, the Radio Talent pool doesn\'t\
 		only work their magic on-air, but we also bring out our personality and wit in different hosting events\
 		inside and outside of De La Salle University.',
 		image: '/images/pools/rt.png',
