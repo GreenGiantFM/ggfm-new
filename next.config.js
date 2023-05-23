@@ -32,7 +32,8 @@ const nextConfig = {
 				permanent: false,
 			}
 		]
-	}
+	},
+	output: 'standalone',
 }
 
 module.exports = withBundleAnalyzer(nextConfig)
