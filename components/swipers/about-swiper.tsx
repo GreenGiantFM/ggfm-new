@@ -51,8 +51,7 @@ export default function AboutSwiper({ images }: AboutSwiperProps) {
 				style={{ background: 'linear-gradient(rgba(25,25,25,0.0),rgba(25,25,25,0.8) 30%,rgba(25,25,25,0.8))' }}>
 				<p className="mx-auto max-w-prose text-xs sm:text-sm md:text-base">
 					Green Giant FM (GGFM) is De La Salle University-Manila&apos;s Official Radio Station,
-					located at Br. Bloemen Hall. Green Giant FM broadcasts live on Tuesdays and Thursdays from 7:30 AM to 9:15 PM,
-					and on Wednesdays and Fridays from 7:30 AM to 4:00 PM.
+					located at Br. Bloemen Hall. Green Giant FM broadcasts live on weekdays except Wednesdays from 9:15 AM - 7:30 PM.
 				</p>
 			</div>
 		</Swiper>
