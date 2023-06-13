@@ -23,15 +23,10 @@ jobs:
           passphrase: ${{ secrets.DEPLOY_PASSPHRASE }}
           script_stop: true
           script: |
-            # Stop the current running container
-            docker stop ${{ secrets.DOCKERHUB_IMAGENAME }}
-            docker rm ${{ secrets.DOCKERHUB_IMAGENAME }}
+            cd nginx
+            docker compose pull
 
-            # Pull latest build
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}:latest
-
-            # Run Container
-            docker run -d -p 3000:3000 --name ${{ secrets.DOCKERHUB_IMAGENAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}:latest
+            docker compose up -d
 
             # Clean old images
             docker container prune -f
