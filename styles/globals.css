@@ -167,3 +167,24 @@ input[type="checkbox"].hide {
 .spin {
 	@apply animate-spin;
 }
+
+.stream-bar button {
+	@apply block text-gray-600 hover:text-gray-700 active:text-gray-800 transition-colors;
+}
+
+.volume {
+	@apply relative block flex items-center select-none h-5 cursor-pointer;
+}
+
+.volume-track {
+	@apply bg-black bg-opacity-60 relative flex-grow h-1;
+}
+
+.volume-range {
+	@apply absolute bg-[#76c93b] h-full;
+}
+
+.volume-thumb {
+	@apply block w-5 aspect-square bg-primary shadow-md rounded-full hover:bg-primary-dark transition-colors
+	focus:outline-none focus:shadow-volume cursor-pointer;
+}

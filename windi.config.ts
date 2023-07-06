@@ -23,6 +23,7 @@ export default defineConfig({
 			},
 			boxShadow: {
 				progress: 'inset 0 -4px 8px 0 rgba(0, 0, 0, 0.6)',
+				volume: 'rgba(0, 0, 0, 0.15) 0px 0px 0px 4px',
 			}
 		}
 	},

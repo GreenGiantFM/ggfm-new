@@ -2,6 +2,7 @@ import Header, { navItems } from '../header'
 import Link from 'next/link'
 import Image from 'next/future/image'
 import SMO from '@public/images/dlsu-smo-white.png'
+import { StreamBar } from '@components/stream-bar'
 
 type LayoutProps = {
 	children: React.ReactNode
@@ -46,6 +47,7 @@ const Layout = ({ children }: LayoutProps) => {
 					</div>
 				</div>
 			</footer>
+			<StreamBar />
 		</>
 	)
 }
