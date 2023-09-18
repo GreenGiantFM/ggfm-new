@@ -7,7 +7,7 @@ import Dates from '@models/dates'
 import { PollsHeader } from '@components/polls-header'
 import CustomHead from '@components/head'
 import styles from '@styles/Hunt.module.css'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { ITrack } from '@models/track'
 import { LoadingSpinner } from '@components/loading-spinner'
 

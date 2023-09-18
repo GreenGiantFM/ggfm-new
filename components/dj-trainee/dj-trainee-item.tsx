@@ -1,5 +1,5 @@
 import { IDJTrainee } from '@models/dj-trainee'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { HTMLAttributes, useState } from 'react'
 
 type DJTraineeItemProps = {

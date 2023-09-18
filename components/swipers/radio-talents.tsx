@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { A11y, Autoplay, Navigation } from 'swiper'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { LeftButton, RightButton } from './nav-buttons'
 import { useRef } from 'react'
 import 'swiper/css'

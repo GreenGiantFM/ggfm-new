@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { A11y, Autoplay } from 'swiper'
-import Image from 'next/future/image'
+import Image from 'next/image'
 
 type DJHuntProps = {
 	images: {

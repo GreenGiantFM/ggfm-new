@@ -1,6 +1,6 @@
 import CustomHead from '@components/head'
 import { NextPage } from 'next'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { POOLS } from '@lib/pools'
 import AboutSwiper from '@components/swipers/about-swiper'
 

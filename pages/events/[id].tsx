@@ -1,7 +1,7 @@
 import { NextPage, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { getFileData, getFileIds } from '@lib/posts'
 import { EventData } from '@pages/api/events'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import CustomHead from '@components/head'
 import styles from '@styles/Post.module.css'
 import { formatDate } from '@lib/utils'

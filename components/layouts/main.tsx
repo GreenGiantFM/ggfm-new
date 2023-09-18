@@ -1,6 +1,6 @@
 import Header, { navItems } from '../header'
 import Link from 'next/link'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import SMO from '@public/images/dlsu-smo-white.png'
 import { StreamBar } from '@components/stream-bar'
 
@@ -18,10 +18,8 @@ const Layout = ({ children }: LayoutProps) => {
 			<footer className="bg-neutral-700 py-8 px-4 text-white font-secondary">
 				<div className="flex justify-between container mx-auto">
 					<div className="grid grid-cols-4 justify-items-center items-start gap-y-4">
-						<Link href="/">
-							<a className="col-span-full md:col-span-1">
-								<Image src="/images/logo.png" alt="GGFM Logo" width={192} height={72} />
-							</a>
+						<Link className="col-span-full md:col-span-1" href="/">
+							<Image src="/images/logo.png" alt="GGFM Logo" width={192} height={72} />
 						</Link>
 						<div className="col-span-2 md:col-span-1">
 							<p className="underline uppercase text-2xl font-primary">Address</p>
@@ -31,8 +29,8 @@ const Layout = ({ children }: LayoutProps) => {
 							<p className="underline uppercase text-2xl font-primary">Explore</p>
 							<div className="flex flex-col">
 								{navItems.flatMap(nav => (
-									<Link key={nav.path} href={nav.path}>
-										<a className="text-white hover:text-white transition-colors hover:underline">{nav.text}</a>
+									<Link key={nav.path} href={nav.path} className="text-white hover:text-white transition-colors hover:underline">
+										{nav.text}
 									</Link>
 								))}
 							</div>

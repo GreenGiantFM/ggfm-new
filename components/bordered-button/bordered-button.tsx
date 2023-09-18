@@ -26,11 +26,9 @@ type BorderedLinkProps = {
 
 export function BorderedLink({ children, href, className, ...props }: BorderedLinkProps) {
 	return (
-		<Link href={href}>
-			<a className={classname + (className ? ` ${className}` : '')} {...props}>
-				{children}
-				{arrow}
-			</a>
+		<Link className={classname + (className ? ` ${className}` : '')} {...props} href={href}>
+			{children}
+			{arrow}
 		</Link>
 	)
 }

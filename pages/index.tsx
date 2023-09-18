@@ -125,10 +125,8 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			</section>
 			<section className="bg-secondary text-neutral-900 !px-0">
 				<div className="text-center">
-					<Link href="/radio-talents">
-						<a className="hover:underline underline-2">
-							<h1>RADIO TALENTS</h1>
-						</a>
+					<Link href="/radio-talents" className="hover:underline underline-2">
+						<h1>RADIO TALENTS</h1>
 					</Link>
 					<p className="subtitle">THE FACES AND VOICES OF GREEN GIANT</p>
 					<RadioTalents

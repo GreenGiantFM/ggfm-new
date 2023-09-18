@@ -3,7 +3,7 @@ import { Modal } from '@components/modal'
 import { IModalProps } from '@components/modal/modal'
 import styles from '@styles/Modal.module.css'
 import { Dialog } from '@headlessui/react'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { VideoItem } from './video-item'
 
 type DJTraineeModalProps = Partial<IDJTrainee> & IModalProps

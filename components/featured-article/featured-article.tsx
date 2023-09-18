@@ -1,5 +1,5 @@
 import { BorderedLink } from '@components/bordered-button'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import Link from 'next/link'
 
 type FeaturedArticleProps = {
@@ -15,10 +15,8 @@ export function FeaturedArticle({ id, category, title, excerpt, image, url }: Fe
 	return (
 		<article>
 			<h2>{category}</h2>
-			<Link href={`${url}/${id}`}>
-				<a className="block relative aspect-video shadow-xl">
-					<Image src={image} alt={title} className="w-full h-auto object-top object-cover" fill priority={true} />
-				</a>
+			<Link className="block relative aspect-video shadow-xl" href={`${url}/${id}`}>
+				<Image src={image} alt={title} className="w-full h-auto object-top object-cover" fill priority={true} />
 			</Link>
 			<h3>{title}</h3>
 			<p>{excerpt}</p>

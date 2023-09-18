@@ -1,6 +1,6 @@
 import { ITrack } from '@models/track'
 import { HTMLAttributes, useEffect, useRef, useState } from 'react'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { usePlayerStore } from '@stores/player-store'
 
 type TrackItemProps = {

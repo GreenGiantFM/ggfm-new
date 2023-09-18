@@ -24,13 +24,12 @@ export default function NavItem({ text, path, subItems }: NavItemProps) {
 		<Popover onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative">
 			{() => (
 				<>
-					<Link href={path} passHref>
-						<Popover.Button
-							as="a"
+					<Link href={path} passHref legacyBehavior>
+						<Popover.Button as="a"
 							className={'hover:text-primary block transition-colors cursor-pointer relative h-full flex items-center' + (hasSubitems ? ' mr-4' : '')}
 							aria-current={path == pathname ? 'page' : undefined}
 						>
-							<span>{text}</span>
+							{text}
 							{hasSubitems && <ChevronDownIcon className="aspect-square w-4 absolute -right-5 top-6" />}
 						</Popover.Button>
 					</Link>
@@ -47,13 +46,12 @@ export default function NavItem({ text, path, subItems }: NavItemProps) {
 						>
 							<Popover.Panel className="grid absolute bg-white px-4 pb-2 rounded-b-md -left-4" static>
 								{subItems!.map(item => (
-									<Link key={item.text} href={item.path}>
-										<a
-											className="hover:text-primary transition-colors h-full"
-											aria-current={path == pathname ? 'page' : undefined}
-										>
-											{item.text}
-										</a>
+									<Link key={item.text}
+										href={item.path}
+										className="hover:text-primary transition-colors h-full"
+										aria-current={path == pathname ? 'page' : undefined}
+									>
+										{item.text}
 									</Link>
 								))}
 							</Popover.Panel>

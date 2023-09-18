@@ -8,7 +8,7 @@ import Dates from '@models/dates'
 import { PollsHeader } from '@components/polls-header'
 import CustomHead from '@components/head'
 import styles from '@styles/Hunt.module.css'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import { LoadingSpinner } from '@components/loading-spinner'
 
 type PollResult = Pick<IDJTrainee, '_id' | 'nickname' | 'image'> & {
