@@ -10,4 +10,4 @@ const schema = new Schema<IMisc>({
 	data: { type: String, required: true, trim: true },
 }, { versionKey: false })
 
-export default models?.Misc as Model<IMisc & Document> || model<IMisc>('Misc', schema, 'misc')
+export default models?.Misc as Model<IMisc> || model<IMisc>('Misc', schema, 'misc')

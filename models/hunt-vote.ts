@@ -10,4 +10,4 @@ const schema = new Schema<IHuntVote>({
 	candidate: { type: Schema.Types.ObjectId, ref: 'DJTrainee' },
 }, { versionKey: false })
 
-export default models?.HuntVote as Model<IHuntVote & Document> || model<IHuntVote>('HuntVote', schema, 'huntvotes')
+export default models?.HuntVote as Model<IHuntVote> || model<IHuntVote>('HuntVote', schema, 'huntvotes')

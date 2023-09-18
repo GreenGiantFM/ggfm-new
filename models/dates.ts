@@ -12,4 +12,4 @@ const schema = new Schema<IDate>({
 	end: { type: Date, required: true }
 }, { versionKey: false })
 
-export default models?.Dates as Model<IDate & Document> || model<IDate>('Dates', schema, 'dates')
+export default models?.Dates as Model<IDate> || model<IDate>('Dates', schema, 'dates')

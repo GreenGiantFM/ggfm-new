@@ -16,4 +16,4 @@ const schema = new Schema<IRadioTalent>({
 	isTrainee: { type: Boolean, required: true, default: true },
 }, { versionKey: false })
 
-export default models?.RadioTalent as Model<IRadioTalent & Document> || model<IRadioTalent>('RadioTalent', schema, 'radiotalents')
+export default models?.RadioTalent as Model<IRadioTalent> || model<IRadioTalent>('RadioTalent', schema, 'radiotalents')

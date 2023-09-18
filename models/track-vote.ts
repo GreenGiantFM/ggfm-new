@@ -10,4 +10,4 @@ const schema = new Schema<ITrackVote>({
 	track: { type: String, ref: 'Track' },
 }, { versionKey: false })
 
-export default models?.TrackVote as Model<ITrackVote & Document> || model<ITrackVote>('TrackVote', schema, 'trackvotes')
+export default models?.TrackVote as Model<ITrackVote> || model<ITrackVote>('TrackVote', schema, 'trackvotes')

@@ -1,4 +1,4 @@
-import { Model, models, model, Schema, Types, ObjectId } from 'mongoose'
+import { Model, models, model, Schema, ObjectId } from 'mongoose'
 
 export interface IDJTrainee {
 	_id: ObjectId | string
@@ -23,4 +23,4 @@ const schema = new Schema<IDJTrainee>({
 	segue: { type: String, require: true, trim: true },
 }, { versionKey: false })
 
-export default models?.DJTrainee as Model<IDJTrainee & Document> || model<IDJTrainee>('DJTrainee', schema, 'djtrainees')
+export default models?.DJTrainee as Model<IDJTrainee> || model<IDJTrainee>('DJTrainee', schema, 'djtrainees')

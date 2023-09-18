@@ -16,4 +16,4 @@ const schema = new Schema<ITrack>({
 	image: { type: String, required: true, trim: true },
 }, { versionKey: false })
 
-export default models?.Track as Model<ITrack & Document> || model<ITrack>('Track', schema, 'tracks')
+export default models?.Track as Model<ITrack> || model<ITrack>('Track', schema, 'tracks')
