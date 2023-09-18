@@ -11,7 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^2.0.10",
-    "@next/bundle-analyzer": "^12.3.1",
+    "@next/bundle-analyzer": "^13.4.19",
     "@radix-ui/react-slider": "^1.1.2",
     "axios": "^1.1.3",
     "gray-matter": "^4.0.3",
@@ -22,19 +22,19 @@
     "remark": "^14.0.2",
     "remark-html": "^15.0.1",
     "remark-plain-text": "^0.2.0",
-    "sharp": "^0.31.0",
+    "sharp": "^0.32.5",
     "swiper": "^8.4.2",
     "swr": "^1.3.0",
     "zustand": "^4.1.4"
   },
   "devDependencies": {
-    "@types/node": "18.6.2",
-    "@types/react": "18.0.15",
-    "@types/react-dom": "18.0.6",
-    "@types/spotify-api": "^0.0.19",
-    "eslint": "8.20.0",
+    "@types/node": "20.6.2",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "@types/spotify-api": "^0.0.22",
+    "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
-    "typescript": "4.7.4",
+    "typescript": "5.2.2",
     "windicss": "^3.5.6",
     "windicss-webpack-plugin": "^1.7.7"
   }

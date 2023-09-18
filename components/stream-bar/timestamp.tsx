@@ -11,7 +11,7 @@ type TimeStampProps = {
 
 export function TimeStamp({ isPlaying, hasLoaded, ...props }: TimeStampProps) {
 	const [timestamp, setTimestamp] = useState(0)
-	const interval = useRef<NodeJS.Timer>()
+	const interval = useRef<NodeJS.Timeout>()
 
 	useEffect(() => {
 		if (isPlaying) {
