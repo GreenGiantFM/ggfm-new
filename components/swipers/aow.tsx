@@ -1,6 +1,6 @@
 import { useRef } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Navigation, A11y, Pagination } from 'swiper'
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
+import { Navigation, A11y, Pagination } from 'swiper/modules'
 import { LeftButton, RightButton } from './nav-buttons'
 import Image from 'next/image'
 
@@ -18,7 +18,7 @@ export default function AOW({ images }: AOWProps) {
 	const navPrevRef = useRef<HTMLButtonElement>(null)
 	const navNextRef = useRef<HTMLButtonElement>(null)
 
-	const onBeforeInit = (Swiper: SwiperCore): void => {
+	const onBeforeInit = (Swiper: SwiperClass): void => {
 		const navigation = Swiper.params.navigation;
 
 		if (navigation && typeof navigation !== 'boolean') {
@@ -33,7 +33,6 @@ export default function AOW({ images }: AOWProps) {
 			slidesPerView={1}
 			grabCursor
 			onBeforeInit={onBeforeInit}
-			lazy
 			pagination={{
 				clickable: true
 			}}

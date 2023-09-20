@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { A11y, Autoplay } from 'swiper'
+import { A11y, Autoplay } from 'swiper/modules'
 import Image from 'next/image'
 
 type DJHuntProps = {
@@ -15,7 +15,6 @@ export default function DJHunt({ images, className }: DJHuntProps) {
 		<Swiper
 			modules={[A11y, Autoplay]}
 			grabCursor
-			lazy
 			slidesPerView='auto'
 			watchSlidesProgress
 			loop

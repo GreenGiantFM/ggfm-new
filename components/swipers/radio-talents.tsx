@@ -1,5 +1,5 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { A11y, Autoplay, Navigation } from 'swiper'
+import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react'
+import { A11y, Autoplay, Navigation } from 'swiper/modules'
 import Image from 'next/image'
 import { LeftButton, RightButton } from './nav-buttons'
 import { useRef } from 'react'
@@ -18,7 +18,7 @@ export default function RadioTalents({ images, className, setIndex }: RadioTalen
 	const navPrevRef = useRef<HTMLButtonElement>(null)
 	const navNextRef = useRef<HTMLButtonElement>(null)
 
-	const onBeforeInit = (Swiper: SwiperCore): void => {
+	const onBeforeInit = (Swiper: SwiperClass): void => {
 		const navigation = Swiper.params.navigation;
 
 		if (navigation && typeof navigation !== 'boolean') {
@@ -33,12 +33,10 @@ export default function RadioTalents({ images, className, setIndex }: RadioTalen
 			<Swiper
 				modules={[A11y, Autoplay, Navigation]}
 				grabCursor
-				lazy
+				loop
 				slidesPerView='auto'
 				watchSlidesProgress
 				onBeforeInit={onBeforeInit}
-				loop
-				loopedSlides={images.length}
 				centeredSlides
 				autoplay={{
 					delay: 5000,
