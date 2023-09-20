@@ -1,17 +1,18 @@
 import fs from 'fs/promises'
 import path from 'path'
 import matter from 'gray-matter'
-import { remark } from 'remark'
-import html from 'remark-html'
-import plainText from 'remark-plain-text'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
+import { stripHtml } from 'string-strip-html'
 
 type PostQuery = {
 	page?: string
 	limit?: string
 }
 
-const processor = remark().use(html)
-const excerptProcessor = remark().use(plainText)
+const processor = unified().use(remarkParse).use(remarkRehype).use(rehypeStringify)
 
 export async function getFileIds(dirPath: string[]) {
 	const fileNames = await getFiles(dirPath)
@@ -31,11 +32,12 @@ export async function getFiles(dirPath: string[]) {
 export async function getFileData<T>(filePath: string[]) {
 	const data = await fs.readFile(path.join(process.cwd(), ...filePath), 'utf8')
 	const matterResult = matter(data)
+	const contentHtml = String(await processor.process(matterResult.content))
 
 	return {
 		id: filePath.pop()?.replace(/.md$/, '') as string,
-		contentHtml: (await processor.process(matterResult.content)).toString(),
-		excerpt: (await excerptProcessor.process(matterResult.content)).toString().slice(0, 280),
+		contentHtml,
+		excerpt: stripHtml(contentHtml).result.slice(0, 280),
 		...matterResult.data as T
 	}
 }
