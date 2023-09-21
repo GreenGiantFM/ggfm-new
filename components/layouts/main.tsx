@@ -1,8 +1,9 @@
-import Header, { navItems } from '../header'
+import Header from '../header'
 import Link from 'next/link'
 import Image from 'next/image'
 import SMO from '@public/images/dlsu-smo-white.png'
 import { StreamBar } from '@components/stream-bar'
+import { navItems } from '@lib/nav-items'
 
 type LayoutProps = {
 	children: React.ReactNode

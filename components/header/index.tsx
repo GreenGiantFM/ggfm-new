@@ -1,7 +1,3 @@
-import Header, { navItems } from './header'
+import Header from './header'
 
 export default Header
-
-export {
-	navItems
-}

@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Navigation, A11y, Pagination } from 'swiper/modules'

@@ -1,3 +1,5 @@
+'use client'
+
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react'
 import { A11y, Autoplay, Navigation } from 'swiper/modules'
 import Image from 'next/image'

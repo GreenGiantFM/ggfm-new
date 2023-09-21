@@ -1,3 +1,5 @@
+'use client'
+
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { A11y, Autoplay } from 'swiper/modules'
 import Image from 'next/image'
@@ -11,6 +13,11 @@ type DJHuntProps = {
 }
 
 export default function DJHunt({ images, className }: DJHuntProps) {
+
+	while (images.length < 26) {
+		images.push(...images)
+	}
+
 	return (
 		<Swiper
 			modules={[A11y, Autoplay]}
@@ -18,7 +25,6 @@ export default function DJHunt({ images, className }: DJHuntProps) {
 			slidesPerView='auto'
 			watchSlidesProgress
 			loop
-			loopedSlides={images.length}
 			centeredSlides
 			autoplay={{
 				delay: 2500,
@@ -31,7 +37,7 @@ export default function DJHunt({ images, className }: DJHuntProps) {
 					<div className="w-20 aspect-square">
 						<Image src={src} alt={`DJ ${alt}`} className="rounded-full w-full h-full object-cover" width={72} height={72} />
 					</div>
-					<span>DJ {alt}</span>
+					<p className="text-center">DJ {alt}</p>
 				</SwiperSlide>
 			))}
 		</Swiper>

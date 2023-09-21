@@ -1,22 +1,12 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { Popover, Transition } from '@headlessui/react'
 import { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
-
-export type NavItemProps = {
-	text: string
-	path: string
-	isHome?: boolean
-	subItems?: {
-		text: string
-		path: string
-		description?: string
-	}[]
-}
+import { NavItemProps } from '@lib/nav-items'
 
 export default function NavItem({ text, path, subItems }: NavItemProps) {
-	const { pathname } = useRouter()
+	const pathname = usePathname()
 	const [show, setShow] = useState(false)
 	const hasSubitems = subItems && subItems.length != 0
 

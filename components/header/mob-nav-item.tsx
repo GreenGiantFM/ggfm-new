@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { NavItemProps } from './nav-item'
 
 type MobNavItemProps = NavItemProps & {
@@ -7,7 +7,7 @@ type MobNavItemProps = NavItemProps & {
 }
 
 export function MobNavItem({ text, path, onClick }: MobNavItemProps) {
-	const { pathname } = useRouter()
+	const pathname = usePathname()
 
 	return (
 		<Link href={path} className="border-l-2 block px-3 py-2 text-2xl hover:text-primary transition-colors"

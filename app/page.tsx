@@ -1,55 +1,54 @@
-import CustomHead from '@components/head'
 import SocialMediaBanner from '@components/social-media-banner'
-import type { NextPage, InferGetStaticPropsType } from 'next'
+import type { Metadata } from 'next'
 import styles from '@styles/Home.module.css'
-import { BorderedLink } from '@components/bordered-button/'
-import dynamic from 'next/dynamic'
 import dbConnect from '@lib/db'
 import RadioTalent from '@models/radio-talent'
 import { getFirstFileData } from '@lib/posts'
-import { EventData } from './api/events'
-import { BlogData } from './api/blogs'
+import { EventData } from '../pages/api/events'
+import { BlogData } from '../pages/api/blogs'
 import { FeaturedArticle } from '@components/featured-article'
 import Dates from '@models/dates'
-import { useMemo } from 'react'
-import { useCountdown } from '@lib/useCountdown'
 import Link from 'next/link'
 import Misc from '@models/misc'
 import DJTrainee from '@models/dj-trainee'
+import { DJHuntBanner } from './dj-hunt-banner'
+import Shows from '@components/swipers/shows'
+import AOW from '@components/swipers/aow'
+import RadioTalents from '@components/swipers/radio-talents'
 
-const Shows = dynamic(() => import('@components/swipers/shows'))
-const DJHunt = dynamic(() => import('@components/swipers/dj-hunt'))
-const AOW = dynamic(() => import('@components/swipers/aow'))
-const RadioTalents = dynamic(() => import('@components/swipers/radio-talents'))
+async function getData() {
+	await dbConnect()
 
-const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talents, event, blog, startDate, endDate, playlist, trainees }) => {
-	const start = useMemo(() => new Date(startDate), [startDate])
-	const end = useMemo(() => new Date(endDate), [endDate])
+	const [talents, event, blog, dates, playlist, trainees] = await Promise.all([
+		RadioTalent.find({}).lean(),
+		getFirstFileData<EventData>(['posts', 'events']),
+		getFirstFileData<BlogData>(['posts', 'blogs']),
+		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean(),
+		Misc.findOne({ name: 'playlist' }, '-_id data').lean(),
+		DJTrainee.find({}, '-_id').lean()
+	])
 
-	const startCountdown = useCountdown(start)
-	const endCountdown = useCountdown(end)
+	return {
+		talents: talents.map(t => ({ ...t, _id: t._id.toString() })),
+		event,
+		blog,
+		startDate: dates?.start ?? new Date(),
+		endDate: dates?.end ?? new Date(),
+		playlist: playlist?.data ?? '',
+		trainees,
+	}
+}
 
-	const diff = useMemo(() => endCountdown - startCountdown, [startCountdown, endCountdown])
+export const metadata: Metadata = {
+	title: 'Home | Green Giant FM'
+}
+
+export default async function Home() {
+	const { talents, event, blog, startDate, endDate, playlist, trainees } = await getData()
 
 	return (
 		<div className={styles.home}>
-			<CustomHead
-				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | Home`}
-				description="Green Giant FM homepage"
-				url="/"
-			/>
-			{
-				startCountdown <= 0 && endCountdown > 0 &&
-				<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
-					<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT 2022</h1>
-					<progress className="w-full block rounded-full" value={1 - (endCountdown / diff)} />
-					<DJHunt className="my-6 !py-4 select-none" images={trainees.map(t => ({
-						src: `https://lh3.googleusercontent.com/d/${t.image}`,
-						alt: t.nickname,
-					}))} />
-					<BorderedLink href="/dj-hunt" className="max-w-64 hover:(bg-white text-gray-900 font-bold)">Vote Now</BorderedLink>
-				</section>
-			}
+			<DJHuntBanner start={startDate} end={endDate} trainees={trainees} />
 			<section className="bg-neutral-900 text-center !py-4">
 				<h1>LATEST NEW & UPDATES</h1>
 				<p className={styles.subtitle}>PODCASTS, BLOGS, EVENTS AND MORE</p>
@@ -138,31 +137,4 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ talent
 			<SocialMediaBanner />
 		</div >
 	)
-}
-
-export default Home
-
-export const getStaticProps = async () => {
-	await dbConnect()
-
-	const [talents, event, blog, dates, playlist, trainees] = await Promise.all([
-		RadioTalent.find({}).lean(),
-		getFirstFileData<EventData>(['posts', 'events']),
-		getFirstFileData<BlogData>(['posts', 'blogs']),
-		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean(),
-		Misc.findOne({ name: 'playlist' }, '-_id data').lean(),
-		DJTrainee.find({}, '-_id').lean()
-	])
-
-	return {
-		props: {
-			talents: talents.map(t => ({ ...t, _id: t._id.toString() })),
-			event,
-			blog,
-			startDate: dates?.start.toString() ?? '',
-			endDate: dates?.end.toString() ?? '',
-			playlist: playlist?.data ?? '',
-			trainees,
-		}
-	}
 }

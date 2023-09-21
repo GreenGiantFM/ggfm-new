@@ -1,34 +1,14 @@
-import { FC } from 'react'
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { Disclosure, Transition } from '@headlessui/react'
 import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline'
-import NavItem, { NavItemProps } from './nav-item'
+import NavItem from './nav-item'
 import { MobNavItem } from './mob-nav-item'
+import { NavItemProps, navItems } from '@lib/nav-items'
 
-export const navItems: NavItemProps[] = [
-	{ path: '/about-us', text: 'About Us' },
-	{ path: '/radio-talents', text: 'Radio Talents' },
-	{
-		path: '/events',
-		text: 'Posts',
-		subItems: [
-			{ path: '/events', text: 'Events' },
-			{ path: '/blogs', text: 'Blogs' },
-			// { path: '/lifestyle', text: 'Lifestyle' },
-		]
-	},
-	{
-		path: '/hitlists',
-		text: 'Polls',
-		subItems: [
-			{ path: '/hitlists', text: 'Hitlists' },
-			{ path: '/dj-hunt', text: 'DJ Hunt' },
-		]
-	},
-]
-
-const Header: FC = () => {
+export function Header() {
 	return (
 		<header className="h-16 relative z-50">
 			<Disclosure as="nav" className="bg-white h-full font-primary text-neutral-900 text-3xl uppercase">
