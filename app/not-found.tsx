@@ -1,7 +1,6 @@
 import { BorderedLink } from '@components/bordered-button'
-import { NextPage } from 'next'
 
-const Page: NextPage = () => {
+export default function NotFoundPage() {
 	return (
 		<div className="rounded-lg bg-white text-gray-900 place-self-center p-8">
 			<h1 className="text-4xl mb-2">Uh-oh. Page not found.</h1>
@@ -12,5 +11,3 @@ const Page: NextPage = () => {
 		</div>
 	)
 }
-
-export default Page

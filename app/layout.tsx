@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			</head>
 			<body>
 				<Header />
-				<main>
+				<main className="main-height grid">
 					{children}
 				</main>
 				<footer className="bg-neutral-700 py-8 px-4 text-white font-secondary">
