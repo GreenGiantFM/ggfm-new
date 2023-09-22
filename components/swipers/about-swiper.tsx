@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Navigation, A11y, EffectFade } from 'swiper/modules'
@@ -37,7 +39,7 @@ export default function AboutSwiper({ images }: AboutSwiperProps) {
 			onClick={() => { navNextRef.current?.click() }}
 			onBeforeInit={onBeforeInit}
 			loop
-			className="bg-neutral-700 min-h-xs max-h-full !max-w-[calc(100vw-17px)]"
+			className="bg-neutral-700 min-h-xs max-h-[inherit] !max-w-[calc(100vw-17px)] !overflow-hidden"
 			style={{ aspectRatio: '3/2' }}
 		>
 			{images.map(({ src, alt }) => (

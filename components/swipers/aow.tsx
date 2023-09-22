@@ -39,10 +39,10 @@ export default function AOW({ images }: AOWProps) {
 				clickable: true
 			}}
 			loop
-			className="max-w-[435px] w-full mx-auto aspect-square"
+			className="max-w-[435px] !overflow-hidden w-full mx-auto aspect-square"
 		>
 			{images.map(({ src, alt }) => (
-				<SwiperSlide key={alt} className="flex justify-center">
+				<SwiperSlide key={alt} className="flex justify-center w-full">
 					<Image src={src} alt={alt} width={435} height={435} className="w-full h-full" />
 				</SwiperSlide>
 			))}

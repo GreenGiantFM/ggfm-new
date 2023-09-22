@@ -1,8 +1,10 @@
-import CustomHead from '@components/head'
-import { NextPage } from 'next'
 import Image from 'next/image'
 import { POOLS } from '@lib/pools'
 import AboutSwiper from '@components/swipers/about-swiper'
+
+export const metadata = {
+	title: 'About Us'
+}
 
 const OFFICERS = [
 	{ name: 'President', director: 'Krizzia Garcia' },
@@ -13,14 +15,9 @@ const OFFICERS = [
 	{ name: 'VPI Formations Manager', director: 'Juan Campos' },
 ]
 
-const Page: NextPage = () => {
+export default function AboutUs() {
 	return (
 		<>
-			<CustomHead
-				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | About Us`}
-				description="About Green Giant FM, DLSU's Radio Station"
-				url="/about-us"
-			/>
 			<section className="bg-neutral-800 md:px-0 space-y-4" style={{ maxHeight: 'calc(100vh - 4rem)' }}>
 				<AboutSwiper
 					images={[
@@ -101,5 +98,3 @@ const Page: NextPage = () => {
 		</>
 	)
 }
-
-export default Page
