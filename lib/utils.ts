@@ -68,3 +68,12 @@ export function isValidHost(host: string | undefined) {
 		host == 'www.greengiantfm.com' ||
 		host == 'greengiantfm.com'
 }
+
+/**
+ * Used for filtering falsy items with type guard
+ * @param item Any item in an array of same objects
+ * @returns boolean value of the item
+ */
+export function filterFalsy<T>(item?: T | null): item is T {
+	return !!item
+}

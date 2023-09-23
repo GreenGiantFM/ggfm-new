@@ -4,8 +4,8 @@ import styles from '@styles/Home.module.css'
 import dbConnect from '@lib/db'
 import RadioTalent from '@models/radio-talent'
 import { getFirstFileData } from '@lib/posts'
-import { EventData } from '../pages/api/events'
-import { BlogData } from '../pages/api/blogs'
+import { EventData } from './events/api/route'
+import { BlogData } from './blogs/api/route'
 import { FeaturedArticle } from '@components/featured-article'
 import Dates from '@models/dates'
 import Link from 'next/link'
@@ -56,19 +56,19 @@ export default async function Home() {
 			<section>
 				<div className={styles.updates}>
 					<FeaturedArticle
-						id={blog.id}
+						id={blog!.id}
 						category="BLOGS & PODCASTS"
-						title={blog.title}
-						image={blog.featured_image}
-						excerpt={blog.excerpt}
+						title={blog!.title}
+						image={blog!.featured_image}
+						excerpt={blog!.excerpt}
 						url="/blogs"
 					/>
 					<FeaturedArticle
-						id={event.id}
+						id={event!.id}
 						category="EVENTS"
-						title={event.title}
-						image={event.featured_image}
-						excerpt={event.excerpt}
+						title={event!.title}
+						image={event!.featured_image}
+						excerpt={event!.excerpt}
 						url="/events"
 					/>
 				</div>

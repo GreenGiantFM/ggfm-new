@@ -37,7 +37,7 @@
     "src/**/*",
     "pages/**/*",
     ".next/types/**/*.ts"
-  ],
+, "app/events", "app/blogs"  ],
   "exclude": [
     "node_modules"
   ]
