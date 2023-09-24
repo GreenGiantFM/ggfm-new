@@ -65,7 +65,7 @@ export function serialize(object: Record<string, string>) {
 export function isValidHost(host: string | null) {
 	if (process.env.NODE_ENV !== 'production') return true
 
-	const isValid = host == process.env.NEXT_PUBLIC_VERCEL_URL ||
+	const isValid = host == 'localhost:3000' ||
 		host == 'www.greengiantfm.com' ||
 		host == 'greengiantfm.com'
 

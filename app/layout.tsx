@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 		template: '%s | Green Giant FM',
 		default: 'Green Giant FM'
 	},
-	metadataBase: new URL(process.env.NEXT_PUBLIC_VERCEL_URL),
+	metadataBase: new URL(process.env.VERCEL_URL),
 	generator: 'Next.js',
 	description: "DLSU Radio: Green Giant FM (GGFM) is De La Salle University-Manila's Official Radio Station, located and broadcasting live at Br. Bloemen Hall!",
 	themeColor: '#569429',

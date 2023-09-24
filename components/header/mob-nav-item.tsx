@@ -1,6 +1,6 @@
+import { NavItemProps } from '@lib/nav-items'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { NavItemProps } from './nav-item'
 
 type MobNavItemProps = NavItemProps & {
 	onClick: () => void
