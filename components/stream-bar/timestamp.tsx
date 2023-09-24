@@ -1,4 +1,4 @@
-import { HTMLAttributes, MutableRefObject, Ref, useEffect, useRef, useState } from 'react'
+import { HTMLAttributes, MutableRefObject, useEffect, useRef, useState } from 'react'
 
 function formatNumber(n: number) {
 	return n.toLocaleString('en-US', { minimumIntegerDigits: 2 })
@@ -14,18 +14,21 @@ export function TimeStamp({ isPlaying, hasLoaded, ...props }: TimeStampProps) {
 	const interval = useRef<NodeJS.Timeout>()
 
 	useEffect(() => {
-		if (isPlaying) {
+		try {
+			if (!isPlaying) {
+				clearInterval(interval.current)
+				return interval.current = undefined
+			}
+
 			if (interval.current) return
 
 			interval.current = setInterval(() => {
-				if (hasLoaded.current) setTimestamp(x => x + 1)
+				if (hasLoaded.current) setTimestamp(x => ++x)
 			}, 1000)
-		} else {
-			clearInterval(interval.current)
-			interval.current = undefined
-		}
 
-		return () => clearInterval(interval.current)
+		} finally {
+			return () => clearInterval(interval.current)
+		}
 	}, [isPlaying, hasLoaded])
 
 	return (
