@@ -6,12 +6,14 @@ import Image from 'next/image'
 import SMO from '@public/images/dlsu-smo-white.png'
 import Header from '../components/header'
 import { navItems } from '@lib/nav-items'
+import { StreamBar } from '@components/stream-bar'
 
 export const metadata: Metadata = {
 	title: {
 		template: '%s | Green Giant FM',
 		default: 'Green Giant FM'
 	},
+	metadataBase: new URL(process.env.NEXT_PUBLIC_VERCEL_URL),
 	generator: 'Next.js',
 	description: "DLSU Radio: Green Giant FM (GGFM) is De La Salle University-Manila's Official Radio Station, located and broadcasting live at Br. Bloemen Hall!",
 	themeColor: '#569429',
@@ -69,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						</div>
 					</div>
 				</footer>
+				<StreamBar />
 			</body>
 		</html>
 	)

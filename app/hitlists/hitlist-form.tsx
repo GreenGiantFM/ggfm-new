@@ -1,32 +1,29 @@
-import CustomHead from '@components/head'
-import { InferGetStaticPropsType, NextPage } from 'next'
-import { FormEventHandler, useEffect, useMemo, useState } from 'react'
-import dbConnect from '@lib/db'
+'use client'
+
+import { TrackItem } from '@components/track-item'
+import { LoadingButton } from '@components/loading-button'
+import { useRouter } from 'next/navigation'
+import { useCountdown } from '@lib/useCountdown'
 import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import Script from 'next/script'
-import Dates from '@models/dates'
-import { useCountdown } from '@lib/useCountdown'
-import { PollsHeader } from '@components/polls-header'
-import dynamic from 'next/dist/shared/lib/dynamic'
-import Track from '@models/track'
-import { TrackItem } from '@components/track-item'
-import { LoadingButton } from '@components/loading-button'
-import { useRouter } from 'next/router'
-import { AddTrackModalProps } from '@components/add-track-modal/add-track-modal'
+import { FormEventHandler, useState } from 'react'
+import { AddTrackModal } from '@components/add-track-modal'
+import { ITrack } from '@models/track'
 
-const AddTrackModal = dynamic<AddTrackModalProps>(() => import('@components/add-track-modal').then(mod => mod.AddTrackModal))
+type HitlistFormProps = {
+	startDate: Date
+	endDate: Date
+	tracks: ITrack[]
+}
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks, endDate, startDate }) => {
-	const start = useMemo(() => new Date(startDate ?? ''), [startDate])
-	const end = useMemo(() => new Date(endDate ?? ''), [endDate])
-
+export function HitlistForm({ startDate, endDate, tracks }: HitlistFormProps) {
 	const [message, setMessage] = useState('')
 	const [email, setEmail] = useState('')
 	const [showModal, setShowModal] = useState(false)
-	const startCountdown = useCountdown(start)
-	const endCountdown = useCountdown(end)
-	const isOpen = useMemo(() => endCountdown > 0 && startCountdown <= 0, [endCountdown, startCountdown])
+	const startCountdown = useCountdown(startDate)
+	const endCountdown = useCountdown(endDate)
+	const isOpen = endCountdown > 0 && startCountdown <= 0
 	const [isLoading, setIsLoading] = useState(false) // loading button indicator
 	const { push } = useRouter()
 
@@ -61,16 +58,10 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 
 	return (
 		<>
-			<CustomHead
-				title={`${process.env.NEXT_PUBLIC_SITE_TITLE} | Hitlist`}
-				description="Voting polls for this week's GGFM's Top 20!"
-				url="/hitlist"
-			/>
 			<AddTrackModal
 				isOpen={showModal}
 				close={() => setShowModal(false)}
 			/>
-			<PollsHeader name="HITLIST" root="/hitlists" start={start} end={end} />
 			<form className="grid md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-4 md:gap-y-8 self-start max-w-6xl px-4 py-12 xl:px-8 2xl:px-32 mx-auto w-full" onSubmit={handleSubmit}>
 				<Script src="https://accounts.google.com/gsi/client" async defer
 					onReady={() => {
@@ -97,7 +88,7 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 					/>
 				))}
 				{
-					email == process.env.NEXT_PUBLIC_ADMIN_EMAIL &&
+					email === process.env.NEXT_PUBLIC_ADMIN_EMAIL &&
 					<button type="button" onClick={() => setShowModal(true)} className="btn white rounded font-bold">RESET</button>
 				}
 				{
@@ -122,19 +113,3 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ tracks
 		</>
 	)
 }
-
-export const getStaticProps = async () => {
-	await dbConnect()
-	const tracks = await Track.find({}).lean()
-	const date = await Dates.findOne({ name: 'Hitlist' }, '-_id end start').lean()
-
-	return {
-		props: {
-			tracks,
-			startDate: date?.start.toString(),
-			endDate: date?.end.toString()
-		}
-	}
-}
-
-export default Page

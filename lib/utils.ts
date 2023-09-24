@@ -62,11 +62,18 @@ export function serialize(object: Record<string, string>) {
  * @param host - request host
  * @returns if host is a valid origin
  */
-export function isValidHost(host: string | undefined) {
-	return host == process.env.NEXT_PUBLIC_VERCEL_URL ||
-		host == 'test.greengiantfm.com' ||
+export function isValidHost(host: string | null) {
+	if (process.env.NODE_ENV !== 'production') return true
+
+	const isValid = host == process.env.NEXT_PUBLIC_VERCEL_URL ||
 		host == 'www.greengiantfm.com' ||
 		host == 'greengiantfm.com'
+
+	if (!isValid) {
+		console.warn('Attempted vote from:', host)
+	}
+
+	return isValid
 }
 
 /**

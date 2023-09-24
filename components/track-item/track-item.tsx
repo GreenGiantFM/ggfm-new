@@ -57,7 +57,7 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 					<p className="text-sm italic line-clamp-1">{artists.join(', ')}</p>
 				</div>
 				<div className="flex space-x-1 children:(border-gray-500 border rounded px-4 w-full)">
-					<button type="button" className={`btn white !p-0` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
+					<button type="button" className={`btn white !p-0 !disabled:opacity-50` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
 						{
 							preview_url ?
 								<>

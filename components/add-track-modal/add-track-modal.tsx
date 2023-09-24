@@ -5,7 +5,7 @@ import { Dialog } from '@headlessui/react'
 import { app } from '@lib/axios-config'
 import { getAxiosError } from '@lib/utils'
 import styles from '@styles/Modal.module.css'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, FormEventHandler, useState } from 'react'
 
 export type AddTrackModalProps = Omit<IModalProps, 'close'> & {
@@ -22,7 +22,7 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 	const [isLoading, setIsLoading] = useState(false)
 	let [errors, setErrors] = useState<Partial<Data>>({})
 	const [message, setMessage] = useState('')
-	const { reload } = useRouter()
+	const { refresh } = useRouter()
 
 	const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
 		setErrors(Object.assign(errors, { [e.target.name]: undefined }))
@@ -42,12 +42,13 @@ export function AddTrackModal({ ...props }: AddTrackModalProps) {
 
 			if (Object.keys(errors).length) return
 
-			await app.post('/api/hitlists/tracks', {
+			await app.post('/hitlists/tracks', {
 				tracks,
 				start,
 				end
 			})
-			reload()
+			props.close()
+			refresh()
 		} catch (e) {
 			setMessage(getAxiosError(e))
 		} finally {

@@ -1,3 +1,5 @@
+'use client'
+
 import { PauseIcon, PlayIcon } from '@heroicons/react/20/solid'
 import { useEffect, useRef, useState } from 'react'
 import { TimeStamp } from './timestamp'

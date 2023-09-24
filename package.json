@@ -30,11 +30,11 @@
     "zustand": "^4.1.4"
   },
   "devDependencies": {
-    "@types/node": "20.6.3",
+    "@types/node": "20.6.4",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "@types/spotify-api": "^0.0.22",
-    "eslint": "8.49.0",
+    "eslint": "8.50.0",
     "eslint-config-next": "13.5.2",
     "typescript": "5.2.2",
     "windicss": "^3.5.6",

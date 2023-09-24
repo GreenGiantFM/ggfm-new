@@ -7,15 +7,23 @@ import { useEffect, useState } from 'react'
  */
 export function useCountdown(target: Date) {
 	const targetTime = target.getTime()
-	const [countdown, setCountdown] = useState(targetTime - new Date().getTime())
+	const [countdown, setCountdown] = useState(targetTime - new Date().getTime() < 0 ? 0 : targetTime - new Date().getTime())
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setCountdown(targetTime - new Date().getTime())
+			const newTime = targetTime - new Date().getTime()
+
+			if (newTime <= 0) {
+				setCountdown(0)
+				clearInterval(interval)
+				return
+			}
+
+			setCountdown(newTime)
 		}, 1000)
 
 		return () => clearInterval(interval)
-	})
+	}, [])
 
 	return countdown
 }

@@ -1,46 +1,26 @@
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { CountdownProps } from '@components/countdown/countdown'
+import Link from 'next/link'
+
+const HeaderCountdown = dynamic(() => import('./header-countdown'), { ssr: false, loading: () => <div className='h-16' /> })
 
 type PollsHeaderProps = {
 	name: string
 	start: Date
 	end: Date
 	root: string
+	showPolls?: boolean
 }
 
-const Countdown = dynamic<CountdownProps>(() => import('@components/countdown').then(mod => mod.Countdown), {
-	loading: () => <div className="h-16" />,
-	ssr: false
-})
-
-export function PollsHeader({ name, start, end, root }: PollsHeaderProps) {
-	const curr = new Date().getTime()
+export function PollsHeader({ name, start, end, root, showPolls }: PollsHeaderProps) {
 	return (
 		<div className="bg-neutral-900 flex flex-col space-y-2 items-center py-6 h-[fit-content]">
 			<h1 className="text-8xl">{name}</h1>
-			{curr < start.getTime() ?
-				<>
-					<p>Polls are opening in...</p>
-					<Countdown target={start} />
-				</>
-				:
-				<>
-					{curr < end.getTime() && <p>Polls are closing in...</p>}
-					<Countdown target={end} />
-				</>
-			}
-
+			<HeaderCountdown start={start} end={end} />
 			{
-				root !== '/dj-hunt' &&
+				showPolls &&
 				<div className="children:px-8 font-primary text-4xl py-4 divide-x-2">
-					<Link href={root}>
-						VOTE
-					</Link>
-
-					<Link href={root + '/polls'}>
-						LIVE POLLS
-					</Link>
+					<Link href={root}>VOTE</Link>
+					<Link href={root + '/polls'}>LIVE POLLS</Link>
 				</div>
 			}
 		</div>
