@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@directus/sdk':
+    specifier: ^12.0.0
+    version: 12.0.0
   '@headlessui/react':
     specifier: ^1.6.6
     version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
@@ -108,6 +111,11 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
+
+  /@directus/sdk@12.0.0:
+    resolution: {integrity: sha512-LDOsfjP0YmPgpnZXDIBzy8H9qiE9AeORZbzPkV+r/w1pWR3QBaz1xQDR1SrnX9BZ+q6HykjS3OJ2MTnXoQlW1Q==}
+    engines: {node: '>=18.0.0'}
+    dev: false
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.50.0):
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}

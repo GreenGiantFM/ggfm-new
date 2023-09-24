@@ -16,6 +16,7 @@ const nextConfig = {
 		domains: [
 			'lh3.googleusercontent.com',
 			'i.scdn.co',
+			'admin.greengiantfm.com',
 		]
 	},
 	outputFileTracing: true,
