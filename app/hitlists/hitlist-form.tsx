@@ -43,7 +43,7 @@ export function HitlistForm({ startDate, endDate, tracks }: HitlistFormProps) {
 			if (selection.length == 0) return setMessage('You have not selected any songs!')
 
 			if (!email) return setMessage('You are not logged in!')
-			await app.post('/api/hitlists/votes', { email, selection })
+			await app.post('/hitlists/votes', { email, selection })
 
 			setMessage('Your vote has been recorded! Forwarding to polls...')
 			timeout = setTimeout(() => push('/hitlists/polls'), 1000)
