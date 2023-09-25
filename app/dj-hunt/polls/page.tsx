@@ -1,12 +1,7 @@
-import dbConnect from '@lib/db'
-import { IDJTrainee } from '@models/dj-trainee'
+import { aggregate, readItems } from '@directus/sdk'
+import { directus } from '@lib/directus'
 import styles from '@styles/Hunt.module.css'
 import Image from 'next/image'
-import DJTrainee from '@models/dj-trainee'
-
-type PollResult = Pick<IDJTrainee, '_id' | 'nickname' | 'image'> & {
-	count: number
-}
 
 export const revalidate = 0
 
@@ -16,21 +11,20 @@ export const metadata = {
 }
 
 async function getData() {
-	await dbConnect()
-	const data = await DJTrainee.aggregate()
-		.lookup({
-			from: 'huntvotes',
-			localField: '_id',
-			foreignField: 'candidate',
-			as: 'votes'
-		})
-		.addFields({
-			count: { $size: '$votes' }
-		})
-		.project({ count: 1, nickname: 1, image: 1 })
-		.sort({ count: -1, nickname: 1 })
+	const [voteCounts, trainees] = await Promise.all([
+		directus.request(aggregate('hunt_votes', {
+			aggregate: { count: '*' },
+			groupBy: ['candidate'],
+		})),
+		directus.request(readItems('dj_trainees'))
+	])
 
-	return data as PollResult[]
+	const concat = trainees.map(t => ({
+		...t,
+		count: (voteCounts.find(v => v.candidate === t.id)?.count ?? 0) as number
+	}))
+	concat.sort((a, b) => b.count - a.count)
+	return concat
 }
 
 export default async function DJHuntPollsPage() {
@@ -43,11 +37,11 @@ export default async function DJHuntPollsPage() {
 			<div className="space-y-6">
 				{
 					data.map(d => (
-						<div key={d._id.toString()} className={styles.result}>
+						<div key={d.id} className={styles.result}>
 							<div className="w-16 aspect-square">
 								<Image
 									alt={`DJ ${d.nickname}`}
-									src={`https://lh3.googleusercontent.com/d/${d.image}`}
+									src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${d.image}`}
 									className="object-cover w-full h-full block rounded-full"
 									width={100} height={100}
 								/>

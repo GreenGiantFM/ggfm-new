@@ -9,12 +9,12 @@ import { getAxiosError } from '@lib/utils'
 import Script from 'next/script'
 import { FormEventHandler, useState } from 'react'
 import { AddTrackModal } from '@components/add-track-modal'
-import { ITrack } from '@models/track'
+import { SpotifyTracks } from '@directus-collections'
 
 type HitlistFormProps = {
 	startDate: Date
 	endDate: Date
-	tracks: ITrack[]
+	tracks: SpotifyTracks[]
 }
 
 export function HitlistForm({ startDate, endDate, tracks }: HitlistFormProps) {
@@ -76,8 +76,8 @@ export function HitlistForm({ startDate, endDate, tracks }: HitlistFormProps) {
 				/>
 				{tracks.map((t, i) => (
 					<TrackItem
-						key={t._id}
-						_id={t._id}
+						key={t.id}
+						id={t.id}
 						name={t.name}
 						artists={t.artists}
 						image={t.image}

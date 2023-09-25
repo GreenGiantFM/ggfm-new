@@ -1,8 +1,7 @@
-import dbConnect from '@lib/db'
+import { aggregate, createItems } from '@directus/sdk'
+import { directus } from '@lib/directus'
 import { isValidHost } from '@lib/utils'
-
 import { NextResponse } from 'next/server'
-import HuntVote from '@models/hunt-vote'
 
 type Body = {
 	email?: string
@@ -16,13 +15,20 @@ export async function POST(req: Request) {
 		return NextResponse.json('', { status: 403 })
 	}
 
+	console.log(selection)
+
 	if (!email) return NextResponse.json('You are not logged in.', { status: 401 })
 	if (!selection) return NextResponse.json('No candidate selected.', { status: 401 })
 
-	await dbConnect()
-	const count = await HuntVote.countDocuments({ email })
+	const [{ count }] = await directus.request(aggregate('hunt_votes', {
+		aggregate: { count: '*' },
+		query: {
+			filter: { email: { _eq: email } }
+		}
+	}))
+
 	if (count) return NextResponse.json('You have already voted!', { status: 401 })
 
-	await HuntVote.insertMany(selection.map(candidate => ({ email, candidate })))
+	await directus.request(createItems('hunt_votes', selection.map(s => ({ candidate: parseInt(s), email }))))
 	return NextResponse.json('')
 }

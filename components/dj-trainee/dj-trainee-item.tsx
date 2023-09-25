@@ -1,4 +1,4 @@
-import { IDJTrainee } from '@models/dj-trainee'
+import { DjTrainees } from '@directus-collections'
 import Image from 'next/image'
 import { HTMLAttributes, useState } from 'react'
 
@@ -6,9 +6,10 @@ type DJTraineeItemProps = {
 	onMore: () => void
 	onVote: () => void
 	isVoteable: boolean
-} & Pick<IDJTrainee, 'image' | 'nickname' | 'caption' | '_id'> & HTMLAttributes<HTMLDivElement>
+	id: DjTrainees['id']
+} & Pick<DjTrainees, 'image' | 'nickname' | 'caption'> & Omit<HTMLAttributes<HTMLDivElement>, 'id'>
 
-export function DJTraineeItem({ image, nickname, caption, _id, onMore, onVote, isVoteable, className, ...props }: DJTraineeItemProps) {
+export function DJTraineeItem({ image, nickname, caption, id, onMore, onVote, isVoteable, className, ...props }: DJTraineeItemProps) {
 	const [isChecked, setIsChecked] = useState(false)
 
 	function onChange() {
@@ -23,7 +24,7 @@ export function DJTraineeItem({ image, nickname, caption, _id, onMore, onVote, i
 		>
 			<div className="w-24 aspect-square">
 				<Image
-					src={`https://lh3.googleusercontent.com/d/${image}`}
+					src={process.env.NEXT_PUBLIC_ASSETS_URL + image}
 					alt={`Image of DJ ${nickname}`}
 					width={200}
 					height={200}
@@ -34,14 +35,14 @@ export function DJTraineeItem({ image, nickname, caption, _id, onMore, onVote, i
 			<div className="px-4 py-2 flex-1 space-y-4">
 				<div>
 					<h2 className="text-2xl">DJ {nickname}</h2>
-					<p className="text-sm italic line-clamp-2 h-10">{caption}</p>
+					<div className="text-sm italic line-clamp-2 h-10" dangerouslySetInnerHTML={{ __html: caption }} />
 				</div>
 				<div className="flex space-x-4 children:(border-gray-500 border rounded px-4 w-full)">
 					<label className={"btn focus:ring-1 cursor-pointer text-center " +
 						(isChecked ? 'green' : 'white') +
 						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
 					>
-						<input type="checkbox" name="selection" className="hide" value={_id.toString()} onChange={onChange}
+						<input type="checkbox" name="selection" className="hide" value={id} onChange={onChange}
 							disabled={!isVoteable} aria-disabled={!isVoteable} />
 						<span>{isChecked ? 'Selected' : 'Vote'}</span>
 					</label>

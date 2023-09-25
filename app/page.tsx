@@ -2,12 +2,10 @@ import SocialMediaBanner from '@components/social-media-banner'
 import type { Metadata } from 'next'
 import styles from '@styles/Home.module.css'
 import dbConnect from '@lib/db'
-import RadioTalent from '@models/radio-talent'
 import { getFirstFileData } from '@lib/posts'
 import { EventData } from './events/api/route'
 import { BlogData } from './blogs/api/route'
 import { FeaturedArticle } from '@components/featured-article'
-import Dates from '@models/dates'
 import Link from 'next/link'
 import Misc from '@models/misc'
 import DJTrainee from '@models/dj-trainee'
@@ -15,25 +13,33 @@ import { DJHuntBanner } from './dj-hunt-banner'
 import Shows from '@components/swipers/shows'
 import AOW from '@components/swipers/aow'
 import RadioTalents from '@components/swipers/radio-talents'
+import { directus } from '@lib/directus'
+import { readItems } from '@directus/sdk'
 
 async function getData() {
 	await dbConnect()
 
-	const [talents, event, blog, dates, playlist, trainees] = await Promise.all([
-		RadioTalent.find({}).lean(),
+	const [talents, event, blog, [date], playlist, trainees] = await Promise.all([
+		directus.request(readItems('radio_talents', {
+			fields: ['name', 'nickname', 'image', 'writeup'],
+			filter: { status: { _eq: 'published' } }
+		})),
 		getFirstFileData<EventData>(['posts', 'events']),
 		getFirstFileData<BlogData>(['posts', 'blogs']),
-		Dates.findOne({ name: 'DJ Hunt' }, '-_id start end').lean(),
+		directus.request(readItems('dates', {
+			fields: ['start', 'end'],
+			filter: { name: { _eq: 'DJ Hunt' } }
+		})),
 		Misc.findOne({ name: 'playlist' }, '-_id data').lean(),
 		DJTrainee.find({}, '-_id').lean()
 	])
 
 	return {
-		talents: talents.map(t => ({ ...t, _id: t._id.toString() })),
+		talents: talents,
 		event,
 		blog,
-		startDate: dates?.start ?? new Date(),
-		endDate: dates?.end ?? new Date(),
+		startDate: new Date(date.start ?? ''),
+		endDate: new Date(date.end ?? ''),
 		playlist: playlist?.data ?? '',
 		trainees,
 	}

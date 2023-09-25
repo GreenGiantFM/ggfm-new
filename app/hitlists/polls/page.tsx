@@ -1,33 +1,29 @@
-import dbConnect from '@lib/db'
+import { aggregate, readItems } from '@directus/sdk'
+import { directus } from '@lib/directus'
 import styles from '@styles/Hunt.module.css'
 import Image from 'next/image'
-import { ITrack } from '@models/track'
-import Track from '@models/track'
-
-type PollResult = ITrack & {
-	count: number
-}
 
 export const metadata = {
 	title: 'Hitlist Polls',
 	description: "Tally of Green Giant FM's Top 20",
 }
 
-
 async function getData() {
-	await dbConnect()
-	return await Track.aggregate()
-		.lookup({
-			from: 'trackvotes',
-			localField: '_id',
-			foreignField: 'track',
-			as: 'votes'
-		})
-		.addFields({
-			count: { $size: '$votes' }
-		})
-		.project({ count: 1, name: 1, image: 1 })
-		.sort({ count: -1, name: 1 }) as PollResult[]
+	const [voteCounts, tracks] = await Promise.all([
+		directus.request(aggregate('track_votes', {
+			aggregate: { count: '*' },
+			groupBy: ['track'],
+		})),
+		directus.request(readItems('spotify_tracks'))
+	])
+
+
+	const concat = tracks.map(t => ({
+		...t,
+		count: (voteCounts.find(v => v.track === t.id)?.count ?? 0) as number
+	}))
+	concat.sort((a, b) => b.count - a.count)
+	return concat
 }
 
 export default async function HitlistPollsPage() {
@@ -40,7 +36,7 @@ export default async function HitlistPollsPage() {
 			<div className="space-y-6">
 				{
 					data.map(t => (
-						<div key={t._id.toString()} className={styles.result}>
+						<div key={t.id} className={styles.result}>
 							<div className="w-16 aspect-square">
 								<Image
 									alt={t.name}

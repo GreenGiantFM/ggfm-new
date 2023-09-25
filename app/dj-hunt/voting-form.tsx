@@ -7,10 +7,10 @@ import { useCountdown } from '@lib/useCountdown'
 import { LoadingButton } from '@components/loading-button'
 import { getAxiosError } from '@lib/utils'
 import { app } from '@lib/axios-config'
-import { IDJTrainee } from '@models/dj-trainee'
+import { DjTrainees } from '@directus-collections'
 
 type DJVotingFormProps = {
-	trainees: IDJTrainee[]
+	trainees: Array<DjTrainees>
 	startDate: Date
 	endDate: Date
 }
@@ -20,7 +20,7 @@ export function DJVotingForm({ trainees, startDate, endDate }: DJVotingFormProps
 	const [isLoading, setIsLoading] = useState(false)
 	const startCountdown = useCountdown(startDate)
 	const endCountdown = useCountdown(endDate)
-	const [trainee, setTrainee] = useState<IDJTrainee>()
+	const [trainee, setTrainee] = useState<DjTrainees>()
 	const [message, setMessage] = useState('')
 	const isOpen = useMemo(() => endCountdown > 0 && startCountdown <= 0, [endCountdown, startCountdown])
 	const [isReady, setIsReady] = useState(false)
@@ -73,9 +73,9 @@ export function DJVotingForm({ trainees, startDate, endDate }: DJVotingFormProps
 			<form className="grid md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-4 md:gap-y-8 self-start max-w-6xl px-2 py-4 lg:py-12 xl:px-8 2xl:px-32 mx-auto w-full" onSubmit={handleSubmit}>
 				{trainees.map((t, i) => (
 					<DJTraineeItem
-						key={t._id.toString()}
-						_id={t._id}
-						nickname={t.nickname}
+						key={t.id}
+						id={t.id}
+						nickname={t.nickname ?? ''}
 						caption={t.caption}
 						image={t.image}
 						onMore={() => setTrainee(trainees[i])}

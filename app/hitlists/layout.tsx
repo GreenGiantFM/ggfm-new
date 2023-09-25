@@ -1,14 +1,16 @@
 import { PollsHeader } from '@components/polls-header'
-import dbConnect from '@lib/db'
-import Dates from '@models/dates'
+import { readItems } from '@directus/sdk'
+import { directus } from '@lib/directus'
 
 async function getData() {
-	await dbConnect()
-	const date = await Dates.findOne({ name: 'Hitlist' }, '-_id end start').lean()
+	const [date] = await directus.request(readItems('dates', {
+		fields: ['start', 'end'],
+		filter: { name: { _eq: 'Hitlist' } }
+	}))
 
 	return {
-		startDate: date?.start ?? new Date(),
-		endDate: date?.end ?? new Date(),
+		startDate: new Date(date.start ?? ''),
+		endDate: new Date(date.end ?? ''),
 	}
 }
 

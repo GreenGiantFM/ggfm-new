@@ -1,7 +1,6 @@
-import dbConnect from '@lib/db'
-import Dates from '@models/dates'
-import Track from '@models/track'
 import { HitlistForm } from './hitlist-form'
+import { directus } from '@lib/directus'
+import { readItems } from '@directus/sdk'
 
 export const metadata = {
 	title: 'Hitlist',
@@ -9,20 +8,27 @@ export const metadata = {
 }
 
 async function getData() {
-	await dbConnect()
-	const [tracks, date] = await Promise.all([
-		Track.find({}).lean(),
-		Dates.findOne({ name: 'Hitlist' }, '-_id end start').lean()
+	const [[date], tracks] = await Promise.all([
+		directus.request(readItems('dates', {
+			fields: ['start', 'end'],
+			filter: {
+				name: {
+					_eq: 'Hitlist'
+				}
+			}
+		})),
+		directus.request(readItems('spotify_tracks'))
 	])
 
 	return {
+		startDate: new Date(date.start ?? ''),
+		endDate: new Date(date.end ?? ''),
 		tracks,
-		startDate: date?.start ?? new Date(),
-		endDate: date?.end ?? new Date(),
 	}
 }
 
 export default async function HistlistPage() {
-	const { tracks, startDate, endDate } = await getData()
-	return <HitlistForm tracks={tracks} startDate={startDate} endDate={endDate} />
+	const data = await getData()
+	console.log(data.tracks)
+	return <HitlistForm tracks={data.tracks} startDate={data.startDate} endDate={data.endDate} />
 }

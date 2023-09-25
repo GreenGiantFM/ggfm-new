@@ -1,6 +1,6 @@
-import dbConnect from '@lib/db'
-import RadioTalent from '@models/radio-talent'
 import { TalentSlider } from './talent-slider'
+import { directus } from '@lib/directus'
+import { readItems } from '@directus/sdk'
 
 export const metadata = {
 	title: 'Radio Talents',
@@ -8,10 +8,10 @@ export const metadata = {
 }
 
 async function getData() {
-	await dbConnect()
-	const talents = await RadioTalent.find({}).lean()
-
-	return talents.map(t => ({ ...t, _id: t._id.toString() }))
+	return await directus.request(readItems('radio_talents', {
+		fields: ['name', 'nickname', 'image', 'writeup'],
+		filter: { status: { _eq: 'published' } }
+	}))
 }
 
 export default async function RadioTalentsPage() {

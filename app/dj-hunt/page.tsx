@@ -1,7 +1,8 @@
-import DJTrainee from '@models/dj-trainee'
 import dbConnect from '@lib/db'
-import Dates from '@models/dates'
 import { DJVotingForm } from './voting-form'
+import { directus } from '@lib/directus'
+import { readItems } from '@directus/sdk'
+import { DjTrainees } from '@directus-collections'
 
 export const metadata = {
 	title: 'DJ Hunt',
@@ -10,15 +11,18 @@ export const metadata = {
 
 async function getData() {
 	await dbConnect()
-	const [trainees, date] = await Promise.all([
-		DJTrainee.find().lean(),
-		Dates.findOne({ name: 'DJ Hunt' }, '-_id end start').lean()
+	const [trainees, [date]] = await Promise.all([
+		directus.request(readItems('dj_trainees')),
+		directus.request(readItems('dates', {
+			fields: ['start', 'end'],
+			filter: { name: { _eq: 'DJ Hunt' } }
+		}))
 	])
 
 	return {
-		trainees: trainees.map(t => ({ ...t, _id: t._id.toString() })),
-		startDate: date?.start ?? new Date(),
-		endDate: date?.end ?? new Date(),
+		trainees: trainees as Array<DjTrainees>,
+		startDate: new Date(date.start ?? ''),
+		endDate: new Date(date.end ?? ''),
 	}
 }
 

@@ -1,15 +1,15 @@
-import { ITrack } from '@models/track'
 import { HTMLAttributes, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { usePlayerStore } from '@stores/player-store'
+import { SpotifyTracks } from '@directus-collections'
 
 type TrackItemProps = {
 	onVote: () => void
 	isVoteable: boolean
 	index: number
-} & ITrack & HTMLAttributes<HTMLDivElement>
+} & SpotifyTracks & Omit<HTMLAttributes<HTMLDivElement>, 'id'>
 
-export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, onVote, className, index, ...props }: TrackItemProps) {
+export function TrackItem({ id, image, name, artists, preview_url, isVoteable, onVote, className, index, ...props }: TrackItemProps) {
 	const [isChecked, setIsChecked] = useState(false)
 	const [isPlaying, setIsPlaying] = useState(false)
 	const player = useRef<HTMLMediaElement>(null)
@@ -53,8 +53,8 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 			</div>
 			<div className="px-4 py-2 flex-1 flex flex-col justify-between">
 				<div>
-					<a href={`https://open.spotify.com/track/${_id}`} target="_blank" rel="noreferrer" className="font-semibold line-clamp-1 hover:underline">{name}</a>
-					<p className="text-sm italic line-clamp-1">{artists.join(', ')}</p>
+					<a href={`https://open.spotify.com/track/${id}`} target="_blank" rel="noreferrer" className="font-semibold line-clamp-1 hover:underline">{name}</a>
+					<p className="text-sm italic line-clamp-1">{(artists as Array<string>).join(', ')}</p>
 				</div>
 				<div className="flex space-x-1 children:(border-gray-500 border rounded px-4 w-full)">
 					<button type="button" className={`btn white !p-0 !disabled:opacity-50` + (isPlaying ? ' !bg-gray-300 shadow-inner' : '')} onClick={handlePlayerClick} disabled={!preview_url}>
@@ -72,7 +72,7 @@ export function TrackItem({ _id, image, name, artists, preview_url, isVoteable, 
 						(isChecked ? 'green' : 'white') +
 						(isVoteable ? '' : ' !opacity-50 !cursor-not-allowed !hover:bg-white')}
 					>
-						<input type="checkbox" name="selection" className="hide" value={_id.toString()} onChange={onChange}
+						<input type="checkbox" name="selection" className="hide" value={id} onChange={onChange}
 							disabled={!isVoteable} aria-disabled={!isVoteable} />
 						<span>{isChecked ? 'Selected' : 'Vote'}</span>
 					</label>
