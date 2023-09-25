@@ -13,6 +13,7 @@ export const metadata = {
 	description: "Tally of Green Giant FM's Top 20",
 }
 
+export const revalidate = 0
 
 async function getData() {
 	await dbConnect()
