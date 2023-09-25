@@ -2,13 +2,13 @@
 
 import { BorderedLink } from '@components/bordered-button'
 import DJHunt from '@components/swipers/dj-hunt'
+import { DjTrainees } from '@directus-collections'
 import { useCountdown } from '@lib/useCountdown'
-import { IDJTrainee } from '@models/dj-trainee'
 
 type DJHuntBannerProps = {
 	start: Date
 	end: Date
-	trainees: IDJTrainee[]
+	trainees: DjTrainees[]
 }
 
 export function DJHuntBanner({ start, end, trainees }: DJHuntBannerProps) {

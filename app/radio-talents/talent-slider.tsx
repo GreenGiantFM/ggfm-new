@@ -14,7 +14,7 @@ export function TalentSlider({ talents }: TalentSliderProps) {
 	return (
 		<>
 			<RadioTalents
-				images={talents.map(t => ({ src: t.image ?? '', alt: `Photo of DJ ${t.nickname}` }))}
+				images={talents.map(t => ({ src: t.image as string ?? '', alt: `Photo of DJ ${t.nickname}` }))}
 				className="container h-full !pt-8 !pb-16"
 				setIndex={setIndex}
 			/>

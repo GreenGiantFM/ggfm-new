@@ -29,6 +29,5 @@ async function getData() {
 
 export default async function HistlistPage() {
 	const data = await getData()
-	console.log(data.tracks)
 	return <HitlistForm tracks={data.tracks} startDate={data.startDate} endDate={data.endDate} />
 }

@@ -1,4 +1,3 @@
-import dbConnect from '@lib/db'
 import { DJVotingForm } from './voting-form'
 import { directus } from '@lib/directus'
 import { readItems } from '@directus/sdk'
@@ -10,7 +9,6 @@ export const metadata = {
 }
 
 async function getData() {
-	await dbConnect()
 	const [trainees, [date]] = await Promise.all([
 		directus.request(readItems('dj_trainees')),
 		directus.request(readItems('dates', {

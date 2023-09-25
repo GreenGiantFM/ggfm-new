@@ -1,13 +1,4 @@
-import mongoose from 'mongoose'
-
-export type MongooseConnection = {
-	conn: typeof mongoose | null;
-	promise: Promise<typeof mongoose> | null;
-}
-
 declare global {
-	var mongoose: MongooseConnection
-
 	interface Window {
 		google: any;
 	}
@@ -15,7 +6,6 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			VERCEL_URL: string
-			MONGODB_URI: string
 			NEXT_PUBLIC_GOOGLE_CLIENT_ID: string
 			SPOTIFY_ID: string
 			SPOTIFY_SECRET: string

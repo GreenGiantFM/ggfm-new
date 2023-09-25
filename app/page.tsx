@@ -1,24 +1,20 @@
 import SocialMediaBanner from '@components/social-media-banner'
 import type { Metadata } from 'next'
 import styles from '@styles/Home.module.css'
-import dbConnect from '@lib/db'
 import { getFirstFileData } from '@lib/posts'
 import { EventData } from './events/api/route'
 import { BlogData } from './blogs/api/route'
 import { FeaturedArticle } from '@components/featured-article'
 import Link from 'next/link'
-import Misc from '@models/misc'
-import DJTrainee from '@models/dj-trainee'
 import { DJHuntBanner } from './dj-hunt-banner'
 import Shows from '@components/swipers/shows'
 import AOW from '@components/swipers/aow'
 import RadioTalents from '@components/swipers/radio-talents'
 import { directus } from '@lib/directus'
-import { readItems } from '@directus/sdk'
+import { readItems, readSingleton } from '@directus/sdk'
+import { DjTrainees } from '@directus-collections'
 
 async function getData() {
-	await dbConnect()
-
 	const [talents, event, blog, [date], playlist, trainees] = await Promise.all([
 		directus.request(readItems('radio_talents', {
 			fields: ['name', 'nickname', 'image', 'writeup'],
@@ -30,8 +26,10 @@ async function getData() {
 			fields: ['start', 'end'],
 			filter: { name: { _eq: 'DJ Hunt' } }
 		})),
-		Misc.findOne({ name: 'playlist' }, '-_id data').lean(),
-		DJTrainee.find({}, '-_id').lean()
+		directus.request(readSingleton('playlist', {
+			fields: ['url']
+		})),
+		directus.request(readItems('dj_trainees')),
 	])
 
 	return {
@@ -40,7 +38,7 @@ async function getData() {
 		blog,
 		startDate: new Date(date.start ?? ''),
 		endDate: new Date(date.end ?? ''),
-		playlist: playlist?.data ?? '',
+		playlist: playlist.url,
 		trainees,
 	}
 }
@@ -54,7 +52,7 @@ export default async function Home() {
 
 	return (
 		<div className={styles.home}>
-			<DJHuntBanner start={startDate} end={endDate} trainees={trainees} />
+			<DJHuntBanner start={startDate} end={endDate} trainees={trainees as DjTrainees[]} />
 			<section className="bg-neutral-900 text-center !py-4">
 				<h1>LATEST NEW & UPDATES</h1>
 				<p className={styles.subtitle}>PODCASTS, BLOGS, EVENTS AND MORE</p>

@@ -15,8 +15,6 @@ export async function POST(req: Request) {
 		return NextResponse.json('', { status: 403 })
 	}
 
-	console.log(selection)
-
 	if (!email) return NextResponse.json('You are not logged in.', { status: 401 })
 	if (!selection) return NextResponse.json('No candidate selected.', { status: 401 })
 
