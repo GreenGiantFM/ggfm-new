@@ -6,15 +6,13 @@ import Image from 'next/image'
 import 'swiper/css'
 import { LeftButton, RightButton } from './nav-buttons'
 import { useRef } from 'react'
+import { Shows } from '@directus-collections'
 
 type ShowsProps = {
-	images: {
-		src: string
-		alt: string
-	}[]
+	shows: Array<Pick<Shows, 'name' | 'image'>>
 }
 
-export default function Shows({ images }: ShowsProps) {
+export default function Shows({ shows }: ShowsProps) {
 	const navPrevRef = useRef<HTMLButtonElement>(null)
 	const navNextRef = useRef<HTMLButtonElement>(null)
 
@@ -27,8 +25,8 @@ export default function Shows({ images }: ShowsProps) {
 		}
 	}
 
-	while (images.length < 6) {
-		images.push(...images)
+	while (shows.length && shows.length < 6) {
+		shows.push(...shows)
 	}
 
 	return (
@@ -41,9 +39,9 @@ export default function Shows({ images }: ShowsProps) {
 			slidesPerView='auto'
 			watchSlidesProgress
 		>
-			{images.map(({ src, alt }) => (
-				<SwiperSlide key={alt} className="!w-lg">
-					<Image src={src} alt={alt} width={384} height={216} className="block mx-auto"/>
+			{shows.map(({ image, name }) => (
+				<SwiperSlide key={name} className="!w-lg">
+					<Image src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${image}`} alt={name} width={384} height={216} className="block mx-auto" />
 				</SwiperSlide>
 			))}
 			<LeftButton className="w-8" ref={navPrevRef} />

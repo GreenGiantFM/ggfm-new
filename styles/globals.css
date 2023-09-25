@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-height-full {
-	min-height: calc(100vh - theme('spacing.16'));
+	min-height: calc(100vh - theme('spacing.28'));
 }
 
 .main-height {

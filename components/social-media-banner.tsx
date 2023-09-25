@@ -1,6 +1,6 @@
-import URLs from '@lib/urls'
+import { URLs } from '@lib/urls'
 
-export default function SocialMediaBanner() {
+export function SocialMediaBanner() {
 	return (
 		<section className="grid place-items-center bg-white text-neutral-900 !py-6">
 			<div>

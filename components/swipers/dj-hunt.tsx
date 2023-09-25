@@ -14,7 +14,7 @@ type DJHuntProps = {
 
 export default function DJHunt({ images, className }: DJHuntProps) {
 
-	while (images.length < 26) {
+	while (images.length && images.length < 26) {
 		images.push(...images)
 	}
 

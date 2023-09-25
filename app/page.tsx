@@ -1,4 +1,4 @@
-import SocialMediaBanner from '@components/social-media-banner'
+import { SocialMediaBanner } from '@components/social-media-banner'
 import type { Metadata } from 'next'
 import styles from '@styles/Home.module.css'
 import { getFirstFileData } from '@lib/posts'
@@ -15,7 +15,7 @@ import { readItems, readSingleton } from '@directus/sdk'
 import { DjTrainees } from '@directus-collections'
 
 async function getData() {
-	const [talents, event, blog, [date], playlist, trainees] = await Promise.all([
+	const [talents, event, blog, [date], playlist, trainees, aow, shows] = await Promise.all([
 		directus.request(readItems('radio_talents', {
 			fields: ['name', 'nickname', 'image', 'writeup'],
 			filter: { status: { _eq: 'published' } }
@@ -26,10 +26,18 @@ async function getData() {
 			fields: ['start', 'end'],
 			filter: { name: { _eq: 'DJ Hunt' } }
 		})),
-		directus.request(readSingleton('playlist', {
-			fields: ['url']
+		directus.request(readSingleton('misc', { fields: ['playlist_url'] })),
+		directus.request(readItems('dj_trainees', {
+			filter: { status: { _eq: 'published' } }
 		})),
-		directus.request(readItems('dj_trainees')),
+		directus.request(readItems('aow', {
+			fields: ['image'],
+			filter: { status: { _eq: 'published' } }
+		})),
+		directus.request(readItems('shows', {
+			fields: ['name', 'image'],
+			filter: { status: { _eq: 'published ' } }
+		}))
 	])
 
 	return {
@@ -38,8 +46,10 @@ async function getData() {
 		blog,
 		startDate: new Date(date.start ?? ''),
 		endDate: new Date(date.end ?? ''),
-		playlist: playlist.url,
+		playlist: playlist.playlist_url,
 		trainees,
+		aow,
+		shows,
 	}
 }
 
@@ -48,7 +58,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-	const { talents, event, blog, startDate, endDate, playlist, trainees } = await getData()
+	const { talents, event, blog, startDate, endDate, playlist, trainees, aow, shows } = await getData()
 
 	return (
 		<div className={styles.home}>
@@ -93,38 +103,14 @@ export default async function Home() {
 					<article className="text-center space-y-4 h-[fit-content] sm:h-auto px-0 md:px-6 xl:px-0">
 						<h2>ARTIST OF THE WEEK</h2>
 						<div className="grid place-items-center">
-							<AOW images={[
-								{
-									src: 'https://lh3.googleusercontent.com/d/1v_Qqz19l6W4rgkcKkK27TZ9oRSroYCdR',
-									alt: "Picture of Purples N' Oranges",
-								},
-								{
-									src: 'https://lh3.googleusercontent.com/d/1_a3MIe_j1NK75SW6iFcMZRXzKCie93oo',
-									alt: "Description of Purples N' Oranges",
-								},
-								{
-									src: 'https://lh3.googleusercontent.com/d/1zzkgC6F0yS8_taNxduWaggSK_Dib2k0z',
-									alt: "Spotify barcode of Purples N' Oranges",
-								},
-								{
-									src: 'https://lh3.googleusercontent.com/d/13WDYH-3bsTSgzGyF9g6kzZlL2Gmi2tWd',
-									alt: "Pizza Grigliata Sponsor",
-								}
-							]} />
+							<AOW images={aow} />
 						</div>
 					</article>
 				</div>
 			</section>
 			<section className="bg-neutral-700 overflow-hidden">
 				<h1 className="text-center mb-4">SHOWS</h1>
-				<Shows images={[
-					{ src: '/images/shows/reel-deal.png', alt: "Reel Deal" },
-					{ src: '/images/shows/gamehub.png', alt: "Game Hub 1" },
-					{ src: '/images/shows/reel-deal.png', alt: "Reel Deal 1" },
-					{ src: '/images/shows/gamehub.png', alt: "Game Hub 2" },
-					{ src: '/images/shows/reel-deal.png', alt: "Reel Deal 2" },
-					{ src: '/images/shows/gamehub.png', alt: "Game Hub 3" },
-				]} />
+				<Shows shows={shows} />
 			</section>
 			<section className="bg-secondary text-neutral-900 !px-0">
 				<div className="text-center">

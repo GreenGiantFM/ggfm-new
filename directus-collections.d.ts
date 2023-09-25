@@ -1,3 +1,14 @@
+export type Aow = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: number;
+  image: string | DirectusFiles;
+  sort?: number | null;
+  status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
 export type Dates = {
   date_created?: string | null;
   date_updated?: string | null;
@@ -347,6 +358,17 @@ export type DjTrainees = {
   voiceover: string;
 };
 
+export type Highlights = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: number;
+  image: string | DirectusFiles;
+  sort?: number | null;
+  status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
 export type HuntVotes = {
   candidate?: number | DjTrainees | null;
   date_created?: string | null;
@@ -355,10 +377,27 @@ export type HuntVotes = {
   user_created?: string | DirectusUsers | null;
 };
 
-export type Playlist = {
+export type Misc = {
   date_updated?: string | null;
+  hero_description: string;
   id: number;
-  url?: string | null;
+  mission: string;
+  playlist_url: string;
+  user_updated?: string | DirectusUsers | null;
+  vision: string;
+};
+
+export type Pools = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  description?: string | null;
+  director?: string | null;
+  id: number;
+  image?: string | DirectusFiles | null;
+  name?: string | null;
+  sort?: number | null;
+  status: string;
+  user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
 };
 
@@ -374,6 +413,18 @@ export type RadioTalents = {
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
   writeup: string;
+};
+
+export type Shows = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: number;
+  image: string | DirectusFiles;
+  name: string;
+  sort?: number | null;
+  status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
 };
 
 export type SpotifyTracks = {
@@ -404,6 +455,7 @@ export type Tracks = {
 };
 
 export type CustomDirectusTypes = {
+  aow: Aow[];
   dates: Dates[];
   directus_activity: DirectusActivity[];
   directus_collections: DirectusCollections[];
@@ -428,9 +480,12 @@ export type CustomDirectusTypes = {
   directus_users: DirectusUsers[];
   directus_webhooks: DirectusWebhooks[];
   dj_trainees: DjTrainees[];
+  highlights: Highlights[];
   hunt_votes: HuntVotes[];
-  playlist: Playlist;
+  misc: Misc;
+  pools: Pools[];
   radio_talents: RadioTalents[];
+  shows: Shows[];
   spotify_tracks: SpotifyTracks[];
   track_votes: TrackVotes[];
   tracks: Tracks[];

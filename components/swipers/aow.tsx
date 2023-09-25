@@ -11,8 +11,7 @@ import 'swiper/css/pagination'
 
 type AOWProps = {
 	images: {
-		src: string
-		alt: string
+		image?: string
 	}[]
 }
 
@@ -41,9 +40,9 @@ export default function AOW({ images }: AOWProps) {
 			loop
 			className="max-w-[435px] !overflow-hidden w-full mx-auto aspect-square"
 		>
-			{images.map(({ src, alt }) => (
-				<SwiperSlide key={alt} className="flex justify-center w-full">
-					<Image src={src} alt={alt} width={435} height={435} className="w-full h-full" />
+			{images.map(({ image }) => (
+				<SwiperSlide key={image} className="flex justify-center w-full">
+					<Image src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${image}`} alt="" width={435} height={435} className="w-full h-full" />
 				</SwiperSlide>
 			))}
 			<LeftButton className="w-8" ref={navPrevRef} />
