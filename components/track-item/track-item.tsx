@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect, useRef, useState } from 'react'
+import { HTMLAttributes, experimental_useEffectEvent, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { usePlayerStore } from '@stores/player-store'
 import { SpotifyTracks } from '@directus-collections'
@@ -15,6 +15,7 @@ export function TrackItem({ id, image, name, artists, preview_url, isVoteable, o
 	const player = useRef<HTMLMediaElement>(null)
 	const playerNumber = usePlayerStore(state => state.playerNumber)
 	const setPlayerNumber = usePlayerStore(state => state.setPlayerNumber)
+	const volume = usePlayerStore(state => state.volume)
 
 	function onChange() {
 		setIsChecked(!isChecked)
@@ -28,13 +29,17 @@ export function TrackItem({ id, image, name, artists, preview_url, isVoteable, o
 	// player setup
 	useEffect(() => {
 		if (!player.current) return
-		player.current.volume = 0.05
 		player.current.onpause = () => setIsPlaying(false)
 		player.current.onplay = () => {
 			setPlayerNumber(index)
 			setIsPlaying(true)
 		}
 	}, [player, setPlayerNumber, index])
+
+	useEffect(() => {
+		if (!player.current) return
+		player.current.volume = volume
+	}, [player, volume])
 
 	function handlePlayerClick() {
 		if (!player.current) return

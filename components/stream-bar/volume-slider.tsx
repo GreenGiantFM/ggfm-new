@@ -1,5 +1,6 @@
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/solid'
 import * as Slider from '@radix-ui/react-slider'
+import { usePlayerStore } from '@stores/player-store'
 import { HTMLAttributes, RefObject, useEffect, useState } from 'react'
 
 type VolumeSliderProps = {
@@ -7,7 +8,8 @@ type VolumeSliderProps = {
 } & HTMLAttributes<HTMLSpanElement>
 
 export function VolumeSlider({ audio, className, ...props }: VolumeSliderProps) {
-	const [volume, setVolume] = useState(1)
+	const volume = usePlayerStore(state => state.volume)
+	const setVolume = usePlayerStore(state => state.setVolume)
 	const [prevVol, setPrevVol] = useState(0)
 	const isMuted = volume == 0
 
