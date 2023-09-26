@@ -27,6 +27,8 @@ export const metadata: Metadata = {
 		images: ['/images/card-image.png'],
 		creator: '@GreenGiantFM'
 	},
+	category: 'radio',
+	manifest: '/manifest.webmanifest'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
