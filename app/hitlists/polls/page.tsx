@@ -8,6 +8,8 @@ export const metadata = {
 	description: "Tally of Green Giant FM's Top 20",
 }
 
+export const revalidate = 0
+
 async function getData() {
 	const [voteCounts, tracks] = await Promise.all([
 		directus.request(aggregate('track_votes', {

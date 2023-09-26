@@ -6,7 +6,6 @@ main {
 	background: linear-gradient(to right, rgba(20, 19, 19, 0.6) 0%, rgba(252, 251, 251, 0) 20%, rgba(20, 19, 19, 0) 80%, rgba(20, 19, 19, 0.6) 100%);
 	background-color: theme('colors.primary');
 	background-blend-mode: overlay;
-	mix-blend-mode: overlay;
 	color: white;
 }
 
