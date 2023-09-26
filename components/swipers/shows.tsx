@@ -39,8 +39,8 @@ export default function Shows({ shows }: ShowsProps) {
 			slidesPerView='auto'
 			watchSlidesProgress
 		>
-			{shows.map(({ image, name }) => (
-				<SwiperSlide key={name} className="!w-lg">
+			{shows.map(({ image, name }, i) => (
+				<SwiperSlide key={i} className="!w-lg">
 					<Image src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${image}`} alt={name} width={384} height={216} className="block mx-auto" />
 				</SwiperSlide>
 			))}

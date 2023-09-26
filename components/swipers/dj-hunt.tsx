@@ -32,8 +32,8 @@ export default function DJHunt({ images, className }: DJHuntProps) {
 			}}
 			className={className + ' dj-hunt'}
 		>
-			{images.map(({ src, alt }) => (
-				<SwiperSlide key={alt} className="grid place-items-center font-primary text-xl !w-[fit-content] transform transition-transform px-5">
+			{images.map(({ src, alt }, i) => (
+				<SwiperSlide key={i} className="grid place-items-center font-primary text-xl !w-[fit-content] transform transition-transform px-5">
 					<div className="w-20 aspect-square">
 						<Image src={src} alt={`DJ ${alt}`} className="rounded-full w-full h-full object-cover" width={72} height={72} />
 					</div>
