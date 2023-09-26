@@ -17,9 +17,9 @@ export default defineConfig({
 				},
 			},
 			fontFamily: {
-				primary: ['Kenyan Coffee', 'Oswald SemiBold', 'Verdana', 'sans-serif'],
-				secondary: ['Raleway', 'Roboto', 'Verdana', 'sans-serif'],
-				next: ['The Next Font', 'Open Sans', 'Verdana', 'sans-serif']
+				primary: ['var(--font-primary)'],
+				secondary: ['var(--font-secondary)'],
+				next: ['var(--font-next)'],
 			},
 			boxShadow: {
 				progress: 'inset 0 -4px 8px 0 rgba(0, 0, 0, 0.6)',

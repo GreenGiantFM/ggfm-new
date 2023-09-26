@@ -7,6 +7,7 @@ import SMO from '@public/images/dlsu-smo-white.png'
 import Header from '../components/header'
 import { navItems } from '@lib/nav-items'
 import { StreamBar } from '@components/stream-bar'
+import { kenyanCofee, nextFont, raleway } from '@lib/fonts'
 
 export const metadata: Metadata = {
 	title: {
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" className={`${kenyanCofee.variable} ${raleway.variable} ${nextFont.variable}`}>
 			<head>
 				<meta property="fb:app_id" content="585506388489406" />
 				<meta name="google-signin-client_id" content={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID} />
