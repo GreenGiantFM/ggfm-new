@@ -1,20 +1,16 @@
-import { getFilesAndData } from '@lib/posts'
 import { NextResponse } from 'next/server'
-
-export type EventData = {
-	title: string
-	location: string
-	start_date: string
-	end_date?: string
-	time?: string
-	featured_image: string
-	posting_date: string
-	tags: string[]
-}
+import { getEvents } from '../get-events'
 
 export async function GET(req: Request) {
 	const { searchParams } = new URL(req.url)
-	const data = await getFilesAndData(['posts', 'events'], { page: searchParams.get('page'), limit: searchParams.get('limit') })
+	const page = searchParams.get('page')
+	const limit = searchParams.get('limit')
 
-	return NextResponse.json(data)
+	if (!page || !limit) return NextResponse.json([])
+
+	try {
+		return NextResponse.json(await getEvents(parseInt(page), parseInt(limit)))
+	} catch {
+		return NextResponse.json([])
+	}
 }

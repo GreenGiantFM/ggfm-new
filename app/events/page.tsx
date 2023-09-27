@@ -1,18 +1,6 @@
-
-import { getFilesAndData } from '@lib/posts'
 import { Post } from '@components/post'
 import { RemainingEvents } from './remaining-events.'
-import { LIMIT } from '@lib/page-limit'
-import { EventData } from './api/route'
-
-async function getData() {
-	const events = await getFilesAndData<EventData>(['posts', 'events'], {
-		page: '0',
-		limit: LIMIT.toString(),
-	})
-
-	return events
-}
+import { getEvents } from './get-events'
 
 export const metadata = {
 	title: 'Events',
@@ -20,7 +8,7 @@ export const metadata = {
 }
 
 export default async function EventsPage() {
-	const events = await getData()
+	const events = await getEvents(1)
 
 	return (
 		<div className="max-w-screen-xl w-full px-6 sm:px-16 my-8 justify-self-center">
@@ -32,8 +20,8 @@ export default async function EventsPage() {
 								key={event.id}
 								link={`/events/${event.id}`}
 								title={event.title}
-								excerpt={event.excerpt}
-								image={event.featured_image}
+								excerpt={event.body}
+								image={process.env.NEXT_PUBLIC_ASSETS_URL + event.image}
 								metadata={
 									<div className="flex text-xs font-sans text-gray-600 space-x-4">
 										<p>{(new Date(event.posting_date)).toLocaleDateString()}</p>

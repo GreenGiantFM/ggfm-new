@@ -1,23 +1,14 @@
-import { getFilesAndData } from '@lib/posts'
 import { Post } from '@components/post'
-import { BlogData } from './api/route'
-import { LIMIT } from '@lib/page-limit'
 import { RemainingBlogs } from './remaining-blogs'
+import { getBlogs } from './get-blogs'
 
 export const metadata = {
 	title: 'Blogs',
 	description: 'Blog posts by Green Giant FM'
 }
 
-async function getData() {
-	return await getFilesAndData<BlogData>(['posts', 'blogs'], {
-		page: '0',
-		limit: LIMIT.toString(),
-	})
-}
-
 export default async function BlogPostsPage() {
-	const blogs = await getData()
+	const blogs = await getBlogs(1)
 
 	return (
 		<div className="max-w-screen-xl w-full px-6 sm:px-16 my-8 justify-self-center">
@@ -29,8 +20,8 @@ export default async function BlogPostsPage() {
 								key={blog.id}
 								link={`/blogs/${blog.id}`}
 								title={blog.title}
-								excerpt={blog.excerpt}
-								image={blog.featured_image}
+								excerpt={blog.body}
+								image={process.env.NEXT_PUBLIC_ASSETS_URL + blog.image}
 								metadata={
 									<div className="flex text-xs font-sans text-gray-600 space-x-4">
 										<p>{(new Date(blog.posting_date)).toLocaleDateString()}</p>

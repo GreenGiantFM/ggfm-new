@@ -1,13 +1,18 @@
 import { ResolvingMetadata, Metadata } from 'next'
-import { getFileData, getFileIds } from '@lib/posts'
 import Image from 'next/image'
 import styles from '@styles/Post.module.css'
-import { formatDate } from '@lib/utils'
+import { extractSummary, formatDate } from '@lib/utils'
 import { notFound } from 'next/navigation'
-import { BlogData } from '../api/route'
+import { directus } from '@lib/directus'
+import { readItem, readItems } from '@directus/sdk'
 
 export async function generateStaticParams() {
-	return await getFileIds(['posts', 'blogs'])
+	const ids = await directus.request(readItems('events', {
+		fields: ['id'],
+		filter: { status: { _eq: 'published' } }
+	}))
+
+	return ids.map(id => id.toString())
 }
 
 type BlogPageProps = {
@@ -17,7 +22,10 @@ type BlogPageProps = {
 }
 
 async function getData(params: BlogPageProps['params']) {
-	return await getFileData<BlogData>(['posts', 'blogs', params?.id + '.md'])
+	return await directus.request(readItem('blogs', params.id, {
+		fields: ['title', 'image', 'posting_date', 'author', 'youtube_link', 'body'],
+		filter: { status: { _eq: 'published' } }
+	})).catch(console.error)
 }
 
 export async function generateMetadata({ params }: BlogPageProps, parent: ResolvingMetadata): Promise<Metadata> {
@@ -29,9 +37,9 @@ export async function generateMetadata({ params }: BlogPageProps, parent: Resolv
 
 	return {
 		title: blog.title,
-		description: blog.excerpt,
+		description: extractSummary(blog.body),
 		openGraph: {
-			images: [blog.featured_image, ...prevImages]
+			images: [process.env.NEXT_PUBLIC_ASSETS_URL + blog.image, ...prevImages]
 		}
 	} as Metadata
 }
@@ -48,7 +56,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
 		>
 			<aside className="relative">
 				<div className="sticky top-8">
-					<Image alt={`Post of ${blog.title}`} src={blog.featured_image} fill className="object-contain !relative shadow-2xl block" />
+					<Image alt={`Post of ${blog.title}`} src={process.env.NEXT_PUBLIC_ASSETS_URL + blog.image} fill className="object-contain !relative shadow-2xl block" />
 				</div>
 			</aside>
 			<article className="bg-white p-8 shadow-xl max-w-[calc(65ch+4rem)] text-gray-900">
@@ -70,7 +78,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
 					/>
 				}
 				<div className={styles.body} dangerouslySetInnerHTML={{
-					__html: blog.contentHtml
+					__html: blog.body
 				}} />
 				<p className="text-gray-500 text-right">{new Date(blog.posting_date).toLocaleDateString()}</p>
 			</article>

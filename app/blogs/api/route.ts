@@ -1,18 +1,16 @@
-import { getFilesAndData } from '@lib/posts'
 import { NextResponse } from 'next/server'
-
-export type BlogData = {
-	title: string
-	author: string
-	featured_image: string
-	posting_date: string
-	youtube_link?: string
-	tags: string[]
-}
+import { getBlogs } from '../get-blogs'
 
 export async function GET(req: Request) {
 	const { searchParams } = new URL(req.url)
-	const data = await getFilesAndData(['posts', 'blogs'], { page: searchParams.get('page'), limit: searchParams.get('limit') })
+	const page = searchParams.get('page')
+	const limit = searchParams.get('limit')
 
-	return NextResponse.json(data)
+	if (!page || !limit) return NextResponse.json([])
+
+	try {
+		return NextResponse.json(await getBlogs(parseInt(page), parseInt(limit)))
+	} catch {
+		return NextResponse.json([])
+	}
 }

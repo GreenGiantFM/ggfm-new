@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { stripHtml } from 'string-strip-html'
 
 const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }
 
@@ -78,9 +79,18 @@ export function isValidHost(host: string | null) {
 
 /**
  * Used for filtering falsy items with type guard
- * @param item Any item in an array of same objects
+ * @param item - Any item in an array of same objects
  * @returns boolean value of the item
  */
 export function filterFalsy<T>(item?: T | null): item is T {
 	return !!item
+}
+
+/**
+ * Used to extract a shorter version of the main content, stripped of HTML tags
+ * @param text - string to be processed
+ * @returns processed string
+ */
+export function extractSummary(text: string) {
+	return stripHtml(text).result.replace(/\n+/g, ' ').slice(0, 280)
 }

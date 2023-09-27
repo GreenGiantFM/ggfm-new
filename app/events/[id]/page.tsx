@@ -1,10 +1,10 @@
-import { getFileData, getFileIds } from '@lib/posts'
 import Image from 'next/image'
 import styles from '@styles/Post.module.css'
-import { formatDate } from '@lib/utils'
+import { extractSummary, formatDate } from '@lib/utils'
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
-import { EventData } from '../api/route'
+import { directus } from '@lib/directus'
+import { readItem, readItems } from '@directus/sdk'
 
 type EventPageProps = {
 	params: {
@@ -13,11 +13,19 @@ type EventPageProps = {
 }
 
 async function getData(params: EventPageProps['params']) {
-	return await getFileData<EventData>(['posts', 'events', params.id + '.md'])
+	return await directus.request(readItem('events', params.id, {
+		fields: ['title', 'image', 'start_date', 'end_date', 'time', 'posting_date', 'body'],
+		filter: { status: { _eq: 'published' } }
+	})).catch(console.error)
 }
 
 export async function generateStaticParams() {
-	return await getFileIds(['posts', 'events'])
+	const ids = await directus.request(readItems('events', {
+		fields: ['id'],
+		filter: { status: { _eq: 'published' } }
+	}))
+
+	return ids.map(id => id.toString())
 }
 
 export async function generateMetadata({ params }: EventPageProps, parent: ResolvingMetadata): Promise<Metadata> {
@@ -29,9 +37,9 @@ export async function generateMetadata({ params }: EventPageProps, parent: Resol
 
 	return {
 		title: event.title,
-		description: event.excerpt,
+		description: extractSummary(event.body),
 		openGraph: {
-			images: [event.featured_image, ...prevImages]
+			images: [process.env.NEXT_PUBLIC_ASSETS_URL + event.image, ...prevImages]
 		}
 	} as Metadata
 }
@@ -47,7 +55,7 @@ export default async function EventPage({ params }: EventPageProps) {
 		>
 			<aside className="relative">
 				<div className="sticky top-8">
-					<Image alt={`Post of ${event.title}`} src={event.featured_image} fill className="object-contain !relative shadow-2xl block" />
+					<Image alt={`Post of ${event.title}`} src={process.env.NEXT_PUBLIC_ASSETS_URL + event.image} fill className="object-contain !relative shadow-2xl block" />
 				</div>
 			</aside>
 			<article className="bg-white p-8 shadow-xl max-w-[calc(65ch+4rem)] text-gray-900">
@@ -59,7 +67,7 @@ export default async function EventPage({ params }: EventPageProps) {
 					</div>
 				</div>
 				<div className={styles.body} dangerouslySetInnerHTML={{
-					__html: event.contentHtml
+					__html: event.body
 				}} />
 				<p className="text-gray-500 text-right">{new Date(event.posting_date).toLocaleDateString()}</p>
 			</article>

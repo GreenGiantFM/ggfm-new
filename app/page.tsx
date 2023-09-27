@@ -1,9 +1,6 @@
 import { SocialMediaBanner } from '@components/social-media-banner'
 import type { Metadata } from 'next'
 import styles from '@styles/Home.module.css'
-import { getFirstFileData } from '@lib/posts'
-import { EventData } from './events/api/route'
-import { BlogData } from './blogs/api/route'
 import { FeaturedArticle } from '@components/featured-article'
 import Link from 'next/link'
 import { DJHuntBanner } from './dj-hunt-banner'
@@ -13,15 +10,17 @@ import RadioTalents from '@components/swipers/radio-talents'
 import { directus } from '@lib/directus'
 import { readItems, readSingleton } from '@directus/sdk'
 import { DjTrainees } from '@directus-collections'
+import { getEvents } from './events/get-events'
+import { getBlogs } from './blogs/get-blogs'
 
 async function getData() {
-	const [talents, event, blog, [date], playlist, trainees, aow, shows] = await Promise.all([
+	const [talents, [event], [blog], [date], playlist, trainees, aow, shows] = await Promise.all([
 		directus.request(readItems('radio_talents', {
 			fields: ['name', 'nickname', 'image', 'writeup'],
 			filter: { status: { _eq: 'published' } }
 		})),
-		getFirstFileData<EventData>(['posts', 'events']),
-		getFirstFileData<BlogData>(['posts', 'blogs']),
+		getEvents(1, 1),
+		getBlogs(1, 1),
 		directus.request(readItems('dates', {
 			fields: ['start', 'end'],
 			filter: { name: { _eq: 'DJ Hunt' } }
@@ -70,20 +69,18 @@ export default async function Home() {
 			<section>
 				<div className={styles.updates}>
 					<FeaturedArticle
-						id={blog!.id}
 						category="BLOGS & PODCASTS"
-						title={blog!.title}
-						image={blog!.featured_image}
-						excerpt={blog!.excerpt}
-						url="/blogs"
+						title={blog.title}
+						image={process.env.NEXT_PUBLIC_ASSETS_URL + blog.image}
+						excerpt={blog.body}
+						url={'/blogs' + blog.id}
 					/>
 					<FeaturedArticle
-						id={event!.id}
 						category="EVENTS"
-						title={event!.title}
-						image={event!.featured_image}
-						excerpt={event!.excerpt}
-						url="/events"
+						title={event.title}
+						image={process.env.NEXT_PUBLIC_ASSETS_URL + event.image}
+						excerpt={event.body}
+						url={'/events' + blog.id}
 					/>
 				</div>
 			</section>

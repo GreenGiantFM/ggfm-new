@@ -3,7 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 type FeaturedArticleProps = {
-	id: string
 	category: string
 	title: string
 	excerpt: string
@@ -11,11 +10,11 @@ type FeaturedArticleProps = {
 	url: string
 }
 
-export function FeaturedArticle({ id, category, title, excerpt, image, url }: FeaturedArticleProps) {
+export function FeaturedArticle({ category, title, excerpt, image, url }: FeaturedArticleProps) {
 	return (
 		<article>
 			<h2>{category}</h2>
-			<Link className="block relative aspect-video shadow-xl" href={`${url}/${id}`}>
+			<Link className="block relative aspect-video shadow-xl" href={url}>
 				<Image src={image} alt={title} className="w-full h-auto object-top object-cover" fill priority={true} />
 			</Link>
 			<h3>{title}</h3>

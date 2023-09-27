@@ -9,6 +9,22 @@ export type Aow = {
   user_updated?: string | DirectusUsers | null;
 };
 
+export type Blogs = {
+  author?: string | null;
+  body: string;
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: number;
+  image: string | DirectusFiles;
+  posting_date: string;
+  status: string;
+  tags: unknown;
+  title: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+  youtube_link?: string | null;
+};
+
 export type Dates = {
   date_created?: string | null;
   date_updated?: string | null;
@@ -358,6 +374,24 @@ export type DjTrainees = {
   voiceover: string;
 };
 
+export type Events = {
+  body: string;
+  date_created?: string | null;
+  date_updated?: string | null;
+  end_date?: string | null;
+  id: number;
+  image: string | DirectusFiles;
+  location: string;
+  posting_date: string;
+  start_date: string;
+  status: string;
+  tags: unknown;
+  time: string;
+  title: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
 export type Highlights = {
   date_created?: string | null;
   date_updated?: string | null;
@@ -456,6 +490,7 @@ export type Tracks = {
 
 export type CustomDirectusTypes = {
   aow: Aow[];
+  blogs: Blogs[];
   dates: Dates[];
   directus_activity: DirectusActivity[];
   directus_collections: DirectusCollections[];
@@ -480,6 +515,7 @@ export type CustomDirectusTypes = {
   directus_users: DirectusUsers[];
   directus_webhooks: DirectusWebhooks[];
   dj_trainees: DjTrainees[];
+  events: Events[];
   highlights: Highlights[];
   hunt_votes: HuntVotes[];
   misc: Misc;

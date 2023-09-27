@@ -39,7 +39,7 @@ export function StreamBar() {
 	}, [])
 
 	return (
-		<section className="h-12 bg-white sticky bottom-0 bg-opacity-80 backdrop-filter backdrop-blur-md flex items-center stream-bar" aria-label="miniplayer">
+		<section className="h-12 bg-white sticky bottom-0 bg-opacity-80 backdrop-filter backdrop-blur-md flex items-center stream-bar z-5" aria-label="miniplayer">
 			<div className="container px-4 mx-auto flex items-center justify-between">
 				<div className="flex items-center gap-2">
 					<p className="font-primary text-2xl">Live Stream</p>
