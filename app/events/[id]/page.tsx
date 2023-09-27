@@ -13,10 +13,15 @@ type EventPageProps = {
 }
 
 async function getData(params: EventPageProps['params']) {
-	return await directus.request(readItem('events', params.id, {
-		fields: ['title', 'image', 'start_date', 'end_date', 'time', 'posting_date', 'body'],
-		filter: { status: { _eq: 'published' } }
-	})).catch(console.error)
+	try {
+		return await directus.request(readItem('events', params.id, {
+			fields: ['title', 'image', 'start_date', 'end_date', 'time', 'posting_date', 'body'],
+			filter: { status: { _eq: 'published' } }
+		}))
+	} catch (e) {
+		console.error(e)
+		return undefined
+	}
 }
 
 export async function generateStaticParams() {

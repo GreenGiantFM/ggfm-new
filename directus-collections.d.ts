@@ -386,7 +386,7 @@ export type Events = {
   start_date: string;
   status: string;
   tags: unknown;
-  time: string;
+  time?: string | null;
   title: string;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
@@ -471,9 +471,9 @@ export type SpotifyTracks = {
 
 export type TrackVotes = {
   date_created?: string | null;
-  email?: string | null;
+  email: string;
   id: number;
-  track?: string | SpotifyTracks | null;
+  track: string | SpotifyTracks;
 };
 
 export type Tracks = {

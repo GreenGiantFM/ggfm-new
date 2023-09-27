@@ -25,7 +25,7 @@ export function StreamBar() {
 	}
 
 	useEffect(() => {
-		if (isPlaying && playerNumber !== -1) {
+		if (playerNumber !== -1) {
 			audio.current?.pause()
 			setIsPlaying(false)
 		}

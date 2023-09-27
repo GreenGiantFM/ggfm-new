@@ -22,10 +22,15 @@ type BlogPageProps = {
 }
 
 async function getData(params: BlogPageProps['params']) {
-	return await directus.request(readItem('blogs', params.id, {
-		fields: ['title', 'image', 'posting_date', 'author', 'youtube_link', 'body'],
-		filter: { status: { _eq: 'published' } }
-	})).catch(console.error)
+	try {
+		return await directus.request(readItem('blogs', params.id, {
+			fields: ['title', 'image', 'posting_date', 'author', 'youtube_link', 'body'],
+			filter: { status: { _eq: 'published' } }
+		}))
+	} catch (e) {
+		console.error(e)
+		return undefined
+	}
 }
 
 export async function generateMetadata({ params }: BlogPageProps, parent: ResolvingMetadata): Promise<Metadata> {
@@ -43,7 +48,6 @@ export async function generateMetadata({ params }: BlogPageProps, parent: Resolv
 		}
 	} as Metadata
 }
-
 
 export default async function BlogPage({ params }: BlogPageProps) {
 	const blog = await getData(params)
