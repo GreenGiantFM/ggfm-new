@@ -73,14 +73,14 @@ export default async function Home() {
 						title={blog.title}
 						image={process.env.NEXT_PUBLIC_ASSETS_URL + blog.image}
 						excerpt={blog.body}
-						url={'/blogs' + blog.id}
+						url={'/blogs/' + blog.id}
 					/>
 					<FeaturedArticle
 						category="EVENTS"
 						title={event.title}
 						image={process.env.NEXT_PUBLIC_ASSETS_URL + event.image}
 						excerpt={event.body}
-						url={'/events' + blog.id}
+						url={'/events/' + event.id}
 					/>
 				</div>
 			</section>
