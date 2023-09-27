@@ -59,7 +59,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
 			gap-x-8 xl:gap-x-16 place-self-center md:my-16 md:mx-8 gap-y-0 md:gap-y-4"
 		>
 			<aside className="relative">
-				<div className="sticky top-8">
+				<div className="sticky top-32">
 					<Image alt={`Post of ${blog.title}`} src={process.env.NEXT_PUBLIC_ASSETS_URL + blog.image} fill className="object-contain !relative shadow-2xl block" />
 				</div>
 			</aside>

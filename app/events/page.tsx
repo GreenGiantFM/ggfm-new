@@ -34,7 +34,7 @@ export default async function EventsPage() {
 					<RemainingEvents />
 				</section>
 				<aside className="col-start-9 col-span-3 row-start-1 hidden lg:block">
-					<h1 className="sticky top-8 text-white text-6xl text-center">EVENTS</h1>
+					<h1 className="sticky top-24 text-white text-6xl text-center">EVENTS</h1>
 				</aside>
 			</div>
 		</div>

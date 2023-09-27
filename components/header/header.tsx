@@ -10,7 +10,7 @@ import { NavItemProps, navItems } from '@lib/nav-items'
 
 export function Header() {
 	return (
-		<header className="h-16 relative z-50">
+		<header className="h-16 relative z-50 sticky top-0">
 			<Disclosure as="nav" className="bg-white h-full font-primary text-neutral-900 text-3xl uppercase">
 				{({ open, close }) => (
 					<>
