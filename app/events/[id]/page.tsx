@@ -15,7 +15,7 @@ type EventPageProps = {
 async function getData(params: EventPageProps['params']) {
 	try {
 		return await directus.request(readItem('events', params.id, {
-			fields: ['title', 'image', 'start_date', 'end_date', 'time', 'posting_date', 'body'],
+			fields: ['title', 'image', 'start_date', 'end_date', 'posting_date', 'body'],
 			filter: { status: { _eq: 'published' } }
 		}))
 	} catch (e) {
@@ -68,7 +68,6 @@ export default async function EventPage({ params }: EventPageProps) {
 					<h1 className="text-5xl mb-1">{event.title}</h1>
 					<div className="contents text-gray-500 italic font-light leading-5">
 						<p>{formatDate(event.start_date)} {event.end_date ? ` - ${formatDate(event.end_date!)}` : ''}</p>
-						{event.time && <p>{event.time}</p>}
 					</div>
 				</div>
 				<div className={styles.body} dangerouslySetInnerHTML={{

@@ -386,7 +386,6 @@ export type Events = {
   start_date: string;
   status: string;
   tags: unknown;
-  time?: string | null;
   title: string;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
