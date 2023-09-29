@@ -1,15 +1,15 @@
+import { isValidHost } from '@lib/utils'
 import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
-type RevalidateRoute = {
-	path: string
-	isLayout?: boolean
-}
+type RevalidateRoute = { layout: string } | string
 
 export async function POST(req: NextRequest) {
 	const routes: RevalidateRoute[] = await req.json()
 
-	console.log(req.headers.get('host'))
+	if (!isValidHost(req.headers.get('host'))) {
+		return NextResponse.json('Invalid host!', { status: 403 })
+	}
 
 	if (!routes) {
 		return NextResponse.json({
@@ -19,9 +19,15 @@ export async function POST(req: NextRequest) {
 		}, { status: 401 })
 	}
 
-	for (let i = 0; i < routes.length; i++) {
-		revalidatePath(routes[i].path, routes[i].isLayout ? 'layout' : 'page')
-	}
+	routes.forEach(route => {
+		if (typeof route === 'string') {
+			return revalidatePath(route)
+		}
+
+		if (route.layout) {
+			revalidatePath(route.layout, 'layout')
+		}
+	})
 
 	return NextResponse.json({ revalidated: true, now: Date.now() })
 }
