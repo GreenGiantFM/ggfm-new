@@ -7,6 +7,9 @@ type RevalidateRoute = { layout: string } | string
 export async function POST(req: NextRequest) {
 	const routes: RevalidateRoute[] = await req.json()
 
+	console.log({ host: req.headers.get('host') })
+	console.log(process.env.DIRECTUS_STATIC_TOKEN)
+
 	if (!isValidHost(req.headers.get('host'))) {
 		return NextResponse.json('Invalid host!', { status: 403 })
 	}
