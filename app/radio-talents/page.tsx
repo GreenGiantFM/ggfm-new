@@ -8,7 +8,7 @@ export const metadata = {
 	description: 'The faces and voices of Green Giant FM'
 }
 
-export const revalidate = 20 // remove when revalidatePath is fixed
+export const revalidate = 0 // remove when revalidatePath is fixed
 
 const getData = cache(async () => {
 	return await directus.request(readItems('radio_talents', {

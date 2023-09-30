@@ -14,7 +14,7 @@ import { getEvents } from './events/get-events'
 import { getBlogs } from './blogs/get-blogs'
 import { cache } from 'react'
 
-export const revalidate = 20 // remove when revalidatePath is fixed
+export const revalidate = 0 // remove when revalidatePath is fixed
 
 const getData = cache(async () => {
 	const [talents, [event], [blog], [date], playlist, trainees, aow, shows] = await Promise.all([

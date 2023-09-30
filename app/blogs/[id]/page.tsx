@@ -22,7 +22,7 @@ type BlogPageProps = {
 	}
 }
 
-export const revalidate = 20 // remove when revalidatePath is fixed
+export const revalidate = 0 // remove when revalidatePath is fixed
 
 const getData = cache(async (params: BlogPageProps['params']) => {
 	try {

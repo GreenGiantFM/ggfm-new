@@ -9,7 +9,7 @@ export const metadata = {
 	description: 'Voting polls for voting the next Green Giant FM DJ!',
 }
 
-export const revalidate = 20 // remove when revalidatePath is fixed
+export const revalidate = 0 // remove when revalidatePath is fixed
 
 const getData = cache(async () => {
 	const [trainees, [date]] = await Promise.all([
