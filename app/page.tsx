@@ -12,8 +12,9 @@ import { readItems, readSingleton } from '@directus/sdk'
 import { DjTrainees } from '@directus-collections'
 import { getEvents } from './events/get-events'
 import { getBlogs } from './blogs/get-blogs'
+import { cache } from 'react'
 
-async function getData() {
+const getData = cache(async () => {
 	const [talents, [event], [blog], [date], playlist, trainees, aow, shows] = await Promise.all([
 		directus.request(readItems('radio_talents', {
 			fields: ['name', 'nickname', 'image', 'writeup'],
@@ -50,7 +51,7 @@ async function getData() {
 		aow,
 		shows,
 	}
-}
+})
 
 export const metadata: Metadata = {
 	title: 'Home | Green Giant FM'

@@ -23,7 +23,7 @@ export function DJHuntBanner({ start, end, trainees }: DJHuntBannerProps) {
 			<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT 2022</h1>
 			<progress className="w-full block rounded-full" value={1 - (endCountdown / diff)} />
 			<DJHunt className="my-6 !py-4 select-none" images={trainees.map(t => ({
-				src: `https://lh3.googleusercontent.com/d/${t.image}`,
+				src: process.env.NEXT_PUBLIC_ASSETS_URL + t.image,
 				alt: t.nickname,
 			}))} />
 			<BorderedLink href="/dj-hunt" className="max-w-64 hover:(bg-white text-gray-900 font-bold)">Vote Now</BorderedLink>

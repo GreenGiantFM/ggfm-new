@@ -5,15 +5,16 @@ import { extractSummary, formatDate } from '@lib/utils'
 import { notFound } from 'next/navigation'
 import { directus } from '@lib/directus'
 import { readItem, readItems } from '@directus/sdk'
+import { cache } from 'react'
 
-export async function generateStaticParams() {
+export const generateStaticParams = cache(async () => {
 	const ids = await directus.request(readItems('events', {
 		fields: ['id'],
 		filter: { status: { _eq: 'published' } }
 	}))
 
 	return ids.map(id => id.toString())
-}
+})
 
 type BlogPageProps = {
 	params: {
@@ -21,7 +22,7 @@ type BlogPageProps = {
 	}
 }
 
-async function getData(params: BlogPageProps['params']) {
+const getData = cache(async (params: BlogPageProps['params']) => {
 	try {
 		return await directus.request(readItem('blogs', params.id, {
 			fields: ['title', 'image', 'posting_date', 'author', 'youtube_link', 'body'],
@@ -31,7 +32,7 @@ async function getData(params: BlogPageProps['params']) {
 		console.error(e)
 		return undefined
 	}
-}
+})
 
 export async function generateMetadata({ params }: BlogPageProps, parent: ResolvingMetadata): Promise<Metadata> {
 	const [blog, awaitedParent] = await Promise.all([getData(params), parent])

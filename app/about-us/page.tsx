@@ -2,12 +2,13 @@ import Image from 'next/image'
 import AboutSwiper from '@components/swipers/about-swiper'
 import { directus } from '@lib/directus'
 import { readItems, readSingleton } from '@directus/sdk'
+import { cache } from 'react'
 
 export const metadata = {
 	title: 'About Us'
 }
 
-async function getData() {
+const getData = cache(async () => {
 	const [pools, misc, highlights] = await Promise.all([
 		directus.request(readItems('pools', {
 			fields: ['name', 'image', 'director', 'description'],
@@ -23,7 +24,7 @@ async function getData() {
 	])
 
 	return { pools, misc, highlights }
-}
+})
 
 export default async function AboutUs() {
 	const { pools, misc, highlights } = await getData()

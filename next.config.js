@@ -14,7 +14,6 @@ const nextConfig = {
 	},
 	images: {
 		domains: [
-			'lh3.googleusercontent.com',
 			'i.scdn.co',
 			'admin.greengiantfm.com',
 		]

@@ -2,13 +2,14 @@ import { DJVotingForm } from './voting-form'
 import { directus } from '@lib/directus'
 import { readItems } from '@directus/sdk'
 import { DjTrainees } from '@directus-collections'
+import { cache } from 'react'
 
 export const metadata = {
 	title: 'DJ Hunt',
 	description: 'Voting polls for voting the next Green Giant FM DJ!',
 }
 
-async function getData() {
+const getData = cache(async () => {
 	const [trainees, [date]] = await Promise.all([
 		directus.request(readItems('dj_trainees')),
 		directus.request(readItems('dates', {
@@ -22,7 +23,7 @@ async function getData() {
 		startDate: new Date(date.start ?? ''),
 		endDate: new Date(date.end ?? ''),
 	}
-}
+})
 
 // TODO: Convert back to static props after testing
 export default async function DJHuntPage() {

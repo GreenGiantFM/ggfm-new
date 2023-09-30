@@ -2,6 +2,7 @@ import { readItems } from "@directus/sdk"
 import { directus } from "@lib/directus"
 import { LIMIT } from "@lib/page-limit"
 import { extractSummary } from "@lib/utils"
+import { cache } from 'react'
 
 /**
  * Used for retrieving paginated published event sorted in reverse order. The body here is the shortened version.
@@ -9,7 +10,7 @@ import { extractSummary } from "@lib/utils"
  * @param limit - the number of items to retrieve
  * @returns the events that fall within the specified page
  */
-export async function getEvents(page: number, limit = LIMIT) {
+export const getEvents = cache(async (page: number, limit = LIMIT) => {
 	const events = await directus.request(readItems('events', {
 		fields: ['id', 'title', 'image', 'posting_date', 'location', 'body'],
 		page,
@@ -18,5 +19,6 @@ export async function getEvents(page: number, limit = LIMIT) {
 		filter: { status: { _eq: 'published' } }
 	}))
 	events.forEach(event => event.body = extractSummary(event.body))
+	console.log({ events })
 	return events
-}
+})

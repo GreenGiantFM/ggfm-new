@@ -1,18 +1,19 @@
 import { TalentSlider } from './talent-slider'
 import { directus } from '@lib/directus'
 import { readItems } from '@directus/sdk'
+import { cache } from 'react'
 
 export const metadata = {
 	title: 'Radio Talents',
 	description: 'The faces and voices of Green Giant FM'
 }
 
-async function getData() {
+const getData = cache(async () => {
 	return await directus.request(readItems('radio_talents', {
 		fields: ['name', 'nickname', 'image', 'writeup'],
 		filter: { status: { _eq: 'published' } }
 	}))
-}
+})
 
 export default async function RadioTalentsPage() {
 	const talents = await getData()

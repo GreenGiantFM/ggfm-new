@@ -5,6 +5,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { directus } from '@lib/directus'
 import { readItem, readItems } from '@directus/sdk'
+import { cache } from 'react'
 
 type EventPageProps = {
 	params: {
@@ -12,7 +13,7 @@ type EventPageProps = {
 	}
 }
 
-async function getData(params: EventPageProps['params']) {
+const getData = cache(async (params: EventPageProps['params']) => {
 	try {
 		return await directus.request(readItem('events', params.id, {
 			fields: ['title', 'image', 'start_date', 'end_date', 'posting_date', 'body'],
@@ -22,16 +23,16 @@ async function getData(params: EventPageProps['params']) {
 		console.error(e)
 		return undefined
 	}
-}
+})
 
-export async function generateStaticParams() {
+export const generateStaticParams = cache(async () => {
 	const ids = await directus.request(readItems('events', {
 		fields: ['id'],
 		filter: { status: { _eq: 'published' } }
 	}))
 
 	return ids.map(id => id.toString())
-}
+})
 
 export async function generateMetadata({ params }: EventPageProps, parent: ResolvingMetadata): Promise<Metadata> {
 	const [event, awaitedParent] = await Promise.all([getData(params), parent])
