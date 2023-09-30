@@ -9,6 +9,8 @@ export const metadata = {
 	description: 'Voting polls for voting the next Green Giant FM DJ!',
 }
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 const getData = cache(async () => {
 	const [trainees, [date]] = await Promise.all([
 		directus.request(readItems('dj_trainees')),

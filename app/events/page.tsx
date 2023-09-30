@@ -7,8 +7,9 @@ export const metadata = {
 	description: 'Events covered by Green Giant FM',
 }
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 export default async function EventsPage() {
-	console.log('get called')
 	const events = await getEvents(1)
 
 	return (

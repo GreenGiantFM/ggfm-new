@@ -7,6 +7,8 @@ export const metadata = {
 	description: 'Blog posts by Green Giant FM'
 }
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 export default async function BlogPostsPage() {
 	const blogs = await getBlogs(1)
 

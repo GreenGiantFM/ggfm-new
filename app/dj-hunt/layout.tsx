@@ -3,6 +3,8 @@ import { readItems } from '@directus/sdk'
 import { directus } from '@lib/directus'
 import { cache } from 'react'
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 const getData = cache(async () => {
 	const [date] = await directus.request(readItems('dates', {
 		fields: ['start', 'end'],

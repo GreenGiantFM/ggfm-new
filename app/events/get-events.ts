@@ -19,6 +19,5 @@ export const getEvents = cache(async (page: number, limit = LIMIT) => {
 		filter: { status: { _eq: 'published' } }
 	}))
 	events.forEach(event => event.body = extractSummary(event.body))
-	console.log({ events })
 	return events
 })

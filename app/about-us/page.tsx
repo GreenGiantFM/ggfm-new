@@ -8,6 +8,8 @@ export const metadata = {
 	title: 'About Us'
 }
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 const getData = cache(async () => {
 	const [pools, misc, highlights] = await Promise.all([
 		directus.request(readItems('pools', {

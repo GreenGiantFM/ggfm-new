@@ -22,6 +22,8 @@ type BlogPageProps = {
 	}
 }
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 const getData = cache(async (params: BlogPageProps['params']) => {
 	try {
 		return await directus.request(readItem('blogs', params.id, {

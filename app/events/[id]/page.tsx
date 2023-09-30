@@ -13,6 +13,8 @@ type EventPageProps = {
 	}
 }
 
+export const revalidate = 20 // remove when revalidatePath is fixed
+
 const getData = cache(async (params: EventPageProps['params']) => {
 	try {
 		return await directus.request(readItem('events', params.id, {
@@ -20,7 +22,7 @@ const getData = cache(async (params: EventPageProps['params']) => {
 			filter: { status: { _eq: 'published' } }
 		}))
 	} catch (e) {
-		console.error(e)
+		console.error(JSON.stringify(e, null, 2))
 		return undefined
 	}
 })
