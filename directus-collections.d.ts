@@ -364,14 +364,14 @@ export type DjTrainees = {
   image: string | DirectusFiles;
   name?: string | null;
   nickname: string;
-  segue: string;
+  segue?: string;
   sort?: number | null;
   status: string;
   stinger: string;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
-  videoshoot: string;
-  voiceover: string;
+  videoshoot?: string;
+  voiceover?: string;
 };
 
 export type Events = {

@@ -37,9 +37,9 @@ export function DJTraineeModal({ isOpen, close, nickname, image, segue, caption,
 						</div>
 					</div>
 					<div className="space-y-4 -mx-6 -mb-4 px-4 pb-4 pt-6 bg-[#3f3f3f] text-white grid sm:grid-cols-2 gap-x-4">
-						<VideoItem title="Solo Videoshoot" src={videoshoot} className="sm:col-span-2" aspectRatio="4/3" />
-						<VideoItem title="Segue" src={segue} aspectRatio="9/16" />
-						<VideoItem title="Voiceover Challenge" src={voiceover} aspectRatio="9/16" />
+						{videoshoot && <VideoItem title="Solo Videoshoot" src={videoshoot} className="sm:col-span-2" aspectRatio="16/9" />}
+						{segue && <VideoItem title="Segue" src={segue} aspectRatio="9/16" />}
+						{voiceover && <VideoItem title="Voiceover Challenge" src={voiceover} aspectRatio="9/16" />}
 					</div>
 				</div>
 			</div>
