@@ -20,7 +20,7 @@ export function DJHuntBanner({ start, end, trainees }: DJHuntBannerProps) {
 
 	return (
 		<section className="bg-neutral-800 !py-12 !px-4 overflow-hidden">
-			<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT 2022</h1>
+			<h1 className="text-center text-stroke-primary-dark sm:text-stroke-md text-stroke-sm font-bold !text-8xl !sm:text-9xl">DJ HUNT {new Date().getFullYear()}</h1>
 			<progress className="w-full block rounded-full" value={((new Date().getTime() - start.getTime()) / diff)} />
 			<DJHunt className="my-6 !py-4 select-none" images={trainees.map(t => ({
 				src: process.env.NEXT_PUBLIC_ASSETS_URL + t.image,
