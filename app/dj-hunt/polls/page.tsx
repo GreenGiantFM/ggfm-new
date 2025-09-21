@@ -2,6 +2,7 @@ import { aggregate, readItems } from '@directus/sdk'
 import { directus } from '@lib/directus'
 import styles from '@styles/Hunt.module.css'
 import Image from 'next/image'
+import { USE_MOCK_DATA, mockDirectusClient } from '@lib/mock-directus'
 
 export const revalidate = 0
 
@@ -11,17 +12,29 @@ export const metadata = {
 }
 
 async function getData() {
-	const [voteCounts, trainees] = await Promise.all([
-		directus.request(aggregate('hunt_votes', {
-			aggregate: { count: '*' },
-			groupBy: ['candidate'],
-		})),
-		directus.request(readItems('dj_trainees'))
-	])
+	let voteCounts, trainees;
+	
+	if (USE_MOCK_DATA) {
+		[voteCounts, trainees] = await Promise.all([
+			mockDirectusClient.aggregate('hunt_votes', {
+				aggregate: { count: '*' },
+				groupBy: ['candidate'],
+			}),
+			mockDirectusClient.readItems('dj_trainees')
+		]);
+	} else {
+		[voteCounts, trainees] = await Promise.all([
+			directus.request(aggregate('hunt_votes' as any, {
+				aggregate: { count: '*' },
+				groupBy: ['candidate'],
+			})) as any,
+			directus.request(readItems('dj_trainees' as any)) as any
+		]);
+	}
 
-	const concat = trainees.map(t => ({
+	const concat = (trainees as any[]).map(t => ({
 		...t,
-		count: (voteCounts.find(v => v.candidate === t.id)?.count ?? 0) as number
+		count: ((voteCounts as any[]).find(v => v.candidate === t.id)?.count ?? 0) as number
 	}))
 	concat.sort((a, b) => b.count - a.count)
 	return concat

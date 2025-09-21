@@ -3,6 +3,7 @@ import { directus } from '@lib/directus'
 import { readItems } from '@directus/sdk'
 import { DjTrainees } from '@directus-collections'
 import { cache } from 'react'
+import { USE_MOCK_DATA, mockDirectusClient } from '@lib/mock-directus'
 
 export const metadata = {
 	title: 'DJ Hunt',
@@ -12,13 +13,27 @@ export const metadata = {
 export const revalidate = 0 // remove when revalidatePath is fixed
 
 const getData = cache(async () => {
-	const [trainees, [date]] = await Promise.all([
-		directus.request(readItems('dj_trainees')),
-		directus.request(readItems('dates', {
-			fields: ['start', 'end'],
-			filter: { name: { _eq: 'DJ Hunt' } }
-		}))
-	])
+	let trainees, dates;
+	
+	if (USE_MOCK_DATA) {
+		[trainees, dates] = await Promise.all([
+			mockDirectusClient.readItems('dj_trainees'),
+			mockDirectusClient.readItems('dates', {
+				fields: ['start', 'end'],
+				filter: { name: { _eq: 'DJ Hunt' } }
+			})
+		]);
+	} else {
+		[trainees, dates] = await Promise.all([
+			directus.request(readItems('dj_trainees' as any)) as any,
+			directus.request(readItems('dates' as any, {
+				fields: ['start', 'end'],
+				filter: { name: { _eq: 'DJ Hunt' } }
+			})) as any
+		]);
+	}
+
+	const date = (dates as any[])[0];
 
 	return {
 		trainees: trainees as Array<DjTrainees>,

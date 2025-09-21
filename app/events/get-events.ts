@@ -11,13 +11,25 @@ import { cache } from 'react'
  * @returns the events that fall within the specified page
  */
 export const getEvents = cache(async (page: number, limit = LIMIT) => {
-	const events = await directus.request(readItems('events', {
-		fields: ['id', 'title', 'image', 'posting_date', 'location', 'body'],
-		page,
-		limit,
-		sort: ['-posting_date'],
-		filter: { status: { _eq: 'published' } }
-	}))
-	events.forEach(event => event.body = extractSummary(event.body))
+	let events;
+	
+	if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
+		// Import mock data dynamically to avoid import issues
+		const { mockEvents } = await import('@lib/mock-data');
+		// Return mock events with pagination simulation
+		const startIndex = (page - 1) * limit;
+		const endIndex = startIndex + limit;
+		events = mockEvents.slice(startIndex, endIndex);
+	} else {
+		events = await directus.request(readItems('events' as any, {
+			fields: ['id', 'title', 'image', 'posting_date', 'location', 'body'],
+			page,
+			limit,
+			sort: ['-posting_date'],
+			filter: { status: { _eq: 'published' } }
+		})) as any[];
+	}
+
+	(events as any[]).forEach(event => event.body = extractSummary(event.body))
 	return events
 })

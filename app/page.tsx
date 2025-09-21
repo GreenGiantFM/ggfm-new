@@ -13,42 +13,76 @@ import { DjTrainees } from '@directus-collections'
 import { getEvents } from './events/get-events'
 import { getBlogs } from './blogs/get-blogs'
 import { cache } from 'react'
+import { USE_MOCK_DATA, mockDirectusClient } from '@lib/mock-directus'
 
 export const revalidate = 0 // remove when revalidatePath is fixed
 
 const getData = cache(async () => {
-	const [talents, [event], [blog], [date], playlist, trainees, aow, shows] = await Promise.all([
-		directus.request(readItems('radio_talents', {
-			fields: ['name', 'nickname', 'image', 'writeup'],
-			filter: { status: { _eq: 'published' } }
-		})),
-		getEvents(1, 1),
-		getBlogs(1, 1),
-		directus.request(readItems('dates', {
-			fields: ['start', 'end'],
-			filter: { name: { _eq: 'DJ Hunt' } }
-		})),
-		directus.request(readSingleton('misc', { fields: ['playlist_url'] })),
-		directus.request(readItems('dj_trainees', {
-			filter: { status: { _eq: 'published' } }
-		})),
-		directus.request(readItems('aow', {
-			fields: ['image'],
-			filter: { status: { _eq: 'published' } }
-		})),
-		directus.request(readItems('shows', {
-			fields: ['name', 'image'],
-			filter: { status: { _eq: 'published ' } }
-		}))
-	])
+	let talents, events, blogs, dates, playlist, trainees, aow, shows;
+	
+	if (USE_MOCK_DATA) {
+		[talents, events, blogs, dates, playlist, trainees, aow, shows] = await Promise.all([
+			mockDirectusClient.readItems('radio_talents', {
+				fields: ['name', 'nickname', 'image', 'writeup'],
+				filter: { status: { _eq: 'published' } }
+			}),
+			getEvents(1, 1),
+			getBlogs(1, 1),
+			mockDirectusClient.readItems('dates', {
+				fields: ['start', 'end'],
+				filter: { name: { _eq: 'DJ Hunt' } }
+			}),
+			mockDirectusClient.readSingleton('misc', { fields: ['playlist_url'] }),
+			mockDirectusClient.readItems('dj_trainees', {
+				filter: { status: { _eq: 'published' } }
+			}),
+			mockDirectusClient.readItems('aow', {
+				fields: ['image'],
+				filter: { status: { _eq: 'published' } }
+			}),
+			mockDirectusClient.readItems('shows', {
+				fields: ['name', 'image'],
+				filter: { status: { _eq: 'published' } }
+			})
+		]);
+	} else {
+		[talents, events, blogs, dates, playlist, trainees, aow, shows] = await Promise.all([
+			directus.request(readItems('radio_talents' as any, {
+				fields: ['name', 'nickname', 'image', 'writeup'],
+				filter: { status: { _eq: 'published' } }
+			})) as any,
+			getEvents(1, 1),
+			getBlogs(1, 1),
+			directus.request(readItems('dates' as any, {
+				fields: ['start', 'end'],
+				filter: { name: { _eq: 'DJ Hunt' } }
+			})) as any,
+			directus.request(readSingleton('misc' as any, { fields: ['playlist_url'] })) as any,
+			directus.request(readItems('dj_trainees' as any, {
+				filter: { status: { _eq: 'published' } }
+			})) as any,
+			directus.request(readItems('aow' as any, {
+				fields: ['image'],
+				filter: { status: { _eq: 'published' } }
+			})) as any,
+			directus.request(readItems('shows' as any, {
+				fields: ['name', 'image'],
+				filter: { status: { _eq: 'published' } }
+			})) as any
+		]);
+	}
+
+	const event = (events as any[])[0];
+	const blog = (blogs as any[])[0];
+	const date = (dates as any[])[0];
 
 	return {
 		talents: talents,
 		event,
 		blog,
-		startDate: new Date(date.start ?? ''),
-		endDate: new Date(date.end ?? ''),
-		playlist: playlist.playlist_url,
+		startDate: new Date(date?.start ?? ''),
+		endDate: new Date(date?.end ?? ''),
+		playlist: (playlist as any)?.playlist_url || '',
 		trainees,
 		aow,
 		shows,
